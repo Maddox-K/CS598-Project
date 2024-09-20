@@ -3,16 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsController : MonoBehaviour
+public class SavesMenuController : MonoBehaviour
 {
     [SerializeField] private Canvas mainMenu;
-    [SerializeField] private Canvas settingsMenu;
+    [SerializeField] private Canvas savesMenu;
 
     [SerializeField] private Button returnToMainMenu;
-    [SerializeField] private Button graphicsButton;
-    [SerializeField] private Button soundButton;
-    [SerializeField] private Button ControlsButton;
-    [SerializeField] private Button creditsButton;
 
     // Start is called before the first frame update
     void Start()
@@ -23,7 +19,7 @@ public class SettingsController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        
     }
 
     bool showMainMenu;
@@ -31,7 +27,7 @@ public class SettingsController : MonoBehaviour
     {
         if (!showMainMenu)
         {
-            settingsMenu.gameObject.SetActive(false);
+            savesMenu.gameObject.SetActive(false);
             mainMenu.gameObject.SetActive(true);
         }
     }

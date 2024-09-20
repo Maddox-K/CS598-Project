@@ -23,7 +23,8 @@ public class MainMenuController : MonoBehaviour
     void Start()
     {
         startButton.onClick.AddListener(LoadGameScene);
-        settigsButton.onClick.AddListener(SwitchMenu);
+        settigsButton.onClick.AddListener(SwitchToSettingsMenu);
+        savesButton.onClick.AddListener(SwitchToSavesMenu);
         
     }
 
@@ -40,14 +41,23 @@ public class MainMenuController : MonoBehaviour
     }
 
     bool showSettingsMenu;
-    private void SwitchMenu()
+    private void SwitchToSettingsMenu()
     {
         if(!showSettingsMenu)
         {
             settingsMenu.gameObject.SetActive(true);
+            mainMenu.gameObject.SetActive(false);
         }
+    }
 
-        //settingsMenu.gameObject.SetActive(true);
+    bool showSavesMenu;
+    private void SwitchToSavesMenu()
+    {
+        if (!showSavesMenu)
+        {
+            savesMenu.gameObject.SetActive(true);
+            mainMenu.gameObject.SetActive(false);
+        }
     }
 
 }

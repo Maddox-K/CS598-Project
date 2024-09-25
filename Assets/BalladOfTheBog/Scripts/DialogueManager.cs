@@ -7,6 +7,7 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI NPCNameText;
     [SerializeField] private TextMeshProUGUI NPCDialogueText;
+    [SerializeField] private PlayerController pcontroller;
 
     private Queue<string> paragraphs = new Queue<string>();
     private bool conversationEnded;
@@ -45,6 +46,8 @@ public class DialogueManager : MonoBehaviour
 
     private void StartConversation(Dialogue dialogue)
     {
+        pcontroller.move.Disable();
+
         if (!gameObject.activeSelf)
         {
             gameObject.SetActive(true);
@@ -60,6 +63,8 @@ public class DialogueManager : MonoBehaviour
 
     private void EndConversation()
     {
+        pcontroller.move.Enable();
+
         paragraphs.Clear();
 
         conversationEnded = false;

@@ -6,21 +6,23 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
 {
+    //physics
     public Rigidbody2D rb;
     public float speed = 5f;
+    Vector2 moveDirection = Vector2.zero;
+    Vector2 lookDirection = Vector2.zero;
+
+    //animation
     public Animator animator;
 
     //input
     public PlayerInputActions playerControls;
-    private InputAction move;
+    public InputAction move;
     private InputAction interact;
-
-    //movement vectors
-    Vector2 moveDirection = Vector2.zero;
-    Vector2 lookDirection = Vector2.zero;
     
+    //interaction
     private bool isInInteractRange = false;
-    private standard_NPC standardNPC;
+    private GameObject collided;
 
     private void Awake() {
         playerControls = new PlayerInputActions();
@@ -61,32 +63,42 @@ public class PlayerController : MonoBehaviour
         animator.SetFloat("look_y", lookDirection.y);
         //animator.SetFloat("Speed", moveDirection.magnitude);
 
+        // interaction
         if (isInInteractRange && interact.WasPressedThisFrame())
         {
-            if (standardNPC != null)
+            switch (collided.tag)
             {
-                //Debug.Log("Interact");
-                standardNPC.Interact();
+                case "Object":
+                    Debug.Log("object");
+                    break;
+                case "Damage":
+                    Debug.Log("Damage");
+                    break;
+                case "SNPC":
+                    collided.GetComponent<standard_NPC>().Interact();
+                    break;
             }
         }
     }
 
     private void FixedUpdate() {
-        //movement (rigidbody physics compoenent)
+        // rigidbody movement
         rb.velocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
+        // turn on the indicator sprite
         collider.gameObject.transform.Find("InteractObject").gameObject.SetActive(true);
         isInInteractRange = true;
-        standardNPC = collider.GetComponent<standard_NPC>();
+
+        collided = collider.gameObject;
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
+        // turn off indicator sprite
         collider.gameObject.transform.Find("InteractObject").gameObject.SetActive(false);
         isInInteractRange = false;
-        standardNPC = null;
     }
 }

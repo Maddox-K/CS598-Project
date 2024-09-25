@@ -12,11 +12,13 @@ public abstract class NPC : MonoBehaviour, I_Interactible
     public InputAction dialogueAction;
 
     private const float interact_distance = 5F; */
-    private GameObject _player;
+    //private GameObject _player;
+    //private PlayerController pcontroller;
 
     private void Start()
     {
-        _player = GameObject.FindGameObjectWithTag("Player");
+        //_player = GameObject.FindGameObjectWithTag("Player");
+        //pcontroller = _player.GetComponent<PlayerController>();
     }
 
     // Update is called once per frame

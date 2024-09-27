@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
@@ -23,6 +24,8 @@ public class PlayerController : MonoBehaviour
     //interaction
     private bool isInInteractRange = false;
     private GameObject collided;
+    [SerializeField] private TextMeshProUGUI currencyGUI;
+    public int currency_count;
 
     private void Awake() {
         playerControls = new PlayerInputActions();
@@ -68,8 +71,9 @@ public class PlayerController : MonoBehaviour
         {
             switch (collided.tag)
             {
-                case "Object":
-                    Debug.Log("object");
+                case "Currency":
+                    Debug.Log("Currency");
+                    currency_count++;
                     break;
                 case "SNPC":
                     collided.GetComponent<standard_NPC>().Interact();

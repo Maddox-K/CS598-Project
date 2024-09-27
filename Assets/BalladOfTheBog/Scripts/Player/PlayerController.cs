@@ -71,9 +71,6 @@ public class PlayerController : MonoBehaviour
                 case "Object":
                     Debug.Log("object");
                     break;
-                case "Damage":
-                    Debug.Log("Damage");
-                    break;
                 case "SNPC":
                     collided.GetComponent<standard_NPC>().Interact();
                     break;

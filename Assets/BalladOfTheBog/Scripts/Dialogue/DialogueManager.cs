@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Unity.Burst.CompilerServices;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class DialogueManager : MonoBehaviour
     private string p;
     private Coroutine typeDialogueCoroutine;
 
+    private const float MAX_TYPE_TIME = 0.1f;
+
     public void DisplayNext(Dialogue dialogue)
     {
         //Debug.Log("Starting conversation with " + dialogue.name);
@@ -27,7 +30,7 @@ public class DialogueManager : MonoBehaviour
                 // start conversation
                 StartConversation(dialogue);
             }
-            else
+            else if (conversationEnded && !isTyping)
             {
                 // end conversation
                 EndConversation();
@@ -36,10 +39,21 @@ public class DialogueManager : MonoBehaviour
         }
 
         // if something in the queue
-        p = paragraphs.Dequeue();
+        if (!isTyping)
+        {
+            p = paragraphs.Dequeue();
+
+            typeDialogueCoroutine = StartCoroutine(TypeDialogueText(p));
+        }
+
+        else
+        {
+            FinishParagraphEarly();
+        }
+        //p = paragraphs.Dequeue();
 
         //update ConversationText
-        NPCDialogueText.text = p;
+        //NPCDialogueText.text = p;
 
         if (paragraphs.Count == 0)
         {
@@ -76,5 +90,35 @@ public class DialogueManager : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+    }
+
+    private IEnumerator TypeDialogueText(string p)
+    {
+        isTyping = true;
+
+        int maxVisibleChars = 0;
+
+        NPCDialogueText.text = p;
+        NPCDialogueText.maxVisibleCharacters = maxVisibleChars;
+
+        foreach(char c in p.ToCharArray())
+        {
+            maxVisibleChars++;
+
+            NPCDialogueText.maxVisibleCharacters = maxVisibleChars;
+
+            yield return new WaitForSeconds(MAX_TYPE_TIME / typeSpeed);
+        }
+
+        isTyping = false;
+    }
+
+    private void FinishParagraphEarly()
+    {
+        StopCoroutine(typeDialogueCoroutine);
+
+        NPCDialogueText.maxVisibleCharacters = p.Length;
+
+        isTyping = false;
     }
 }

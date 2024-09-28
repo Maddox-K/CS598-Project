@@ -7,6 +7,8 @@ using TMPro;
 
 public class PlayerController : MonoBehaviour
 {
+    public PlayerData playerData;
+
     //physics
     public Rigidbody2D rb;
     public float speed = 5f;
@@ -22,10 +24,10 @@ public class PlayerController : MonoBehaviour
     private InputAction interact;
     
     //interaction
-    private bool isInInteractRange = false;
     private GameObject collided;
-    [SerializeField] private TextMeshProUGUI currencyGUI;
-    public int currency_count;
+    private bool isInInteractRange = false;
+    private bool interact_sprite_active;
+
 
     private void Awake() {
         playerControls = new PlayerInputActions();
@@ -72,8 +74,8 @@ public class PlayerController : MonoBehaviour
             switch (collided.tag)
             {
                 case "Currency":
-                    Debug.Log("Currency");
-                    currency_count++;
+                    collided.SetActive(false);
+                    playerData.changeCurrency();
                     break;
                 case "SNPC":
                     collided.GetComponent<standard_NPC>().Interact();
@@ -89,17 +91,25 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        // turn on the indicator sprite
-        collider.gameObject.transform.Find("InteractObject").gameObject.SetActive(true);
         isInInteractRange = true;
-
         collided = collider.gameObject;
+
+        if (collided.CompareTag("SNPC"))
+        {
+            collided.transform.Find("InteractObject").gameObject.SetActive(true);
+            interact_sprite_active = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        // turn off indicator sprite
-        collider.gameObject.transform.Find("InteractObject").gameObject.SetActive(false);
         isInInteractRange = false;
+
+        // turn off indicator sprite
+        if (interact_sprite_active == true)
+        {
+            collided.transform.Find("InteractObject").gameObject.SetActive(false);
+            interact_sprite_active = false;
+        }
     }
 }

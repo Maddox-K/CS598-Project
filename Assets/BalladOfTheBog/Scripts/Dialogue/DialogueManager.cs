@@ -7,11 +7,14 @@ public class DialogueManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI NPCNameText;
     [SerializeField] private TextMeshProUGUI NPCDialogueText;
+    [SerializeField] private float typeSpeed = 10;
     [SerializeField] private PlayerController pcontroller;
 
     private Queue<string> paragraphs = new Queue<string>();
     private bool conversationEnded;
+    private bool isTyping;
     private string p;
+    private Coroutine typeDialogueCoroutine;
 
     public void DisplayNext(Dialogue dialogue)
     {

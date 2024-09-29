@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Unity.Burst.CompilerServices;
+using UnityEngine.UI;
+using Unity.VisualScripting;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -10,10 +12,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI NPCDialogueText;
     [SerializeField] private float typeSpeed = 10;
     [SerializeField] private PlayerController pcontroller;
+    [SerializeField] private Button[] choiceButtons;
 
     private Queue<string> paragraphs = new Queue<string>();
     private bool conversationEnded;
     private bool isTyping;
+    private bool waitingForInput = false;
     private string p;
     private Coroutine typeDialogueCoroutine;
 
@@ -23,6 +27,11 @@ public class DialogueManager : MonoBehaviour
     {
         //Debug.Log("Starting conversation with " + dialogue.name);
         // if nothing in the queue
+        if (waitingForInput == true)
+        {
+            return;
+        }
+
         if (paragraphs.Count == 0)
         {
             if (!conversationEnded)
@@ -42,8 +51,16 @@ public class DialogueManager : MonoBehaviour
         if (!isTyping)
         {
             p = paragraphs.Dequeue();
-
-            typeDialogueCoroutine = StartCoroutine(TypeDialogueText(p));
+            if (p == "[choose]")
+            {
+                MakeDialogueChoice(dialogue);
+                //p = paragraphs.Dequeue();
+            }
+            else
+            {
+                Debug.Log(p);
+                typeDialogueCoroutine = StartCoroutine(TypeDialogueText(p));
+            }
         }
 
         else
@@ -55,7 +72,7 @@ public class DialogueManager : MonoBehaviour
         //update ConversationText
         //NPCDialogueText.text = p;
 
-        if (paragraphs.Count == 0)
+        if (paragraphs.Count == 0 && waitingForInput == false)
         {
             conversationEnded = true;
         }
@@ -64,6 +81,11 @@ public class DialogueManager : MonoBehaviour
     private void StartConversation(Dialogue dialogue)
     {
         pcontroller.move.Disable();
+
+        foreach (Button button in choiceButtons)
+        {
+            button.gameObject.SetActive(false);
+        }
 
         if (!gameObject.activeSelf)
         {
@@ -94,6 +116,11 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeDialogueText(string p)
     {
+        if (pcontroller.interact.enabled == false)
+        {
+            pcontroller.interact.Enable();
+        }
+
         isTyping = true;
 
         int maxVisibleChars = 0;
@@ -120,5 +147,46 @@ public class DialogueManager : MonoBehaviour
         NPCDialogueText.maxVisibleCharacters = p.Length;
 
         isTyping = false;
+    }
+
+    private void MakeDialogueChoice(Dialogue dialogue)
+    {
+        pcontroller.interact.Disable();
+
+        if (dialogue.choices != null && dialogue.choices.Length > 0)
+        {
+            waitingForInput = true;
+
+            for (int i = 0; i < dialogue.choices.Length; i++)
+            {
+                choiceButtons[i].gameObject.SetActive(true);
+                choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = dialogue.choices[i].choiceText;
+
+                choiceButtons[i].onClick.RemoveAllListeners();
+
+                int choiceIndex = i;
+                choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(dialogue, choiceIndex));
+            }
+        }
+    }
+
+    private void OnChoiceSelected(Dialogue dialogue, int choiceIndex)
+    {
+        Dialogue nextDialogue = dialogue.choices[choiceIndex].nextDialogue;
+        paragraphs.Clear();
+
+        /* for (int i = 0; i < nextDialogue.paragraphs.Length; i++)
+        {
+            paragraphs.Enqueue(nextDialogue.paragraphs[i]);
+        } */
+
+        foreach (Button button in choiceButtons)
+        {
+            button.gameObject.SetActive(false);
+        }
+
+        waitingForInput = false;
+
+        DisplayNext(nextDialogue);
     }
 }

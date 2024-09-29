@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     //input
     public PlayerInputActions playerControls;
     public InputAction move;
-    private InputAction interact;
+    public InputAction interact;
     
     //interaction
     private GameObject collided;

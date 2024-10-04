@@ -6,7 +6,7 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/BalladOfTheBog/Scenes/Main Menu.unity
+    path: Assets/BalladOfTheBog/Scenes/UI/Main Menu.unity
     guid: fadb59e9996301f4daa88367c24e999c
   - enabled: 1
     path: Assets/BalladOfTheBog/Scenes/Scene1.unity

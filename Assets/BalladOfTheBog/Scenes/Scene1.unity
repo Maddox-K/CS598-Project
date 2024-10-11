@@ -3148,6 +3148,10 @@ PrefabInstance:
       propertyPath: move.m_Name
       value: Move
       objectReference: {fileID: 0}
+    - target: {fileID: 5937560996909371857, guid: a42e10c594af0604aa0a1f6e9a444dec, type: 3}
+      propertyPath: interact.m_Name
+      value: Interact
+      objectReference: {fileID: 0}
     - target: {fileID: 7624349976959701285, guid: a42e10c594af0604aa0a1f6e9a444dec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

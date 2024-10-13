@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, I_DataPersistence
 {
     public PlayerData playerData;
 
@@ -48,7 +48,10 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (GameManager.instance.gameData != null)
+        {
+            LoadData(GameManager.instance.gameData);
+        }
     }
 
     // Update is called once per frame
@@ -79,6 +82,9 @@ public class PlayerController : MonoBehaviour
                     break;
                 case "SNPC":
                     collided.GetComponent<standard_NPC>().Interact();
+                    break;
+                case "Enemy":
+                    collided.GetComponent<Enemy>().Interact();
                     break;
             }
         }
@@ -111,5 +117,15 @@ public class PlayerController : MonoBehaviour
             collided.transform.Find("InteractObject").gameObject.SetActive(false);
             interact_sprite_active = false;
         }
+    }
+
+    public void LoadData(GameData data)
+    {
+        transform.position = data.playerPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.playerPosition = transform.position;
     }
 }

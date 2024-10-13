@@ -126,8 +126,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275ed93b4a40c754aa09a6b999b8d4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 0}
   rb: {fileID: 4214028212895202246}
   speed: 5
+  animator: {fileID: 0}
+  move:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ea44fabd-08ee-4534-b75e-217b0f8499af
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  interact:
+    m_Name: Interact
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 099f446f-a250-47d3-9a40-b142a026f7fd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
 --- !u!114 &5153605131201020466
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class PlayerData : MonoBehaviour
+public class PlayerData : MonoBehaviour, I_DataPersistence
 {
     // coin collection
     public int currency_count;
@@ -25,5 +25,15 @@ public class PlayerData : MonoBehaviour
     {
         currency_count++;
         currencyGUI.text = currency_count.ToString();
+    }
+
+    public void LoadData(GameData data)
+    {
+        currency_count = data.coinCount;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.coinCount = currency_count;
     }
 }

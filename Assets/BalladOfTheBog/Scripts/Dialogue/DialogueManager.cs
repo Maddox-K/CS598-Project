@@ -14,8 +14,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private PlayerController pcontroller;
     [SerializeField] private Button[] choiceButtons;
 
-    private Queue<string> paragraphs = new Queue<string>();
-    private bool conversationEnded;
+    public Queue<string> paragraphs = new Queue<string>();
+    public bool conversationEnded;
     private bool isTyping;
     private bool waitingForInput = false;
     private string p;

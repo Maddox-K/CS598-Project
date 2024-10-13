@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f20bf4f6f3cf449828703db83c975a, type: 3}
+  m_Name: TestAttacks1
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 7259885979369245020, guid: 5db38c30c22509a4ea49a5e956ef2c90, type: 3}
+  spawnPositions:
+  - {x: 8, y: 0}
+  - {x: 0, y: 8}
+  - {x: -8, y: 0}
+  - {x: 0, y: -8}
+  launchDirections:
+  - {x: -1, y: 0}
+  - {x: 0, y: -1}
+  - {x: 1, y: 0}
+  - {x: 0, y: 1}
+  launchTimes:
+  - 1
+  - 2
+  - 3
+  - 4
+  projectileSpeeds:
+  - 1
+  - 1
+  - 2
+  - 1

@@ -46,13 +46,16 @@ public class PauseMenuController : MonoBehaviour
         mainMenuButton.onClick.AddListener(ReturnToMainMenu);
     }
 
-    // Update is called once per frame
     void Update()
     {
-       if(pauseMenuControls.PopUpMenu.Escape.triggered)
-       {
+        if(escape.WasPressedThisFrame())
+        {
             OpenPauseMenu(); 
-       }
+        }
+        else if(escape.WasPressedThisFrame() && PauseMenu.activeInHierarchy)
+        {
+            ClosePauseMenu();
+        }
 
     }
 

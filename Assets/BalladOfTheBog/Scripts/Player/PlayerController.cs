@@ -74,8 +74,8 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
             switch (collided.tag)
             {
                 case "Currency":
-                    collided.SetActive(false);
-                    playerData.changeCurrency();
+                    //collided.SetActive(false);
+                    collided.GetComponent<Coin>().Collect();
                     break;
                 case "SNPC":
                     collided.GetComponent<standard_NPC>().Interact();

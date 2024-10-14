@@ -11,7 +11,7 @@ public class EncounterManager : MonoBehaviour
     public static EncounterManager instance { get; private set; }
     public string prevScene;
     private bool encounterInProgress;
-    private Enemy currentEnemy;
+    public Enemy currentEnemy;
     private EnemyAttacks eAttacks;
     private const int spawnDelay = 1;
     private List<Rigidbody2D> projectiles = new List<Rigidbody2D>();

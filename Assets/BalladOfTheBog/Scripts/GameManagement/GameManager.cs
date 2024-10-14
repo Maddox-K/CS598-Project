@@ -47,7 +47,7 @@ public class GameManager : MonoBehaviour
             gameData = new GameData();
         }
         Debug.Log(gameData.playerPosition);
-        Debug.Log(gameData.encounterHappened);
+        //Debug.Log(gameData.encounterHappened);
     }
 
     // Start is called before the first frame update

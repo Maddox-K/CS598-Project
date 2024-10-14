@@ -21,7 +21,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         
     }
 
-    public void changeCurrency()
+    public void IncrementCurrency()
     {
         currency_count++;
         currencyGUI.text = currency_count.ToString();

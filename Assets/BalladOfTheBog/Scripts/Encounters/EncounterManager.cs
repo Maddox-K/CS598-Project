@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
+using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,8 +9,13 @@ using UnityEngine.SceneManagement;
 public class EncounterManager : MonoBehaviour
 {
     public static EncounterManager instance { get; private set; }
+    public string prevScene;
+    private bool encounterInProgress;
     private Enemy currentEnemy;
-    private const int spawnDelay = 2;
+    private EnemyAttacks eAttacks;
+    private const int spawnDelay = 1;
+    private List<Rigidbody2D> projectiles = new List<Rigidbody2D>();
+    private List<Vector2> velocities = new List<Vector2>();
     //[SerializeField] private DialogueManager dialogueManager;
     //private bool dialogueStarted;
 
@@ -37,7 +43,10 @@ public class EncounterManager : MonoBehaviour
 
     public void EncounterInit(Enemy enemy)
     {
+        encounterInProgress = true;
         currentEnemy = enemy;
+        eAttacks = enemy.enemyAttacks;
+        prevScene = enemy.gameObject.scene.name;
         GameManager.instance.SaveGame();
         SceneManager.LoadScene("BattleTest");
     }
@@ -46,6 +55,15 @@ public class EncounterManager : MonoBehaviour
     {
         // code here to handle aspects of encounter initialization
         StartCoroutine(DelaySpawns(enemy));
+        StartCoroutine(EndBattle(enemy.enemyAttacks));
+    }
+
+    IEnumerator EndBattle(EnemyAttacks enemyAttacks)
+    {
+        yield return new WaitForSeconds(enemyAttacks.endTime);
+
+        encounterInProgress = false;
+        SceneManager.LoadScene(prevScene);
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -54,13 +72,17 @@ public class EncounterManager : MonoBehaviour
         {
             StartEncounter(currentEnemy);
         }
+        /* else if (scene.name == prevScene)
+        {
+            GameManager.instance.LoadGame();
+        } */
     }
 
     IEnumerator DelaySpawns(Enemy enemy)
     {
         yield return new WaitForSeconds(spawnDelay);
 
-        StartCoroutine(SpawnProjectiles(enemy.enemyAttacks));
+        StartCoroutine(SpawnProjectiles(eAttacks));
     }
 
     IEnumerator SpawnProjectiles(EnemyAttacks enemyAttacks)
@@ -76,30 +98,25 @@ public class EncounterManager : MonoBehaviour
             yield return new WaitForSeconds(times[i]);
 
             GameObject projectile = Instantiate(proj, (Vector3)positions[i], Quaternion.identity);
-
-            Rigidbody2D rb = proj.GetComponent<Rigidbody2D>();
-            if (rb != null)
-            {
-                rb.velocity = directions[i].normalized * speeds[i];
-            }
+            projectiles.Add(projectile.GetComponent<Rigidbody2D>());
+            velocities.Add(directions[i].normalized * speeds[i]);
         }
     }
 
-    /* public void StartDialogue(Enemy enemy)
+    private void FixedUpdate()
     {
-        if (dialogueStarted && dialogueManager.paragraphs.Count == 0)
+        if (!encounterInProgress)
         {
-            StartEncounter(enemy);
+            return;
         }
-        if (dialogueManager.paragraphs.Count == 0 && !dialogueStarted)
+        if (projectiles.Count > 0)
         {
-            dialogueStarted = true;
-            dialogueManager.DisplayNext(enemy.predialogue);
+            for (int i = 0; i < projectiles.Count; i++)
+            {
+                projectiles[i].velocity = velocities[i];
+            }
         }
-        
-        GameManager.instance.SaveGame();
-        SceneManager.LoadScene("BattleTest");
-    } */
+    }
 
     // Start is called before the first frame update
     void Start()

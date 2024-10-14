@@ -37,12 +37,12 @@ public class Enemy : NPC, I_DataPersistence
 
     public void LoadData(GameData data)
     {
-        //encounterHappened = data.
+        this.encounterHappened = data.encounterHappened;
     }
 
     public void SaveData(GameData data)
     {
-
+        data.encounterHappened = this.encounterHappened;
     }
 
     // Start is called before the first frame update

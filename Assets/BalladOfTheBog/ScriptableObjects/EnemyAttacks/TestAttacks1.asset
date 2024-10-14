@@ -15,21 +15,22 @@ MonoBehaviour:
   projectile: {fileID: 7259885979369245020, guid: 5db38c30c22509a4ea49a5e956ef2c90, type: 3}
   spawnPositions:
   - {x: 8, y: 0}
-  - {x: 0, y: 8}
+  - {x: 0, y: 5}
   - {x: -8, y: 0}
-  - {x: 0, y: -8}
+  - {x: 0, y: -5}
   launchDirections:
   - {x: -1, y: 0}
   - {x: 0, y: -1}
   - {x: 1, y: 0}
   - {x: 0, y: 1}
   launchTimes:
+  - 0
   - 1
-  - 2
+  - 1
+  - 1
+  projectileSpeeds:
   - 3
   - 4
-  projectileSpeeds:
-  - 1
-  - 1
-  - 2
-  - 1
+  - 3
+  - 4
+  endTime: 8

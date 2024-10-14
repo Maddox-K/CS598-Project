@@ -11,10 +11,30 @@ public class GameManager : MonoBehaviour
     public GameData gameData;
     private List<I_DataPersistence> dataPersistenceObjects;
 
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+
+        if (scene.name == EncounterManager.instance.prevScene)
+        {
+            LoadGame();
+        }
+    }
+
     private void Awake()
     {
         if (instance != null) {
-            Debug.LogError("Found more than one GameManager in the scene");
+            Debug.Log("Found more than one GameManager in the scene");
             Destroy(this.gameObject);
             return;
         }
@@ -26,12 +46,14 @@ public class GameManager : MonoBehaviour
         {
             gameData = new GameData();
         }
+        Debug.Log(gameData.playerPosition);
+        Debug.Log(gameData.encounterHappened);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        
     }
 
     /* public void NewGame()
@@ -41,19 +63,24 @@ public class GameManager : MonoBehaviour
 
     public void LoadGame()
     {
+        Debug.Log("loading data");
         /* if (gameData == null)
         {
             NewGame();
         } */
-
+        //this.dataPersistenceObjects = FindAllDataPersistenceObjects();
         foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
-            dataPersistenceObj.LoadData(gameData);
+            if (dataPersistenceObj != null)
+            {
+                dataPersistenceObj.LoadData(gameData);
+            }
         }
     }
 
     public void SaveGame()
     {
+        Debug.Log("saving data");
         foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(gameData);

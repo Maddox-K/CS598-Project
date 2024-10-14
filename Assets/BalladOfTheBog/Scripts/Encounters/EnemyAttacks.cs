@@ -10,4 +10,5 @@ public class EnemyAttacks : ScriptableObject
     public Vector2[] launchDirections;
     public float[] launchTimes;
     public float[] projectileSpeeds;
+    public int endTime;
 }

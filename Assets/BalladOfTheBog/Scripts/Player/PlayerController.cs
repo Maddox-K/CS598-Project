@@ -48,10 +48,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     // Start is called before the first frame update
     void Start()
     {
-        if (GameManager.instance.gameData != null)
-        {
-            LoadData(GameManager.instance.gameData);
-        }
+        
     }
 
     // Update is called once per frame

@@ -9,6 +9,7 @@ using UnityEngine.SceneManagement;
 public class EncounterManager : MonoBehaviour
 {
     public static EncounterManager instance { get; private set; }
+    [SerializeField] private GameObject gameOverPrefab;
     public string prevScene;
     private bool encounterInProgress;
     public Enemy currentEnemy;
@@ -101,6 +102,12 @@ public class EncounterManager : MonoBehaviour
             projectiles.Add(projectile.GetComponent<Rigidbody2D>());
             velocities.Add(directions[i].normalized * speeds[i]);
         }
+    }
+
+    private void GameOver()
+    {
+        StopAllCoroutines();
+
     }
 
     private void FixedUpdate()

@@ -15,8 +15,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         currencyGUI.text = currency_count.ToString();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void TakeDamage(GameObject projectile)
     {
         
     }

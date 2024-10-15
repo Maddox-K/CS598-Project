@@ -45,7 +45,7 @@ public class Enemy : NPC, I_DataPersistence
     public void LoadData(GameData data)
     {
         data.enemiesEncountered.TryGetValue(id, out encounterHappened);
-        if (encounterHappened == true && data.lastEnemyEncountered == id)
+        if (encounterHappened == true && data.lastEnemyEncountered == id && postdialogue != null)
         {
             Interact();
         }

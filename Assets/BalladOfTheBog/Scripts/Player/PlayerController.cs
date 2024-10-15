@@ -97,7 +97,11 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         isInInteractRange = true;
         collided = collider.gameObject;
 
-        if (collided.CompareTag("SNPC"))
+        if (collided.CompareTag("Projectile"))
+        {
+            playerData.TakeDamage(collided);
+        }
+        else if (collided.CompareTag("SNPC"))
         {
             collided.transform.Find("InteractObject").gameObject.SetActive(true);
             interact_sprite_active = true;

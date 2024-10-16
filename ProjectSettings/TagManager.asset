@@ -7,6 +7,9 @@ TagManager:
   - SNPC
   - Currency
   - Enemy
+  - Projectile
+  - CurrencyGUI
+  - Canvas
   layers:
   - Default
   - TransparentFX

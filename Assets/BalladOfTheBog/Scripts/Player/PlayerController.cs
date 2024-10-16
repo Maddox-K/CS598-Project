@@ -99,7 +99,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
         if (collided.CompareTag("Projectile"))
         {
-            playerData.TakeDamage(collided);
+            playerData.TakeDamage(collided.GetComponent<Projectile>());
         }
         else if (collided.CompareTag("SNPC"))
         {

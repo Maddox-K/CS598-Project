@@ -2,28 +2,69 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.Animations;
+using UnityEngine.SceneManagement;
 
 public class PlayerData : MonoBehaviour, I_DataPersistence
 {
-    // coin collection
+    // currency
     public int currency_count;
-    [SerializeField] public TextMeshProUGUI currencyGUI;
+    private bool displayCurrencyGUI = true;
+    private TextMeshProUGUI currencyGUI;
+
+    // health
+    public int health = 3;
 
     // Start is called before the first frame update
     void Start()
     {
-        currencyGUI.text = currency_count.ToString();
+        if (displayCurrencyGUI)
+        {
+            currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI").transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            if (currencyGUI != null)
+            {
+                currencyGUI.text = currency_count.ToString();
+            }
+        }
     }
 
-    public void TakeDamage(GameObject projectile)
+    private void OnEnable()
     {
-        
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "BattleTest")
+        {
+            displayCurrencyGUI = false;
+        }
+        else
+        {
+            displayCurrencyGUI = true;
+        }
     }
 
     public void IncrementCurrency()
     {
         currency_count++;
         currencyGUI.text = currency_count.ToString();
+    }
+
+    public void TakeDamage(Projectile projectile)
+    {
+        health -= projectile.damage;
+        Debug.Log(health);
+        if (health == 0)
+        {
+            health = 3;
+            EncounterManager.instance.GameOver();
+        }
     }
 
     public void LoadData(GameData data)

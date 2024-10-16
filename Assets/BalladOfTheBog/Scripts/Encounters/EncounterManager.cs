@@ -5,11 +5,14 @@ using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class EncounterManager : MonoBehaviour
 {
     public static EncounterManager instance { get; private set; }
-    [SerializeField] private GameObject gameOverPrefab;
+    private GameObject gameOverPrefab;
+    private Button[] gameOverButtons = new Button[2];
+    private PlayerController pcontroller;
     public string prevScene;
     private bool encounterInProgress;
     public Enemy currentEnemy;
@@ -45,18 +48,26 @@ public class EncounterManager : MonoBehaviour
     public void EncounterInit(Enemy enemy)
     {
         encounterInProgress = true;
-        currentEnemy = enemy;
         eAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;
         GameManager.instance.SaveGame();
+        Debug.Log("Enemy before loading scene: " + currentEnemy);
         SceneManager.LoadScene("BattleTest");
     }
 
-    private void StartEncounter(Enemy enemy)
+    private void StartEncounter()
     {
-        // code here to handle aspects of encounter initialization
-        StartCoroutine(DelaySpawns(enemy));
-        StartCoroutine(EndBattle(enemy.enemyAttacks));
+        if (gameOverPrefab.activeSelf == true)
+        {
+            gameOverPrefab.SetActive(false);
+        }
+        if (pcontroller.move.enabled == false)
+        {
+            pcontroller.move.Enable();
+        }
+
+        StartCoroutine(DelaySpawns());
+        StartCoroutine(EndBattle(eAttacks));
     }
 
     IEnumerator EndBattle(EnemyAttacks enemyAttacks)
@@ -69,9 +80,16 @@ public class EncounterManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        if (scene.name == "BattleTest")
+        if (scene.name == "BattleTest" && eAttacks != null)
         {
-            StartEncounter(currentEnemy);
+            gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
+            gameOverButtons[0] = gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
+            gameOverButtons[1] = gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
+            gameOverButtons[0].onClick.AddListener(() => StartEncounter());
+
+            pcontroller = GameObject.FindFirstObjectByType<PlayerController>();
+
+            StartEncounter();
         }
         /* else if (scene.name == prevScene)
         {
@@ -79,7 +97,7 @@ public class EncounterManager : MonoBehaviour
         } */
     }
 
-    IEnumerator DelaySpawns(Enemy enemy)
+    IEnumerator DelaySpawns()
     {
         yield return new WaitForSeconds(spawnDelay);
 
@@ -88,7 +106,7 @@ public class EncounterManager : MonoBehaviour
 
     IEnumerator SpawnProjectiles(EnemyAttacks enemyAttacks)
     {
-        GameObject proj = enemyAttacks.projectile;
+        Projectile proj = enemyAttacks.projectile;
         Vector2[] positions = enemyAttacks.spawnPositions;
         Vector2[] directions = enemyAttacks.launchDirections;
         float[] times = enemyAttacks.launchTimes;
@@ -98,16 +116,18 @@ public class EncounterManager : MonoBehaviour
         {
             yield return new WaitForSeconds(times[i]);
 
-            GameObject projectile = Instantiate(proj, (Vector3)positions[i], Quaternion.identity);
+            GameObject projectile = Instantiate(proj.gameObject, (Vector3)positions[i], Quaternion.identity);
             projectiles.Add(projectile.GetComponent<Rigidbody2D>());
             velocities.Add(directions[i].normalized * speeds[i]);
         }
     }
 
-    private void GameOver()
+    public void GameOver()
     {
         StopAllCoroutines();
-
+        gameOverPrefab.SetActive(true);
+        
+        pcontroller.move.Disable();
     }
 
     private void FixedUpdate()

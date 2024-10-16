@@ -10,7 +10,7 @@ public class Enemy : NPC, I_DataPersistence
     [SerializeField] private Dialogue predialogue;
     [SerializeField] private Dialogue postdialogue;
     [SerializeField] public EnemyAttacks enemyAttacks;
-    [SerializeField] private EncounterManager encounterManager;
+    //[SerializeField] private EncounterManager encounterManager;
     [SerializeField] private DialogueManager dialogueManager;
     private bool encounterHappened;
 
@@ -29,12 +29,12 @@ public class Enemy : NPC, I_DataPersistence
         else if (predialogue == null)
         {
             encounterHappened = true;
-            encounterManager.EncounterInit(this);
+            EncounterManager.instance.EncounterInit(this);
         }
         else if (dialogueManager.paragraphs.Count > 0 && dialogueManager.paragraphs.Peek() == "[encounter]")
         {
             encounterHappened = true;
-            encounterManager.EncounterInit(this);
+            EncounterManager.instance.EncounterInit(this);
         }
         else
         {

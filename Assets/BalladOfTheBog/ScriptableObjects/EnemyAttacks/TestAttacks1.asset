@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f20bf4f6f3cf449828703db83c975a, type: 3}
   m_Name: TestAttacks1
   m_EditorClassIdentifier: 
-  projectile: {fileID: 7259885979369245020, guid: 5db38c30c22509a4ea49a5e956ef2c90, type: 3}
+  projectile: {fileID: 6945766892854112465, guid: 5db38c30c22509a4ea49a5e956ef2c90, type: 3}
   spawnPositions:
   - {x: 8, y: 0}
   - {x: 0, y: 5}

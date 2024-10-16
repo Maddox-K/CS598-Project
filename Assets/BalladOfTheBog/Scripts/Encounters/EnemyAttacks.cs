@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Encounter/New Enemy Attacks")]
 public class EnemyAttacks : ScriptableObject
 {
-    public GameObject projectile;
+    public Projectile projectile;
     public Vector2[] spawnPositions;
     public Vector2[] launchDirections;
     public float[] launchTimes;

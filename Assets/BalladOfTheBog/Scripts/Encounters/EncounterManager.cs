@@ -47,11 +47,11 @@ public class EncounterManager : MonoBehaviour
 
     public void EncounterInit(Enemy enemy)
     {
-        //encounterInProgress = true;
+        GameManager.instance.gameData.lastEnemyEncountered = enemy.Id;
         eAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;
         GameManager.instance.SaveGame();
-        Debug.Log("Enemy before loading scene: " + currentEnemy);
+        
         SceneManager.LoadScene("BattleTest");
     }
 
@@ -76,6 +76,8 @@ public class EncounterManager : MonoBehaviour
         yield return new WaitForSeconds(enemyAttacks.endTime);
 
         encounterInProgress = false;
+        projectiles.Clear();
+        velocities.Clear();
         SceneManager.LoadScene(prevScene);
     }
 

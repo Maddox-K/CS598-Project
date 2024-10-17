@@ -20,6 +20,11 @@ public class Enemy : NPC, I_DataPersistence
         id = System.Guid.NewGuid().ToString();
     }
 
+    public string Id
+    {
+        get { return id; }
+    }
+
     public override void Interact()
     {
         if (encounterHappened == true && postdialogue != null)
@@ -49,7 +54,6 @@ public class Enemy : NPC, I_DataPersistence
         {
             Interact();
         }
-        //this.encounterHappened = data.encounterHappened;
     }
 
     public void SaveData(GameData data)
@@ -59,7 +63,8 @@ public class Enemy : NPC, I_DataPersistence
             data.enemiesEncountered.Remove(id);
         }
         data.enemiesEncountered.Add(id, encounterHappened);
-        data.lastEnemyEncountered = id;
+        //data.lastEnemyEncountered = id;
+        Debug.Log(data.lastEnemyEncountered);
         //data.encounterHappened = this.encounterHappened;
     }
 

@@ -18,7 +18,7 @@ public class EncounterManager : MonoBehaviour
     public Enemy currentEnemy;
     private EnemyAttacks eAttacks;
     private const int spawnDelay = 1;
-    private List<Rigidbody2D> projectiles = new List<Rigidbody2D>();
+    private List<GameObject> projectiles = new List<GameObject>();
     private List<Vector2> velocities = new List<Vector2>();
     //[SerializeField] private DialogueManager dialogueManager;
     //private bool dialogueStarted;
@@ -47,7 +47,7 @@ public class EncounterManager : MonoBehaviour
 
     public void EncounterInit(Enemy enemy)
     {
-        encounterInProgress = true;
+        //encounterInProgress = true;
         eAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;
         GameManager.instance.SaveGame();
@@ -57,6 +57,7 @@ public class EncounterManager : MonoBehaviour
 
     private void StartEncounter()
     {
+        encounterInProgress = true;
         if (gameOverPrefab.activeSelf == true)
         {
             gameOverPrefab.SetActive(false);
@@ -117,14 +118,21 @@ public class EncounterManager : MonoBehaviour
             yield return new WaitForSeconds(times[i]);
 
             GameObject projectile = Instantiate(proj.gameObject, (Vector3)positions[i], Quaternion.identity);
-            projectiles.Add(projectile.GetComponent<Rigidbody2D>());
+            projectiles.Add(projectile);
             velocities.Add(directions[i].normalized * speeds[i]);
         }
     }
 
     public void GameOver()
     {
+        encounterInProgress = false;
         StopAllCoroutines();
+        for (int i = 0; i < projectiles.Count; i++)
+        {
+            Destroy(projectiles[i]);
+        }
+        projectiles.Clear();
+        velocities.Clear();
         gameOverPrefab.SetActive(true);
         
         pcontroller.move.Disable();
@@ -140,7 +148,7 @@ public class EncounterManager : MonoBehaviour
         {
             for (int i = 0; i < projectiles.Count; i++)
             {
-                projectiles[i].velocity = velocities[i];
+                projectiles[i].GetComponent<Rigidbody2D>().velocity = velocities[i];
             }
         }
     }

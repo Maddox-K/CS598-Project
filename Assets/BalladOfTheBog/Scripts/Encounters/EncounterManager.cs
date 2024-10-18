@@ -15,7 +15,6 @@ public class EncounterManager : MonoBehaviour
     private PlayerController pcontroller;
     public string prevScene;
     private bool encounterInProgress;
-    public Enemy currentEnemy;
     private EnemyAttacks eAttacks;
     private const int spawnDelay = 1;
     private List<GameObject> projectiles = new List<GameObject>();
@@ -57,6 +56,10 @@ public class EncounterManager : MonoBehaviour
 
     private void StartEncounter()
     {
+        pcontroller.gameObject.transform.position = new Vector3(0, 0, 0);
+        pcontroller.gameObject.transform.rotation = Quaternion.identity;
+        pcontroller.dash.Enable();
+
         encounterInProgress = true;
         if (gameOverPrefab.activeSelf == true)
         {
@@ -78,6 +81,7 @@ public class EncounterManager : MonoBehaviour
         encounterInProgress = false;
         projectiles.Clear();
         velocities.Clear();
+        pcontroller.dash.Disable();
         SceneManager.LoadScene(prevScene);
     }
 
@@ -138,6 +142,7 @@ public class EncounterManager : MonoBehaviour
         gameOverPrefab.SetActive(true);
         
         pcontroller.move.Disable();
+        pcontroller.dash.Disable();
     }
 
     private void FixedUpdate()

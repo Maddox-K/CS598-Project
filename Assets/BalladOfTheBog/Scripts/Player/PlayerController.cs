@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     public float speed = 5f;
     Vector2 moveDirection = Vector2.zero;
     Vector2 lookDirection = Vector2.zero;
+    private bool isDashing;
+    private bool canDash = true;
+    private const float dashDuration = .25f;
+    private const float dashSpeed = 10f;
+    private const float dashCoolDown = 3f;
 
     //animation
     public Animator animator;
@@ -22,6 +27,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     public PlayerInputActions playerControls;
     public InputAction move;
     public InputAction interact;
+    public InputAction dash;
     
     //interaction
     private GameObject collided;
@@ -38,11 +44,13 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         move.Enable();
         interact = playerControls.Player.Interact;
         interact.Enable();
+        dash = playerControls.Player.Dash;
     }
 
     private void OnDisable() {
         move.Disable();
         interact.Disable();
+        dash.Disable();
     }
 
     // Start is called before the first frame update
@@ -54,8 +62,17 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     // Update is called once per frame
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
         //movement
         moveDirection = move.ReadValue<Vector2>();
+
+        if (dash.WasPressedThisFrame() && canDash)
+        {
+            StartCoroutine(Dash());
+        }
 
         //animation
         if(!Mathf.Approximately(moveDirection.x, 0.0f) || !Mathf.Approximately(moveDirection.y, 0.0f))
@@ -87,8 +104,27 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         }
     }
 
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        playerData.canTakeDamage = false;
+        rb.velocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
+        yield return new WaitForSeconds(dashDuration);
+        isDashing = false;
+        playerData.canTakeDamage = true;
+
+        yield return new WaitForSeconds(dashCoolDown);
+        canDash = true;
+    }
+
     private void FixedUpdate() {
         // rigidbody movement
+        if (isDashing)
+        {
+            return;
+        }
+
         rb.velocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
     }
 
@@ -117,6 +153,16 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         {
             collided.transform.Find("InteractObject").gameObject.SetActive(false);
             interact_sprite_active = false;
+        }
+
+        collided = null;
+    }
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collided != null && collided.CompareTag("Projectile"))
+        {
+            playerData.TakeDamage(collided.GetComponent<Projectile>());
         }
     }
 

@@ -11,6 +11,8 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     public int currency_count;
     private bool displayCurrencyGUI = true;
     private TextMeshProUGUI currencyGUI;
+    public bool canTakeDamage = true;
+    private const float cooldownTime = 1.25f;
 
     // health
     public int health = 3;
@@ -58,13 +60,26 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
 
     public void TakeDamage(Projectile projectile)
     {
+        if (!canTakeDamage)
+        {
+            return;
+        }
+
         health -= projectile.damage;
+        canTakeDamage = false;
+        StartCoroutine(DamageCoolDown());
         Debug.Log(health);
         if (health == 0)
         {
             health = 3;
             EncounterManager.instance.GameOver();
         }
+    }
+
+    IEnumerator DamageCoolDown()
+    {
+        yield return new WaitForSeconds(cooldownTime);
+        canTakeDamage = true;
     }
 
     public void LoadData(GameData data)

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, I_DataPersistence
 {
     public PlayerData playerData;
 
@@ -14,6 +14,11 @@ public class PlayerController : MonoBehaviour
     public float speed = 5f;
     Vector2 moveDirection = Vector2.zero;
     Vector2 lookDirection = Vector2.zero;
+    private bool isDashing;
+    private bool canDash = true;
+    private const float dashDuration = .25f;
+    private const float dashSpeed = 10f;
+    private const float dashCoolDown = 3f;
 
     //animation
     public Animator animator;
@@ -22,6 +27,7 @@ public class PlayerController : MonoBehaviour
     public PlayerInputActions playerControls;
     public InputAction move;
     public InputAction interact;
+    public InputAction dash;
     
     //interaction
     private GameObject collided;
@@ -38,11 +44,13 @@ public class PlayerController : MonoBehaviour
         move.Enable();
         interact = playerControls.Player.Interact;
         interact.Enable();
+        dash = playerControls.Player.Dash;
     }
 
     private void OnDisable() {
         move.Disable();
         interact.Disable();
+        dash.Disable();
     }
 
     // Start is called before the first frame update
@@ -54,8 +62,17 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (isDashing)
+        {
+            return;
+        }
         //movement
         moveDirection = move.ReadValue<Vector2>();
+
+        if (dash.WasPressedThisFrame() && canDash)
+        {
+            StartCoroutine(Dash());
+        }
 
         //animation
         if(!Mathf.Approximately(moveDirection.x, 0.0f) || !Mathf.Approximately(moveDirection.y, 0.0f))
@@ -74,18 +91,40 @@ public class PlayerController : MonoBehaviour
             switch (collided.tag)
             {
                 case "Currency":
-                    collided.SetActive(false);
-                    playerData.changeCurrency();
+                    //collided.SetActive(false);
+                    collided.GetComponent<Coin>().Collect();
                     break;
                 case "SNPC":
                     collided.GetComponent<standard_NPC>().Interact();
+                    break;
+                case "Enemy":
+                    collided.GetComponent<Enemy>().Interact();
                     break;
             }
         }
     }
 
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        playerData.canTakeDamage = false;
+        rb.velocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
+        yield return new WaitForSeconds(dashDuration);
+        isDashing = false;
+        playerData.canTakeDamage = true;
+
+        yield return new WaitForSeconds(dashCoolDown);
+        canDash = true;
+    }
+
     private void FixedUpdate() {
         // rigidbody movement
+        if (isDashing)
+        {
+            return;
+        }
+
         rb.velocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
     }
 
@@ -94,7 +133,11 @@ public class PlayerController : MonoBehaviour
         isInInteractRange = true;
         collided = collider.gameObject;
 
-        if (collided.CompareTag("SNPC"))
+        if (collided.CompareTag("Projectile"))
+        {
+            playerData.TakeDamage(collided.GetComponent<Projectile>());
+        }
+        else if (collided.CompareTag("SNPC"))
         {
             collided.transform.Find("InteractObject").gameObject.SetActive(true);
             interact_sprite_active = true;
@@ -111,5 +154,25 @@ public class PlayerController : MonoBehaviour
             collided.transform.Find("InteractObject").gameObject.SetActive(false);
             interact_sprite_active = false;
         }
+
+        collided = null;
+    }
+
+    private void OnTriggerStay2D(Collider2D collider)
+    {
+        if (collided != null && collided.CompareTag("Projectile"))
+        {
+            playerData.TakeDamage(collided.GetComponent<Projectile>());
+        }
+    }
+
+    public void LoadData(GameData data)
+    {
+        transform.position = data.playerPosition;
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.playerPosition = transform.position;
     }
 }

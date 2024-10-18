@@ -10,6 +10,7 @@ TagManager:
   - Projectile
   - CurrencyGUI
   - Canvas
+  - Star
   layers:
   - Default
   - TransparentFX

@@ -18,8 +18,10 @@ public class PauseMenuController : MonoBehaviour
 
     [SerializeField] private Button returnToPause;
 
+    private PlayerController _playerController;
+
     private PopUpMenuControls pauseMenuControls;
-    private InputAction escape;
+    public InputAction escape;
     private string _currentSceneName;
 
     private void Awake()
@@ -47,6 +49,8 @@ public class PauseMenuController : MonoBehaviour
 
     void Start()
     {
+        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
+
         playButton.onClick.AddListener(ClosePauseMenu);
         settingsButton.onClick.AddListener(OpenSettingsMenu);
         returnToPause.onClick.AddListener(CloseSettingsMenu);
@@ -73,14 +77,22 @@ public class PauseMenuController : MonoBehaviour
     private void OpenPauseMenu()
     {
         PauseMenu.SetActive(true);
-        EncounterManager.instance.Paused = true;
+        if (_playerController != null)
+        {
+            _playerController.interact.Disable();
+        }
+        GameManager.instance.Pause();
     }
 
     //We call this by eithe pressinf resume or esc
     private void ClosePauseMenu()
     {
         PauseMenu.SetActive(false);
-        EncounterManager.instance.Paused = false;
+        if (_playerController != null)
+        {
+            _playerController.interact.Enable();
+        }
+        GameManager.instance.Unpause();
     }
 
     private void SaveGame()
@@ -102,6 +114,7 @@ public class PauseMenuController : MonoBehaviour
 
     private void ReturnToMainMenu()
     {
+        Time.timeScale = 1;
         if (_currentSceneName == "BattleTest")
         {
             EncounterManager.instance.StopAllCoroutines();
@@ -111,7 +124,6 @@ public class PauseMenuController : MonoBehaviour
         {
             GameManager.instance.SaveGame();
         }
-        EncounterManager.instance.Paused = false;
         SceneManager.LoadScene("Main Menu");
         //ceneManager.LoadScene(""); This will need to vary since we can be in different scenes. So we mus detetct where we are
         //SceneManager.UnloadSceneAsync("Scene1");

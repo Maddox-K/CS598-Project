@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
@@ -13,7 +14,6 @@ public class EncounterManager : MonoBehaviour
     private GameObject gameOverPrefab;
     private Button[] gameOverButtons = new Button[2];
     private PlayerController pcontroller;
-    public bool Paused;
     public string prevScene;
     private bool encounterInProgress;
     private EnemyAttacks eAttacks;
@@ -79,6 +79,11 @@ public class EncounterManager : MonoBehaviour
     {
         yield return new WaitForSeconds(enemyAttacks.endTime);
 
+        GameData data = GameManager.instance.gameData;
+        if (data.enemiesEncountered.ContainsKey(data.lastEnemyEncountered))
+        {
+            data.enemiesEncountered[data.lastEnemyEncountered] = true;
+        }
         SetBattleEnd();
     }
 
@@ -159,19 +164,9 @@ public class EncounterManager : MonoBehaviour
         }
         if (projectiles.Count > 0)
         {
-            if (Paused)
+            for (int i = 0; i < projectiles.Count; i++)
             {
-                for (int i = 0; i < projectiles.Count; i++)
-                {
-                    projectiles[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
-                }
-            }
-            else
-            {
-                for (int i = 0; i < projectiles.Count; i++)
-                {
-                    projectiles[i].GetComponent<Rigidbody2D>().velocity = velocities[i];
-                }
+                projectiles[i].GetComponent<Rigidbody2D>().velocity = velocities[i];
             }
         }
     }

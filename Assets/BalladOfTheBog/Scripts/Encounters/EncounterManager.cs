@@ -13,6 +13,7 @@ public class EncounterManager : MonoBehaviour
     private GameObject gameOverPrefab;
     private Button[] gameOverButtons = new Button[2];
     private PlayerController pcontroller;
+    public bool Paused;
     public string prevScene;
     private bool encounterInProgress;
     private EnemyAttacks eAttacks;
@@ -57,7 +58,7 @@ public class EncounterManager : MonoBehaviour
     private void StartEncounter()
     {
         pcontroller.gameObject.transform.position = new Vector3(0, 0, 0);
-        pcontroller.gameObject.transform.rotation = Quaternion.identity;
+        pcontroller.lookDirection = new Vector2(0, -1);
         pcontroller.dash.Enable();
 
         encounterInProgress = true;
@@ -78,6 +79,11 @@ public class EncounterManager : MonoBehaviour
     {
         yield return new WaitForSeconds(enemyAttacks.endTime);
 
+        SetBattleEnd();
+    }
+
+    public void SetBattleEnd()
+    {
         encounterInProgress = false;
         projectiles.Clear();
         velocities.Clear();
@@ -153,9 +159,19 @@ public class EncounterManager : MonoBehaviour
         }
         if (projectiles.Count > 0)
         {
-            for (int i = 0; i < projectiles.Count; i++)
+            if (Paused)
             {
-                projectiles[i].GetComponent<Rigidbody2D>().velocity = velocities[i];
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    projectiles[i].GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+                }
+            }
+            else
+            {
+                for (int i = 0; i < projectiles.Count; i++)
+                {
+                    projectiles[i].GetComponent<Rigidbody2D>().velocity = velocities[i];
+                }
             }
         }
     }

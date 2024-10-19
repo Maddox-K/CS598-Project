@@ -20,6 +20,7 @@ public class PauseMenuController : MonoBehaviour
 
     private PopUpMenuControls pauseMenuControls;
     private InputAction escape;
+    private string _currentSceneName;
 
     private void Awake()
     {
@@ -30,11 +31,18 @@ public class PauseMenuController : MonoBehaviour
     {
         escape = pauseMenuControls.PopUpMenu.Escape;
         escape.Enable();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
         escape.Disable();
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _currentSceneName = scene.name;
     }
 
     void Start()
@@ -50,25 +58,29 @@ public class PauseMenuController : MonoBehaviour
     {
         if(escape.WasPressedThisFrame())
         {
-            OpenPauseMenu(); 
+            if (PauseMenu.activeInHierarchy)
+            {
+                ClosePauseMenu();
+            }
+            else
+            {
+                OpenPauseMenu();
+            }
         }
-        else if(escape.WasPressedThisFrame() && PauseMenu.activeInHierarchy)
-        {
-            ClosePauseMenu();
-        }
-
     }
 
     //Call this by pressing escape
     private void OpenPauseMenu()
     {
         PauseMenu.SetActive(true);
+        EncounterManager.instance.Paused = true;
     }
 
     //We call this by eithe pressinf resume or esc
     private void ClosePauseMenu()
     {
         PauseMenu.SetActive(false);
+        EncounterManager.instance.Paused = false;
     }
 
     private void SaveGame()
@@ -90,9 +102,19 @@ public class PauseMenuController : MonoBehaviour
 
     private void ReturnToMainMenu()
     {
+        if (_currentSceneName == "BattleTest")
+        {
+            EncounterManager.instance.StopAllCoroutines();
+            EncounterManager.instance.SetBattleEnd();
+        }
+        else
+        {
+            GameManager.instance.SaveGame();
+        }
+        EncounterManager.instance.Paused = false;
         SceneManager.LoadScene("Main Menu");
         //ceneManager.LoadScene(""); This will need to vary since we can be in different scenes. So we mus detetct where we are
-        SceneManager.UnloadSceneAsync("Scene1");
+        //SceneManager.UnloadSceneAsync("Scene1");
     }
 
 

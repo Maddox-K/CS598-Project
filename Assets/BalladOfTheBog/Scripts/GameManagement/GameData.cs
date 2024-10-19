@@ -7,6 +7,7 @@ public class GameData
 {
     // Player Data
     public Vector3 playerPosition;
+    public Vector2 playerRotation;
     public int coinCount;
 
     // Enemies
@@ -19,6 +20,7 @@ public class GameData
     public GameData()
     {
         playerPosition = new Vector3(0, 0, 0);
+        playerRotation = Vector2.zero;
         this.coinCount = 0;
 
         enemiesEncountered = new Dictionary<string, bool>();

@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     {
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
 
-        if (scene.name == EncounterManager.instance.prevScene)
+        if (scene.name != "BattleTest")
         {
             LoadGame();
         }

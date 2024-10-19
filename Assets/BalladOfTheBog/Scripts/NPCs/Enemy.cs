@@ -31,14 +31,9 @@ public class Enemy : NPC, I_DataPersistence
         {
             dialogueManager.DisplayNext(postdialogue);
         }
-        else if (predialogue == null)
+        else if ((predialogue == null) || (dialogueManager.paragraphs.Count > 0 && dialogueManager.paragraphs.Peek() == "[encounter]"))
         {
-            encounterHappened = true;
-            EncounterManager.instance.EncounterInit(this);
-        }
-        else if (dialogueManager.paragraphs.Count > 0 && dialogueManager.paragraphs.Peek() == "[encounter]")
-        {
-            encounterHappened = true;
+            //encounterHappened = true;
             EncounterManager.instance.EncounterInit(this);
         }
         else
@@ -50,10 +45,15 @@ public class Enemy : NPC, I_DataPersistence
     public void LoadData(GameData data)
     {
         data.enemiesEncountered.TryGetValue(id, out encounterHappened);
-        if (encounterHappened == true && data.lastEnemyEncountered == id && postdialogue != null)
+        if (encounterHappened == true && data.lastEnemyEncountered == id)
         {
-            Interact();
+            data.lastEnemyEncountered = null;
+            if (postdialogue != null)
+            {
+                Interact();
+            }
         }
+
     }
 
     public void SaveData(GameData data)
@@ -63,9 +63,6 @@ public class Enemy : NPC, I_DataPersistence
             data.enemiesEncountered.Remove(id);
         }
         data.enemiesEncountered.Add(id, encounterHappened);
-        //data.lastEnemyEncountered = id;
-        Debug.Log(data.lastEnemyEncountered);
-        //data.encounterHappened = this.encounterHappened;
     }
 
     // Start is called before the first frame update

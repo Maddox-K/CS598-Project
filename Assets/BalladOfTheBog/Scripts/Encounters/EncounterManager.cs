@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Data.Common;
 using Unity.VisualScripting;
 using UnityEditor.Callbacks;
 using UnityEditor.Experimental.GraphView;
@@ -57,7 +58,7 @@ public class EncounterManager : MonoBehaviour
     private void StartEncounter()
     {
         pcontroller.gameObject.transform.position = new Vector3(0, 0, 0);
-        pcontroller.gameObject.transform.rotation = Quaternion.identity;
+        pcontroller.lookDirection = new Vector2(0, -1);
         pcontroller.dash.Enable();
 
         encounterInProgress = true;
@@ -78,6 +79,16 @@ public class EncounterManager : MonoBehaviour
     {
         yield return new WaitForSeconds(enemyAttacks.endTime);
 
+        GameData data = GameManager.instance.gameData;
+        if (data.enemiesEncountered.ContainsKey(data.lastEnemyEncountered))
+        {
+            data.enemiesEncountered[data.lastEnemyEncountered] = true;
+        }
+        SetBattleEnd();
+    }
+
+    public void SetBattleEnd()
+    {
         encounterInProgress = false;
         projectiles.Clear();
         velocities.Clear();

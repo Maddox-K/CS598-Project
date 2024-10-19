@@ -12,10 +12,12 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI NPCDialogueText;
     [SerializeField] private float typeSpeed = 10;
     [SerializeField] private PlayerController pcontroller;
+    [SerializeField] private PauseMenuController pauseController;
     [SerializeField] private Button[] choiceButtons;
 
     public Queue<string> paragraphs = new Queue<string>();
     public bool conversationEnded;
+    public bool Conversating;
     private bool isTyping;
     private bool waitingForInput = false;
     private string p;
@@ -81,6 +83,8 @@ public class DialogueManager : MonoBehaviour
     private void StartConversation(Dialogue dialogue)
     {
         pcontroller.move.Disable();
+        pauseController.escape.Disable();
+        //Conversating = true;
 
         foreach (Button button in choiceButtons)
         {
@@ -103,6 +107,8 @@ public class DialogueManager : MonoBehaviour
     private void EndConversation()
     {
         pcontroller.move.Enable();
+        pauseController.escape.Enable();
+        //Conversating = false;
 
         paragraphs.Clear();
 

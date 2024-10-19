@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     public Rigidbody2D rb;
     public float speed = 5f;
     Vector2 moveDirection = Vector2.zero;
-    Vector2 lookDirection = Vector2.zero;
+    public Vector2 lookDirection = Vector2.zero;
     private bool isDashing;
     private bool canDash = true;
     private const float dashDuration = .25f;
@@ -169,10 +169,12 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     public void LoadData(GameData data)
     {
         transform.position = data.playerPosition;
+        lookDirection = data.playerRotation;
     }
 
     public void SaveData(GameData data)
     {
         data.playerPosition = transform.position;
+        data.playerRotation = lookDirection;
     }
 }

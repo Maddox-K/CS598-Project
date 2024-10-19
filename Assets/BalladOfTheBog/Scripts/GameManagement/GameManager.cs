@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     {
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
 
-        if (scene.name == EncounterManager.instance.prevScene)
+        if (scene.name != "BattleTest")
         {
             LoadGame();
         }
@@ -92,5 +92,15 @@ public class GameManager : MonoBehaviour
         IEnumerable<I_DataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<I_DataPersistence>();
 
         return new List<I_DataPersistence>(dataPersistenceObjects);
+    }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = 1;
     }
 }

@@ -93,4 +93,14 @@ public class GameManager : MonoBehaviour
 
         return new List<I_DataPersistence>(dataPersistenceObjects);
     }
+
+    public void Pause()
+    {
+        Time.timeScale = 0;
+    }
+
+    public void Unpause()
+    {
+        Time.timeScale = 1;
+    }
 }

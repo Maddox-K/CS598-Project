@@ -33,7 +33,7 @@ public class Enemy : NPC, I_DataPersistence
         }
         else if ((predialogue == null) || (dialogueManager.paragraphs.Count > 0 && dialogueManager.paragraphs.Peek() == "[encounter]"))
         {
-            encounterHappened = true;
+            //encounterHappened = true;
             EncounterManager.instance.EncounterInit(this);
         }
         else

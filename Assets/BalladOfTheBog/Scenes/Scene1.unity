@@ -906,6 +906,17 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &308088359 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4318484733190380567, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
+  m_PrefabInstance: {fileID: 1605160436}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93e26b1d8c883e849bdfdc4fa2e8cf17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &318055733 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5937560996909371857, guid: a42e10c594af0604aa0a1f6e9a444dec, type: 3}
@@ -1160,12 +1171,14 @@ MonoBehaviour:
   NPCDialogueText: {fileID: 1341653}
   typeSpeed: 10
   pcontroller: {fileID: 318055733}
+  pauseController: {fileID: 308088359}
   choiceButtons:
   - {fileID: 159599878}
   - {fileID: 1333211687}
   - {fileID: 899084572}
   - {fileID: 1933813588}
   conversationEnded: 0
+  Conversating: 0
 --- !u!1 &486779869
 GameObject:
   m_ObjectHideFlags: 0
@@ -2383,6 +2396,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -244.26874
       objectReference: {fileID: 0}
+    - target: {fileID: 4318484733190380567, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
+      propertyPath: escape.m_Name
+      value: Escape
+      objectReference: {fileID: 0}
     - target: {fileID: 4603640480093979931, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -2639,6 +2656,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0b76415bafa8b13498b9bdd3505a5608, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Paused: 0
   prevScene: 
 --- !u!4 &1802236682
 Transform:

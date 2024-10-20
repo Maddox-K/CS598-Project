@@ -132,6 +132,7 @@ MonoBehaviour:
   playerData: {fileID: 8879105221380245680}
   rb: {fileID: 4214028212895202246}
   speed: 5
+  lookDirection: {x: 0, y: 0}
   animator: {fileID: 3362139211031825187}
   move:
     m_Name: Move
@@ -147,6 +148,15 @@ MonoBehaviour:
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: 099f446f-a250-47d3-9a40-b142a026f7fd
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  dash:
+    m_Name: Dash
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: e7acdbf2-6f85-49a3-a931-a3ab59e60957
     m_Processors: 
     m_Interactions: 
     m_SingletonActionBindings: []
@@ -260,4 +270,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currency_count: 0
+  canTakeDamage: 1
   health: 3

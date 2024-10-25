@@ -2,60 +2,70 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using UnityEngine.Animations;
-using UnityEngine.SceneManagement;
 
 public class PlayerData : MonoBehaviour, I_DataPersistence
 {
     // currency
     public int currency_count;
-    private bool displayCurrencyGUI = true;
-    private TextMeshProUGUI currencyGUI;
+    private GameObject currencyGUI;
+    private TextMeshProUGUI _currencyGUIText;
     public bool canTakeDamage = true;
     private const float cooldownTime = 1.25f;
 
     // health
-    public int health = 3;
+    private int _maxHealth = 3;
+    private int _currentHealth;
+    private GameObject _healthBar;
+    private GameObject[] _hearts = new GameObject[4];
 
-    // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        if (displayCurrencyGUI)
+        _currentHealth = _maxHealth;
+        currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI");
+        if (currencyGUI != null)
         {
-            currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI").transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-            if (currencyGUI != null)
+            _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            _currencyGUIText.text = currency_count.ToString();
+        }
+        else
+        {
+            //Debug.Log("trying to find health bar");
+            _healthBar = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1).gameObject;
+            for (int i = 0; i < _hearts.Length; i++)
             {
-                currencyGUI.text = currency_count.ToString();
+                _hearts[i] = _healthBar.transform.GetChild(i).gameObject;
+                //Debug.Log("trying to get heart");
             }
         }
     }
 
     private void OnEnable()
     {
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    void Start()
+    {
+        
+    }
+
+    public void SetHealth()
+    {
+        for (int i = 0; i < _maxHealth; i++)
+        {
+            _hearts[i].SetActive(true);
+        }
     }
 
     private void OnDisable()
     {
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "BattleTest")
-        {
-            displayCurrencyGUI = false;
-        }
-        else
-        {
-            displayCurrencyGUI = true;
-        }
+        //SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void IncrementCurrency()
     {
         currency_count++;
-        currencyGUI.text = currency_count.ToString();
+        _currencyGUIText.text = currency_count.ToString();
     }
 
     public void TakeDamage(Projectile projectile)
@@ -65,13 +75,35 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             return;
         }
 
-        health -= projectile.damage;
         canTakeDamage = false;
-        StartCoroutine(DamageCoolDown());
-        Debug.Log(health);
-        if (health == 0)
+
+        if (_currentHealth < projectile.damage)
         {
-            health = 3;
+            _currentHealth = 0;
+        }
+        else
+        {
+            _currentHealth -= projectile.damage;
+        }
+        Debug.Log(_currentHealth);
+
+        if (_hearts[_currentHealth].activeSelf)
+        {
+            _hearts[_currentHealth].SetActive(false);
+            if (projectile.damage > 1)
+            {
+                for (int i = 1; i < projectile.damage; i++)
+                {
+                    _hearts[_currentHealth + i].SetActive(false);
+                }
+            }
+        }
+
+        StartCoroutine(DamageCoolDown());
+
+        if (_currentHealth == 0)
+        {
+            _currentHealth = _maxHealth;
             EncounterManager.instance.GameOver();
         }
     }

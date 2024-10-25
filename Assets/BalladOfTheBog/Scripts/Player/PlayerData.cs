@@ -5,6 +5,10 @@ using TMPro;
 
 public class PlayerData : MonoBehaviour, I_DataPersistence
 {
+    // rendering
+    private SpriteRenderer _playerRenderer;
+    private Color _playerColor;
+
     // currency
     public int currency_count;
     private GameObject currencyGUI;
@@ -20,6 +24,9 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
 
     private void Awake()
     {
+        _playerRenderer = GetComponent<SpriteRenderer>();
+        _playerColor = _playerRenderer.color;
+
         _currentHealth = _maxHealth;
         currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI");
         if (currencyGUI != null)
@@ -100,6 +107,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         }
 
         StartCoroutine(DamageCoolDown());
+        StartCoroutine(FlashEffect(cooldownTime, 7));
 
         if (_currentHealth == 0)
         {
@@ -112,6 +120,17 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     {
         yield return new WaitForSeconds(cooldownTime);
         canTakeDamage = true;
+    }
+
+    private IEnumerator FlashEffect(float duration, int flashCount)
+    {
+        for (int i = 0; i < flashCount; i++)
+        {
+            _playerRenderer.color = new Color(_playerColor.r, _playerColor.g, _playerColor.b, 0.1f);
+            yield return new WaitForSeconds(duration / (flashCount * 2));
+            _playerRenderer.color = _playerColor;
+            yield return new WaitForSeconds(duration / (flashCount * 2));
+        }
     }
 
     public void LoadData(GameData data)

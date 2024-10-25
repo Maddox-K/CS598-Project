@@ -160,9 +160,9 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (collided != null && collided.CompareTag("Projectile"))
+        if (playerData.canTakeDamage && collider.gameObject.CompareTag("Projectile"))
         {
-            playerData.TakeDamage(collided.GetComponent<Projectile>());
+            playerData.TakeDamage(collider.gameObject.GetComponent<Projectile>());
         }
     }
 

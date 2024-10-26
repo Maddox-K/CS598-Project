@@ -53,9 +53,11 @@ public class EncounterManager : MonoBehaviour
         if (scene.name == "BattleTest" && eAttacks != null)
         {
             gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
+
             gameOverButtons[0] = gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
             gameOverButtons[1] = gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
             gameOverButtons[0].onClick.AddListener(() => StartEncounter());
+            gameOverButtons[1].onClick.AddListener(() => SceneManager.LoadScene("Main Menu"));
 
             Debug.Log("finding player");
             _player = GameObject.FindGameObjectWithTag("Player");

@@ -2,12 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour, I_DataPersistence
 {
     // rendering
     private SpriteRenderer _playerRenderer;
     private Color _playerColor;
+    [SerializeField] private Sprite _hurtFrogFace;
 
     // currency
     public int currency_count;
@@ -21,6 +23,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     private int _currentHealth;
     private GameObject _healthBar;
     private GameObject[] _hearts = new GameObject[4];
+    private Image[] _heartRenderers = new Image[4];
 
     private void Awake()
     {
@@ -41,6 +44,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             for (int i = 0; i < _hearts.Length; i++)
             {
                 _hearts[i] = _healthBar.transform.GetChild(i).gameObject;
+                _heartRenderers[i] = _hearts[i].GetComponent<Image>();
                 //Debug.Log("trying to get heart");
             }
         }
@@ -82,6 +86,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             return;
         }
 
+        int healthBeforeDamage = _currentHealth;
         canTakeDamage = false;
 
         if (_currentHealth < projectile.damage)
@@ -94,7 +99,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         }
         Debug.Log(_currentHealth);
 
-        if (_hearts[_currentHealth].activeSelf)
+        /* if (_hearts[_currentHealth].activeSelf)
         {
             _hearts[_currentHealth].SetActive(false);
             if (projectile.damage > 1)
@@ -104,6 +109,12 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
                     _hearts[_currentHealth + i].SetActive(false);
                 }
             }
+        } */
+        while (healthBeforeDamage > _currentHealth)
+        {
+            StartCoroutine(FlashHeart(_heartRenderers[healthBeforeDamage - 1], 0.5f, 1));
+            //_hearts[healthBeforeDamage - 1].SetActive(false);
+            healthBeforeDamage--;
         }
 
         StartCoroutine(DamageCoolDown());
@@ -131,6 +142,22 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             _playerRenderer.color = _playerColor;
             yield return new WaitForSeconds(duration / (flashCount * 2));
         }
+    }
+
+    private IEnumerator FlashHeart(Image sourceImage, float duration, int flashCount)
+    {
+        Sprite originalSprite = sourceImage.sprite;
+
+        for (int i = 0; i < flashCount; i++)
+        {
+            sourceImage.sprite = _hurtFrogFace;
+            //yield return new WaitForSeconds(duration / (flashCount * 2));
+            yield return new WaitForSeconds(duration * .75f);
+            sourceImage.sprite = originalSprite;
+            //yield return new WaitForSeconds(duration / (flashCount * 2));
+            yield return new WaitForSeconds(duration * 0.25f);
+        }
+        sourceImage.gameObject.SetActive(false);
     }
 
     public void LoadData(GameData data)

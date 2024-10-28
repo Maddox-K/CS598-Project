@@ -4,27 +4,60 @@ using UnityEngine;
 
 public class NPCMovement : MonoBehaviour
 {
-    [SerializeField] private Rigidbody2D rb;
-    [SerializeField] private float speed;
-    [SerializeField] private float patrolX, patrolY;
+    [System.Serializable]
+    public class Bounds
+    {
+        public Vector2 minimumBound;
+        public Vector2 maximumBound;
+    }
 
-    [SerializeField] private int facingDirection = -1;
+    [SerializeField] private Bounds wander;
+    [SerializeField] private float speed = 1f;
+    [SerializeField] private float changeDirection = 1f;
+    private Vector2 currentDirection;
+    private float changeDirectionTimer;
 
-    private bool isWalking;
+    private void Start()
+    {
+        OnRandomDirection();
+        changeDirectionTimer = changeDirection;
+    }
 
     private void Update()
     {
-        if (transform.position.x > patrolX || transform.position.y > patrolY)
+        NPCMove();
+        OnDirectionChange();
+    }
+
+    private void NPCMove()
+    {
+        Vector2 newPos = (Vector2)transform.position + currentDirection * speed * Time.deltaTime;
+        newPos.x = Mathf.Clamp(newPos.x, wander.minimumBound.x, wander.maximumBound.x);
+        newPos.y = Mathf.Clamp(newPos.y, wander.minimumBound.y, wander.maximumBound.y);
+
+        transform.position = newPos;
+    }
+
+    private void OnDirectionChange()
+    {
+        changeDirectionTimer -= Time.deltaTime;
+        if (changeDirectionTimer <= 0f)
         {
-            Flip();
+            OnRandomDirection();
+            changeDirectionTimer = changeDirection;
         }
 
-        rb.velocity = Vector2.right * facingDirection * speed;
+
     }
 
-    void Flip()
+    private void OnRandomDirection()
     {
-        transform.Rotate(0, 180, 0);
-        facingDirection *= -1;
+        float randX = Random.Range(-1f, 1f);
+        float randY = Random.Range(-1f, 1f);
+
+        currentDirection = new Vector2(randX, randY).normalized;
     }
+
+      
+
 }

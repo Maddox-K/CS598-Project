@@ -171,8 +171,8 @@ public class EncounterManager : MonoBehaviour
         velocities.Clear();
         gameOverPrefab.SetActive(true);
         
-        pcontroller.move.Disable();
-        pcontroller.dash.Disable();
+        //pcontroller.move.Disable();
+        //pcontroller.dash.Disable();
     }
 
     private void FixedUpdate()

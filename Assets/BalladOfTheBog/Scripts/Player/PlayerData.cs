@@ -6,6 +6,11 @@ using UnityEngine.UI;
 
 public class PlayerData : MonoBehaviour, I_DataPersistence
 {
+    private PlayerController pcontroller;
+
+    // animation
+    public Animator animator;
+
     // rendering
     private SpriteRenderer _playerRenderer;
     private Color _playerColor;
@@ -57,7 +62,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
 
     void Start()
     {
-        
+        pcontroller = GetComponent<PlayerController>();
     }
 
     public void SetHealth()
@@ -123,8 +128,21 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         if (_currentHealth == 0)
         {
             _currentHealth = _maxHealth;
-            EncounterManager.instance.GameOver();
+            pcontroller.move.Disable();
+            pcontroller.dash.Disable();
+            StartCoroutine(AnimateDeath());
+            //animator.SetTrigger("DeathTrigger");
+            //EncounterManager.instance.GameOver();
         }
+    }
+
+    IEnumerator AnimateDeath()
+    {
+        animator.SetTrigger("DeathTrigger");
+
+        yield return new WaitForSeconds(1.7f);
+
+        EncounterManager.instance.GameOver();
     }
 
     IEnumerator DamageCoolDown()

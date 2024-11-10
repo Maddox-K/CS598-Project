@@ -91,8 +91,8 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
         animator.SetFloat("look_x", lookDirection.x);
         animator.SetFloat("look_y", lookDirection.y);
-        animator.SetFloat("look_x", moveDirection.x);
-        animator.SetFloat("look_y", moveDirection.y);
+        //animator.SetFloat("look_x", moveDirection.x);
+        //animator.SetFloat("look_y", moveDirection.y);
         animator.SetFloat("Speed", moveDirection.magnitude);
 
         // interaction

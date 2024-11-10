@@ -86,7 +86,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
 
     public void TakeDamage(Projectile projectile)
     {
-        if (!canTakeDamage)
+        if (!canTakeDamage || pcontroller.isDashing)
         {
             return;
         }
@@ -118,15 +118,14 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         while (healthBeforeDamage > _currentHealth)
         {
             StartCoroutine(FlashHeart(_heartRenderers[healthBeforeDamage - 1], 0.5f, 1));
-            //_hearts[healthBeforeDamage - 1].SetActive(false);
             healthBeforeDamage--;
         }
 
-        StartCoroutine(DamageCoolDown());
         StartCoroutine(FlashEffect(cooldownTime, 7));
 
         if (_currentHealth == 0)
         {
+            canTakeDamage = false;
             _currentHealth = _maxHealth;
             pcontroller.move.Disable();
             pcontroller.dash.Disable();
@@ -134,13 +133,17 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             //animator.SetTrigger("DeathTrigger");
             //EncounterManager.instance.GameOver();
         }
+        else
+        {
+            StartCoroutine(DamageCoolDown());
+        }
     }
 
     IEnumerator AnimateDeath()
     {
         animator.SetTrigger("DeathTrigger");
 
-        yield return new WaitForSeconds(1.7f);
+        yield return new WaitForSeconds(1.1f);
 
         EncounterManager.instance.GameOver();
     }

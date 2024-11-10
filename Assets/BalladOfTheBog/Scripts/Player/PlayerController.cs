@@ -14,7 +14,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     public float speed = 5f;
     Vector2 moveDirection = Vector2.zero;
     public Vector2 lookDirection = Vector2.zero;
-    private bool isDashing;
+    public bool isDashing;
     private bool canDash = true;
     private const float dashDuration = .25f;
     private const float dashSpeed = 10f;
@@ -108,11 +108,11 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     {
         canDash = false;
         isDashing = true;
-        playerData.canTakeDamage = false;
+        //playerData.canTakeDamage = false;
         rb.velocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
         yield return new WaitForSeconds(dashDuration);
         isDashing = false;
-        playerData.canTakeDamage = true;
+        //playerData.canTakeDamage = true;
 
         yield return new WaitForSeconds(dashCoolDown);
         canDash = true;

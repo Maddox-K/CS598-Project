@@ -1,9 +1,5 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Data.Common;
-using Unity.VisualScripting;
-using UnityEditor.Callbacks;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -15,7 +11,9 @@ public class EncounterManager : MonoBehaviour
 
     // Game Over
     private GameObject gameOverPrefab;
+    private CanvasGroup _gameOverCanvasGroup;
     private Button[] gameOverButtons = new Button[2];
+    private const float fadeDuration = 0.7f;
 
     // Player Stuff
     private GameObject _player;
@@ -52,7 +50,20 @@ public class EncounterManager : MonoBehaviour
     {
         if (scene.name == "BattleTest" && eAttacks != null)
         {
+            /* _encounterCanvas = GameObject.FindGameObjectWithTag("Canvas");
+            if (_encounterCanvas != null)
+            {
+                _encounterCanvasGroup = _encounterCanvas.GetComponent<CanvasGroup>();
+                _encounterCanvasGroup.alpha = 0;
+                gameOverPrefab = _encounterCanvas.transform.GetChild(0).gameObject;
+            } */
+            //gameOverPrefab = _encounterCanvas.transform.GetChild(0).gameObject;
             gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
+            if (gameOverPrefab != null)
+            {
+                _gameOverCanvasGroup = gameOverPrefab.GetComponent<CanvasGroup>();
+                //_gameOverCanvasGroup.alpha = 0;
+            }
 
             gameOverButtons[0] = gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
             gameOverButtons[1] = gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
@@ -94,6 +105,7 @@ public class EncounterManager : MonoBehaviour
 
     private void StartEncounter()
     {
+        _gameOverCanvasGroup.alpha = 0;
         _playerData.SetHealth();
         pcontroller.gameObject.transform.position = new Vector3(0, 0, 0);
         pcontroller.lookDirection = new Vector2(0, -1);
@@ -170,9 +182,29 @@ public class EncounterManager : MonoBehaviour
         projectiles.Clear();
         velocities.Clear();
         gameOverPrefab.SetActive(true);
+
+        //_playerData.canTakeDamage = true;
+
+        StartCoroutine(FadeIn());
         
         //pcontroller.move.Disable();
         //pcontroller.dash.Disable();
+    }
+
+    private IEnumerator FadeIn()
+    {
+        float elapsedTime = 0f;
+
+        while (elapsedTime < fadeDuration)
+        {
+            elapsedTime += Time.deltaTime;
+            _gameOverCanvasGroup.alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
+            yield return null;
+        }
+
+        _gameOverCanvasGroup.alpha = 1;
+
+        _playerData.canTakeDamage = true;
     }
 
     private void FixedUpdate()

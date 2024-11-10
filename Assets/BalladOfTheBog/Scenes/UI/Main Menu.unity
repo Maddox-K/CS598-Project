@@ -1064,7 +1064,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485880675786905371, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 459.1
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 485880675786905371, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1072,7 +1072,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 485880675786905371, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -0.00036454
+      value: 0.000083685
       objectReference: {fileID: 0}
     - target: {fileID: 784970123786820808, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_Pivot.x
@@ -1160,7 +1160,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3457289475458397696, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 459.1
+      value: 450
       objectReference: {fileID: 0}
     - target: {fileID: 3457289475458397696, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchoredPosition.x
@@ -1168,7 +1168,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3457289475458397696, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0.0006648302
+      value: 0.0001564
       objectReference: {fileID: 0}
     - target: {fileID: 4411656964426162765, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchorMax.y
@@ -1221,6 +1221,18 @@ PrefabInstance:
     - target: {fileID: 5868000432464722036, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_UiScaleMode
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868000432464722036, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
+      propertyPath: m_ScreenMatchMode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868000432464722036, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
+      propertyPath: m_MatchWidthOrHeight
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5868000432464722036, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
+      propertyPath: m_ReferencePixelsPerUnit
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 6900192188394663399, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchorMax.y

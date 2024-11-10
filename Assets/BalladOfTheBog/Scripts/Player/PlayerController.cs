@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     //physics
     public Rigidbody2D rb;
     public float speed = 5f;
-    Vector2 moveDirection = Vector2.zero;
+    public Vector2 moveDirection = Vector2.zero;
     public Vector2 lookDirection = Vector2.zero;
     public bool isDashing;
     private bool canDash = true;
@@ -82,6 +82,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
             //animator.SetBool("isWalking", true);
         }
+
         /* else
         {
             animator.SetBool("isWalking", false);
@@ -90,7 +91,9 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
         animator.SetFloat("look_x", lookDirection.x);
         animator.SetFloat("look_y", lookDirection.y);
-        //animator.SetFloat("Speed", moveDirection.magnitude);
+        animator.SetFloat("look_x", moveDirection.x);
+        animator.SetFloat("look_y", moveDirection.y);
+        animator.SetFloat("Speed", moveDirection.magnitude);
 
         // interaction
         if (isInInteractRange && interact.WasPressedThisFrame())

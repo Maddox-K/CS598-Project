@@ -11,6 +11,9 @@ public class GameManager : MonoBehaviour
     public GameData gameData;
     private List<I_DataPersistence> dataPersistenceObjects;
 
+    // Scene Management
+    public string lastScene;
+
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -81,6 +84,9 @@ public class GameManager : MonoBehaviour
     public void SaveGame()
     {
         Debug.Log("saving data");
+
+        lastScene = SceneManager.GetActiveScene().name;
+
         foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(gameData);

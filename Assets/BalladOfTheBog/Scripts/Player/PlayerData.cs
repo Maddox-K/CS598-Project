@@ -8,6 +8,10 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
 {
     private PlayerController pcontroller;
 
+    // audio
+    private AudioSource _audioSource;
+    public AudioClip DamageSound;
+
     // animation
     public Animator animator;
 
@@ -63,6 +67,8 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     void Start()
     {
         pcontroller = GetComponent<PlayerController>();
+        
+        _audioSource = GetComponent<AudioSource>();
     }
 
     public void SetHealth()
@@ -91,6 +97,11 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             return;
         }
 
+        if (DamageSound != null)
+        {
+            _audioSource.PlayOneShot(DamageSound);
+        }
+
         int healthBeforeDamage = _currentHealth;
         canTakeDamage = false;
 
@@ -104,17 +115,6 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         }
         Debug.Log(_currentHealth);
 
-        /* if (_hearts[_currentHealth].activeSelf)
-        {
-            _hearts[_currentHealth].SetActive(false);
-            if (projectile.damage > 1)
-            {
-                for (int i = 1; i < projectile.damage; i++)
-                {
-                    _hearts[_currentHealth + i].SetActive(false);
-                }
-            }
-        } */
         while (healthBeforeDamage > _currentHealth)
         {
             StartCoroutine(FlashHeart(_heartRenderers[healthBeforeDamage - 1], 0.5f, 1));

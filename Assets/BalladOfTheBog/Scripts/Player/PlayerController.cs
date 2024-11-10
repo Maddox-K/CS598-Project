@@ -80,12 +80,12 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
             lookDirection.Set(moveDirection.x, moveDirection.y);
             lookDirection.Normalize();
 
-            animator.SetBool("isWalking", true);
+            //animator.SetBool("isWalking", true);
         }
-        else
+        /* else
         {
             animator.SetBool("isWalking", false);
-        }
+        } */
 
 
         animator.SetFloat("look_x", lookDirection.x);

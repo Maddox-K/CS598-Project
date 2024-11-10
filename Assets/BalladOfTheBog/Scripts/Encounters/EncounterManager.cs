@@ -9,6 +9,9 @@ public class EncounterManager : MonoBehaviour
     public static EncounterManager instance { get; private set; }
     private const int spawnDelay = 1;
 
+    // Audio
+    private AudioSource _audioSource;
+
     // Game Over
     private GameObject gameOverPrefab;
     private CanvasGroup _gameOverCanvasGroup;
@@ -58,6 +61,8 @@ public class EncounterManager : MonoBehaviour
                 gameOverPrefab = _encounterCanvas.transform.GetChild(0).gameObject;
             } */
             //gameOverPrefab = _encounterCanvas.transform.GetChild(0).gameObject;
+            _audioSource = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
+
             gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
             if (gameOverPrefab != null)
             {
@@ -105,6 +110,11 @@ public class EncounterManager : MonoBehaviour
 
     private void StartEncounter()
     {
+        if (_audioSource != null)
+        {
+            _audioSource.Play();
+        }
+
         _gameOverCanvasGroup.alpha = 0;
         _playerData.SetHealth();
         pcontroller.gameObject.transform.position = new Vector3(0, 0, 0);
@@ -173,6 +183,11 @@ public class EncounterManager : MonoBehaviour
 
     public void GameOver()
     {
+        if (_audioSource != null && _audioSource.isPlaying)
+        {
+            _audioSource.Stop();
+        }
+
         encounterInProgress = false;
         StopAllCoroutines();
         for (int i = 0; i < projectiles.Count; i++)

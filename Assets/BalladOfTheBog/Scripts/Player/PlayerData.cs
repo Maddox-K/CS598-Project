@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class PlayerData : MonoBehaviour, I_DataPersistence
 {
@@ -30,6 +31,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     // health
     private int _maxHealth = 3;
     private int _currentHealth;
+    private GameObject _healthCanvas;
     private GameObject _healthBar;
     private GameObject[] _hearts = new GameObject[4];
     private Image[] _heartRenderers = new Image[4];
@@ -40,23 +42,28 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         _playerColor = _playerRenderer.color;
 
         _currentHealth = _maxHealth;
-        currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI");
-        if (currencyGUI != null)
+
+        if (SceneManager.GetActiveScene().name != "BattleTest")
         {
-            _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-            _currencyGUIText.text = currency_count.ToString();
+            currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI");
         }
         else
         {
-            //Debug.Log("trying to find health bar");
             _healthBar = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(1).gameObject;
-            for (int i = 0; i < _hearts.Length; i++)
+            if (_healthBar != null)
             {
+                for (int i = 0; i < _hearts.Length; i++)
+                {
                 _hearts[i] = _healthBar.transform.GetChild(i).gameObject;
                 _heartRenderers[i] = _hearts[i].GetComponent<Image>();
-                //Debug.Log("trying to get heart");
+                }
             }
         }
+        /* if (currencyGUI != null)
+        {
+            _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            _currencyGUIText.text = currency_count.ToString();
+        } */
     }
 
     private void OnEnable()
@@ -184,6 +191,12 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     public void LoadData(GameData data)
     {
         currency_count = data.coinCount;
+
+        if (currencyGUI != null)
+        {
+            _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            _currencyGUIText.text = currency_count.ToString();
+        }
     }
 
     public void SaveData(GameData data)

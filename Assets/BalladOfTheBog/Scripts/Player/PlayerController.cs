@@ -16,7 +16,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     public Vector2 lookDirection = Vector2.zero;
     public bool isDashing;
     private bool canDash = true;
-    private const float dashDuration = .25f;
+    private const float dashDuration = .4f;
     private const float dashSpeed = 10f;
     private const float dashCoolDown = 3f;
 
@@ -116,6 +116,8 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
     private IEnumerator Dash()
     {
+        animator.SetTrigger("DashTrigger");
+
         canDash = false;
         isDashing = true;
         //playerData.canTakeDamage = false;

@@ -208,6 +208,8 @@ public class EncounterManager : MonoBehaviour
 
     private IEnumerator FadeIn()
     {
+        yield return new WaitForSeconds(1.1f);
+
         float elapsedTime = 0f;
 
         while (elapsedTime < fadeDuration)

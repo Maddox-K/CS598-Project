@@ -136,9 +136,10 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             _currentHealth = _maxHealth;
             pcontroller.move.Disable();
             pcontroller.dash.Disable();
-            StartCoroutine(AnimateDeath());
+            animator.SetTrigger("DeathTrigger");
+            //StartCoroutine(AnimateDeath());
             //animator.SetTrigger("DeathTrigger");
-            //EncounterManager.instance.GameOver();
+            EncounterManager.instance.GameOver();
         }
         else
         {

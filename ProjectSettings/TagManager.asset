@@ -6,7 +6,12 @@ TagManager:
   tags:
   - SNPC
   - Currency
+  - Enemy
+  - Projectile
+  - CurrencyGUI
+  - Canvas
   - Star
+  - Music
   layers:
   - Default
   - TransparentFX
@@ -44,9 +49,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: star
-    uniqueID: 701324069
+  - name: World
+    uniqueID: 3888828989
     locked: 0
-  - name: background
-    uniqueID: 1488215055
+  - name: NPC
+    uniqueID: 2576477581
+    locked: 0
+  - name: Player
+    uniqueID: 3660068117
+    locked: 0
+  - name: MainMenu
+    uniqueID: 3327650925
     locked: 0

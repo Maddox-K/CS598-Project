@@ -1,7 +1,4 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor.Search;
+
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
@@ -12,6 +9,7 @@ public class MainMenuController : MonoBehaviour
     [SerializeField] private Button startButton;
     [SerializeField] private Button savesButton;
     [SerializeField] private Button settigsButton;
+    [SerializeField] private Button quitButton;
 
     [SerializeField] private Canvas mainMenu;
     [SerializeField] private Canvas settingsMenu;
@@ -25,6 +23,10 @@ public class MainMenuController : MonoBehaviour
         startButton.onClick.AddListener(LoadGameScene);
         settigsButton.onClick.AddListener(SwitchToSettingsMenu);
         savesButton.onClick.AddListener(SwitchToSavesMenu);
+        quitButton.onClick.AddListener(() =>
+        {
+            Application.Quit();
+        });
         
     }
 
@@ -37,7 +39,7 @@ public class MainMenuController : MonoBehaviour
     private void LoadGameScene()
     {
         SceneManager.LoadScene("Scene1");
-        SceneManager.UnloadSceneAsync("Main Menu");
+        //SceneManager.UnloadSceneAsync("Main Menu");
     }
 
     bool showSettingsMenu;

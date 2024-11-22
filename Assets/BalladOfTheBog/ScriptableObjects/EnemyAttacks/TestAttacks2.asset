@@ -1,0 +1,52 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27f20bf4f6f3cf449828703db83c975a, type: 3}
+  m_Name: TestAttacks2
+  m_EditorClassIdentifier: 
+  projectile: {fileID: 2492284416381052986, guid: 66dd8af781675504e9cccdce4c24d0ac, type: 3}
+  spawnPositions:
+  - {x: -10, y: 6}
+  - {x: -10, y: 5}
+  - {x: -10, y: 4}
+  - {x: -10, y: 3}
+  - {x: -10, y: 2}
+  - {x: -10, y: 1}
+  - {x: -10, y: 0}
+  - {x: -10, y: -1}
+  launchDirections:
+  - {x: 1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 1, y: 0}
+  - {x: 2, y: 1}
+  launchTimes:
+  - 0
+  - 0.5
+  - 0.5
+  - 0.5
+  - 0.5
+  - 1
+  - 1
+  - 1
+  projectileSpeeds:
+  - 3
+  - 3
+  - 4
+  - 5
+  - 3
+  - 2
+  - 1
+  - 1
+  endTime: 10

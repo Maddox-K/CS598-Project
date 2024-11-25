@@ -7,6 +7,7 @@ public class Coin : MonoBehaviour, I_DataPersistence
     [SerializeField] private string id;
     [SerializeField] private PlayerData playerData;
     public bool collected;
+    private AudioSource _audioSource;
 
     // animation
     private Animator animator;
@@ -25,6 +26,11 @@ public class Coin : MonoBehaviour, I_DataPersistence
         collected = true;
         //gameObject.SetActive(false);
         playerData.IncrementCurrency();
+
+        if (_audioSource != null)
+        {
+            _audioSource.Play();
+        }
 
         StartCoroutine(CollectAnimate());
     }
@@ -85,6 +91,8 @@ public class Coin : MonoBehaviour, I_DataPersistence
         _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
 
         animator = gameObject.GetComponent<Animator>();
+
+        _audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Update is called once per frame

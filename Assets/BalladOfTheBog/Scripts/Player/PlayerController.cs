@@ -1,9 +1,8 @@
 using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using TMPro;
+using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour, I_DataPersistence
 {
@@ -30,9 +29,9 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     public InputAction dash;
     
     //interaction
-    private GameObject collided;
-    private bool isInInteractRange = false;
-    private bool interact_sprite_active;
+    private GameObject _interactSprite;
+    private List<Collider2D> _thingsInRange = new List<Collider2D>();
+    private GameObject _closestObject;
 
 
     private void Awake() {
@@ -66,6 +65,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         {
             return;
         }
+
         //movement
         moveDirection = move.ReadValue<Vector2>();
 
@@ -79,36 +79,39 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         {
             lookDirection.Set(moveDirection.x, moveDirection.y);
             lookDirection.Normalize();
-
-            //animator.SetBool("isWalking", true);
         }
-
-        /* else
-        {
-            animator.SetBool("isWalking", false);
-        } */
-
 
         animator.SetFloat("look_x", lookDirection.x);
         animator.SetFloat("look_y", lookDirection.y);
-        //animator.SetFloat("look_x", moveDirection.x);
-        //animator.SetFloat("look_y", moveDirection.y);
         animator.SetFloat("Speed", moveDirection.magnitude);
 
         // interaction
-        if (isInInteractRange && interact.WasPressedThisFrame())
+        if (_thingsInRange.Count > 0)
         {
-            switch (collided.tag)
+            _closestObject = GetClosestObject();
+        }
+        else
+        {
+            _closestObject = null;
+            if (_interactSprite != null)
+            {
+                _interactSprite.SetActive(false);
+                _interactSprite = null;
+            }
+        }
+
+        if (_closestObject != null && interact.WasPressedThisFrame())
+        {
+            switch (_closestObject.tag)
             {
                 case "Currency":
-                    //collided.SetActive(false);
-                    collided.GetComponent<Coin>().Collect();
+                    _closestObject.GetComponent<Coin>().Collect();
                     break;
                 case "SNPC":
-                    collided.GetComponent<standard_NPC>().Interact();
+                    _closestObject.GetComponent<standard_NPC>().Interact();
                     break;
                 case "Enemy":
-                    collided.GetComponent<Enemy>().Interact();
+                    _closestObject.GetComponent<Enemy>().Interact();
                     break;
             }
         }
@@ -120,14 +123,59 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
         canDash = false;
         isDashing = true;
-        //playerData.canTakeDamage = false;
         rb.velocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
         yield return new WaitForSeconds(dashDuration);
+
         isDashing = false;
-        //playerData.canTakeDamage = true;
 
         yield return new WaitForSeconds(dashCoolDown);
+
         canDash = true;
+    }
+
+    GameObject GetClosestObject()
+    {
+        Collider2D closest = null;
+        float closestDistanceSqr = float.MaxValue;
+        Vector3 playerPosition = transform.position;
+
+        foreach (Collider2D obj in _thingsInRange)
+        {
+            float sqrDistance = (obj.transform.position - playerPosition).sqrMagnitude;
+            if (sqrDistance < closestDistanceSqr)
+            {
+                closestDistanceSqr = sqrDistance;
+                closest = obj;
+            }
+        }
+
+        GameObject closestObj = closest.gameObject;
+
+        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy"))
+        {
+            if (closestObj.transform.childCount > 0)
+            {
+                GameObject thisInteract = closestObj.transform.GetChild(0).gameObject;
+                if (_interactSprite == null)
+                {
+                    _interactSprite = thisInteract;
+                    _interactSprite.SetActive(true);
+                }
+                else if (_interactSprite != thisInteract)
+                {
+                    _interactSprite.SetActive(false);
+                    _interactSprite = thisInteract;
+                    _interactSprite.SetActive(true);
+                }
+            }
+        }
+        else if (_interactSprite != null)
+        {
+            _interactSprite.SetActive(false);
+            _interactSprite = null;
+        }
+
+        return closestObj;
     }
 
     private void FixedUpdate() {
@@ -142,32 +190,24 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        isInInteractRange = true;
-        collided = collider.gameObject;
+        _thingsInRange.Add(collider);
 
-        if (collided.CompareTag("Projectile"))
+        GameObject thisCollided = collider.gameObject;
+
+        if (thisCollided.CompareTag("Projectile"))
         {
-            playerData.TakeDamage(collided.GetComponent<Projectile>());
-        }
-        else if (collided.CompareTag("SNPC"))
-        {
-            collided.transform.Find("InteractObject").gameObject.SetActive(true);
-            interact_sprite_active = true;
+            playerData.TakeDamage(thisCollided.GetComponent<Projectile>());
         }
     }
 
     private void OnTriggerExit2D(Collider2D collider)
     {
-        isInInteractRange = false;
+        _thingsInRange.Remove(collider);
 
-        // turn off indicator sprite
-        if (interact_sprite_active == true)
+        if (_thingsInRange.Count == 0)
         {
-            collided.transform.Find("InteractObject").gameObject.SetActive(false);
-            interact_sprite_active = false;
+            _closestObject = null;
         }
-
-        collided = null;
     }
 
     private void OnTriggerStay2D(Collider2D collider)

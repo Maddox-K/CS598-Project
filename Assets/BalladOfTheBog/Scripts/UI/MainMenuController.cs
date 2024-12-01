@@ -17,7 +17,10 @@ public class MainMenuController : MonoBehaviour
 
     private UnityAction OpenSettingsMenu;
 
-    // Start is called before the first frame update
+    private void Awake()
+    {
+        
+    }
     void Start()
     {
         startButton.onClick.AddListener(LoadGameScene);

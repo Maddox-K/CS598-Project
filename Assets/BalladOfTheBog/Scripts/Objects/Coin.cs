@@ -6,6 +6,7 @@ public class Coin : MonoBehaviour, I_DataPersistence
     // core fields
     [SerializeField] private string id;
     [SerializeField] private PlayerData playerData;
+    private bool _canBeCollected = true;
     public bool collected;
     private AudioSource _audioSource;
 
@@ -23,8 +24,13 @@ public class Coin : MonoBehaviour, I_DataPersistence
 
     public void Collect()
     {
+        if (!_canBeCollected)
+        {
+            return;
+        }
+
         collected = true;
-        //gameObject.SetActive(false);
+        _canBeCollected = false;
         playerData.IncrementCurrency();
 
         if (_audioSource != null)

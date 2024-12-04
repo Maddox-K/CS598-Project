@@ -104,9 +104,6 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         {
             switch (_closestObject.tag)
             {
-                case "Currency":
-                    _closestObject.GetComponent<Coin>().Collect();
-                    break;
                 case "SNPC":
                     _closestObject.GetComponent<standard_NPC>().Interact();
                     break;
@@ -197,6 +194,10 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         if (thisCollided.CompareTag("Projectile"))
         {
             playerData.TakeDamage(thisCollided.GetComponent<Projectile>());
+        }
+        else if (thisCollided.CompareTag("Currency"))
+        {
+            thisCollided.GetComponent<Coin>().Collect();
         }
     }
 

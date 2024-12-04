@@ -26,6 +26,8 @@ public class EncounterManager : MonoBehaviour
     // Scene Management
     public string prevScene;
     private bool encounterInProgress;
+    private GameObject _transitionParent;
+    private Animator _transition;
 
     // Enemy
     private EnemyAttacks eAttacks;
@@ -51,6 +53,12 @@ public class EncounterManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        _transitionParent = GameObject.FindGameObjectWithTag("Transition");
+        if (_transitionParent != null)
+        {
+            _transition = _transitionParent.GetComponent<Animator>();
+        }
+
         if (scene.name == "BattleTest" && eAttacks != null)
         {
             /* _encounterCanvas = GameObject.FindGameObjectWithTag("Canvas");
@@ -82,10 +90,6 @@ public class EncounterManager : MonoBehaviour
 
             StartEncounter();
         }
-        /* else if (scene.name == prevScene)
-        {
-            GameManager.instance.LoadGame();
-        } */
     }
 
     void Start()
@@ -104,7 +108,21 @@ public class EncounterManager : MonoBehaviour
         eAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;
         GameManager.instance.SaveGame();
+
+        StartCoroutine(EncounterTransition());
         
+        //SceneManager.LoadScene("BattleTest");
+    }
+
+    private IEnumerator EncounterTransition()
+    {
+        if (_transition != null)
+        {
+            _transition.SetTrigger("Start");
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
         SceneManager.LoadScene("BattleTest");
     }
 

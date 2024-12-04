@@ -12,6 +12,7 @@ TagManager:
   - Canvas
   - Star
   - Music
+  - Transition
   layers:
   - Default
   - TransparentFX

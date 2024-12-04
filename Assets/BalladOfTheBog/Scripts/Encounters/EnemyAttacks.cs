@@ -11,4 +11,5 @@ public class EnemyAttacks : ScriptableObject
     public float[] launchTimes;
     public float[] projectileSpeeds;
     public int endTime;
+    public bool affectedByGravity;
 }

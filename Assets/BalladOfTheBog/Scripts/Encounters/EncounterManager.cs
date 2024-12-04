@@ -244,7 +244,7 @@ public class EncounterManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!encounterInProgress)
+        if (!encounterInProgress || eAttacks.affectedByGravity)
         {
             return;
         }

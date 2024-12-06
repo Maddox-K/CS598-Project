@@ -1,9 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -22,23 +21,31 @@ public class PauseMenuController : MonoBehaviour
 
     private PopUpMenuControls pauseMenuControls;
     public InputAction escape;
+    public InputAction navigate;
     private string _currentSceneName;
+    private GameObject _currentlySelected;
 
     private void Awake()
     {
+        //_currentlySelected = EventSystem.current.currentSelectedGameObject;
         pauseMenuControls = new PopUpMenuControls();
     }
 
     private void OnEnable()
     {
+        //EventSystem.current.SetSelectedGameObject(playButton.gameObject);
         escape = pauseMenuControls.PopUpMenu.Escape;
         escape.Enable();
+        navigate = pauseMenuControls.PopUpMenu.Navigate;
+        navigate.Enable();
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
+        
         escape.Disable();
+        navigate.Disable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
@@ -87,6 +94,7 @@ public class PauseMenuController : MonoBehaviour
     //We call this by eithe pressinf resume or esc
     private void ClosePauseMenu()
     {
+        //EventSystem.current.SetSelectedGameObject(_currentlySelected);
         PauseMenu.SetActive(false);
         if (_playerController != null)
         {

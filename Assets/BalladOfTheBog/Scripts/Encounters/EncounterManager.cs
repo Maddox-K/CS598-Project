@@ -53,6 +53,14 @@ public class EncounterManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        Debug.Log("finding player");
+        _player = GameObject.FindGameObjectWithTag("Player");
+        if (_player != null)
+        {
+            pcontroller = _player.GetComponent<PlayerController>();
+            _playerData = _player.GetComponent<PlayerData>();
+        }
+
         _transitionParent = GameObject.FindGameObjectWithTag("Transition");
         if (_transitionParent != null)
         {
@@ -61,32 +69,18 @@ public class EncounterManager : MonoBehaviour
 
         if (scene.name == "BattleTest" && eAttacks != null)
         {
-            /* _encounterCanvas = GameObject.FindGameObjectWithTag("Canvas");
-            if (_encounterCanvas != null)
-            {
-                _encounterCanvasGroup = _encounterCanvas.GetComponent<CanvasGroup>();
-                _encounterCanvasGroup.alpha = 0;
-                gameOverPrefab = _encounterCanvas.transform.GetChild(0).gameObject;
-            } */
-            //gameOverPrefab = _encounterCanvas.transform.GetChild(0).gameObject;
             _audioSource = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
 
             gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
             if (gameOverPrefab != null)
             {
                 _gameOverCanvasGroup = gameOverPrefab.GetComponent<CanvasGroup>();
-                //_gameOverCanvasGroup.alpha = 0;
             }
 
             gameOverButtons[0] = gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
             gameOverButtons[1] = gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
             gameOverButtons[0].onClick.AddListener(() => StartEncounter());
             gameOverButtons[1].onClick.AddListener(() => SceneManager.LoadScene("Main Menu"));
-
-            Debug.Log("finding player");
-            _player = GameObject.FindGameObjectWithTag("Player");
-            pcontroller = _player.GetComponent<PlayerController>();
-            _playerData = _player.GetComponent<PlayerData>();
 
             StartEncounter();
         }
@@ -104,6 +98,8 @@ public class EncounterManager : MonoBehaviour
 
     public void EncounterInit(Enemy enemy)
     {
+        pcontroller.interact.Disable();
+
         GameManager.instance.gameData.lastEnemyEncountered = enemy.Id;
         eAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;

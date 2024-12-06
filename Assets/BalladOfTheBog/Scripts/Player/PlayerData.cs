@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
@@ -12,6 +11,7 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     // audio
     private AudioSource _audioSource;
     public AudioClip DamageSound;
+    public AudioClip DeathSound;
 
     // animation
     public Animator animator;
@@ -31,7 +31,6 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     // health
     private int _maxHealth = 3;
     private int _currentHealth;
-    private GameObject _healthCanvas;
     private GameObject _healthBar;
     private GameObject[] _hearts = new GameObject[4];
     private Image[] _heartRenderers = new Image[4];
@@ -104,21 +103,23 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             return;
         }
 
-        if (DamageSound != null)
+        /* if (DamageSound != null)
         {
             _audioSource.PlayOneShot(DamageSound);
-        }
+        } */
 
         int healthBeforeDamage = _currentHealth;
         canTakeDamage = false;
 
-        if (_currentHealth < projectile.damage)
+        if (_currentHealth <= projectile.damage)
         {
             _currentHealth = 0;
+            _audioSource.PlayOneShot(DeathSound);
         }
         else
         {
             _currentHealth -= projectile.damage;
+            _audioSource.PlayOneShot(DamageSound);
         }
         Debug.Log(_currentHealth);
 

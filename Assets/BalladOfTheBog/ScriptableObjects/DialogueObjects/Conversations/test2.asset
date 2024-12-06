@@ -12,9 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
   m_Name: test2
   m_EditorClassIdentifier: 
-  speaker_name: Bob
+  speaker_name: Bob & Alice
   paragraphs:
-  - hello
-  - hi
-  - what's up
-  - my name is Bob
+  - Who are you?
+  - '*sniff'
+  - You smell bad
+  - Get away from us!!!
+  choices: []

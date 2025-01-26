@@ -44,8 +44,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ca79154e59a4a7340a6f3b185636d859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _fileName: savedata.json
   gameData:
-    playerPosition: {x: 0, y: 0, z: 0}
-    playerRotation: {x: 0, y: 0}
+    lastScene: 
+    playerPos:
+    - 0
+    - 0
+    - 0
+    playerRot:
+    - 0
+    - 0
     coinCount: 0
     lastEnemyEncountered: 

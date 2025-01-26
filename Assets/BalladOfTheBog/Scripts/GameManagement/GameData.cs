@@ -5,27 +5,46 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    // Scene Management
+    public string lastScene;
+
     // Player Data
-    public Vector3 playerPosition;
-    public Vector2 playerRotation;
+    //public Vector3 playerPosition;
+    public float[] playerPos = new float[3];
+    //public Vector2 playerRotation;
+    public float[] playerRot = new float[2];
     public int coinCount;
 
-    // Enemies
+    // Enemies and Encounters
     public Dictionary<string, bool> enemiesEncountered;
-    public string lastEnemyEncountered;
+    public string lastEnemyEncountered; // id of last enemy encountered
 
     // Collectibles
     public Dictionary<string, bool> coinsCollected;
     
     public GameData()
     {
-        playerPosition = new Vector3(0, 0, 0);
-        playerRotation = Vector2.zero;
+        // Scene Management
+        lastScene = null;
+
+        // Player Data
+        //playerPosition = new Vector3(0, 0, 0);
+        for (int i = 0; i < 3; i++)
+        {
+            playerPos[i] = 0.0f;
+        }
+        //playerRotation = Vector2.zero;
+        for (int i = 0; i < 2; i++)
+        {
+            playerRot[i] = 0.0f;
+        }
         this.coinCount = 0;
 
+        // Enemies and Encounters
         enemiesEncountered = new Dictionary<string, bool>();
         lastEnemyEncountered = null;
 
+        // Collectibles
         coinsCollected = new Dictionary<string, bool>();
     }
 }

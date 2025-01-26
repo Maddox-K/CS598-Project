@@ -6,13 +6,15 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
-
-    public static GameManager instance { get; private set; }
-    public GameData gameData;
+    // data handling, save and load
+    [Header("File Storage Config")]
+    [SerializeField] private string _fileName;
+    private FileDataHandler _dataHandler;
     private List<I_DataPersistence> dataPersistenceObjects;
+    public GameData gameData;
 
-    // Scene Management
-    public string lastScene;
+    // singleton class pattern
+    public static GameManager instance { get; private set; }
 
     private void OnEnable()
     {
@@ -26,6 +28,7 @@ public class GameManager : MonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        this._dataHandler = new FileDataHandler(Application.persistentDataPath, _fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
 
         if (scene.name != "BattleTest")
@@ -49,29 +52,33 @@ public class GameManager : MonoBehaviour
         {
             gameData = new GameData();
         }
-        Debug.Log(gameData.playerPosition);
+        //Debug.Log(gameData.playerPosition);
         //Debug.Log(gameData.encounterHappened);
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        //this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        //LoadGame();
     }
 
-    /* public void NewGame()
+    public void NewGame()
     {
         this.gameData = new GameData();
-    } */
+    }
 
     public void LoadGame()
     {
         Debug.Log("loading data");
-        /* if (gameData == null)
+        this.gameData = _dataHandler.Load();
+        if (gameData == null)
         {
+            Debug.Log("Initializing data to defaults");
             NewGame();
-        } */
-        //this.dataPersistenceObjects = FindAllDataPersistenceObjects();
+        }
+
+        // push loaded to data to scripts in current scene that need it
         foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             if (dataPersistenceObj != null)
@@ -85,12 +92,19 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("saving data");
 
-        lastScene = SceneManager.GetActiveScene().name;
+        gameData.lastScene = SceneManager.GetActiveScene().name;
 
         foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(gameData);
         }
+
+        _dataHandler.Save(gameData);
+    }
+
+    private void OnApplicationQuit()
+    {
+        SaveGame();
     }
 
     private List<I_DataPersistence> FindAllDataPersistenceObjects()

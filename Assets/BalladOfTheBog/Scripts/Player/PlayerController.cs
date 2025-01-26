@@ -221,13 +221,32 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
     public void LoadData(GameData data)
     {
-        transform.position = data.playerPosition;
-        lookDirection = data.playerRotation;
+        //transform.position = data.playerPosition;
+        Vector3 temp = new Vector3();
+        for (int i = 0; i < 3; i++)
+        {
+            temp[i] = data.playerPos[i];
+        }
+        transform.position = temp;
+
+        //lookDirection = data.playerRotation;
+        for (int i = 0; i < 2; i++)
+        {
+            temp[i] = data.playerRot[i];
+        }
+        lookDirection = temp;
     }
 
     public void SaveData(GameData data)
     {
-        data.playerPosition = transform.position;
-        data.playerRotation = lookDirection;
+        //data.playerPosition = transform.position;
+        Vector3 currPos = transform.position;
+        data.playerPos[0] = currPos.x;
+        data.playerPos[1] = currPos.y;
+        data.playerPos[2] = currPos.z;
+
+        //data.playerRotation = lookDirection;
+        data.playerRot[0] = lookDirection.x;
+        data.playerRot[1] = lookDirection.y;
     }
 }

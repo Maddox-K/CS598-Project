@@ -52,6 +52,18 @@ public class PauseMenuController : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         _currentSceneName = scene.name;
+        if (scene.name == "BattleTest")
+        {
+            Image saveButtonImage = saveButton.GetComponent<Image>();
+            Color newColor = saveButtonImage.color;
+            newColor.a = 0.5f;
+            saveButtonImage.color = newColor;
+
+            Image exitSaveButtonImage = mainMenuButton.GetComponent<Image>();
+            newColor = exitSaveButtonImage.color;
+            newColor.a = 0.5f;
+            exitSaveButtonImage.color = newColor;
+        }
     }
 
     void Start()
@@ -61,8 +73,11 @@ public class PauseMenuController : MonoBehaviour
         playButton.onClick.AddListener(ClosePauseMenu);
         settingsButton.onClick.AddListener(OpenSettingsMenu);
         returnToPause.onClick.AddListener(CloseSettingsMenu);
-        saveButton.onClick.AddListener(PauseManuSave);
-        mainMenuButton.onClick.AddListener(ReturnToMainMenuAndSave);
+        if (_currentSceneName != "BattleTest")
+        {
+            saveButton.onClick.AddListener(PauseManuSave);
+            mainMenuButton.onClick.AddListener(ReturnToMainMenuAndSave);
+        }
         mainMenuNoSave.onClick.AddListener(ReturnToMainMenu);
     }
 

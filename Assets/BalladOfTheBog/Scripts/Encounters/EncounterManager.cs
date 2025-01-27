@@ -53,7 +53,7 @@ public class EncounterManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        Debug.Log("finding player");
+        //Debug.Log("finding player");
         _player = GameObject.FindGameObjectWithTag("Player");
         if (_player != null)
         {
@@ -103,11 +103,16 @@ public class EncounterManager : MonoBehaviour
         GameManager.instance.gameData.lastEnemyEncountered = enemy.Id;
         eAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;
-        GameManager.instance.SaveGame();
+        if (GameManager.instance.gameData.autoSave)
+        {
+            GameManager.instance.SaveGame(false);
+        }
+        else
+        {
+            GameManager.instance.SaveGame();
+        }
 
         StartCoroutine(EncounterTransition());
-        
-        //SceneManager.LoadScene("BattleTest");
     }
 
     private IEnumerator EncounterTransition()

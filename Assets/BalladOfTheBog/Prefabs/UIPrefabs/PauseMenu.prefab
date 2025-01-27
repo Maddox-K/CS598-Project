@@ -783,7 +783,7 @@ MonoBehaviour:
   settingsButton: {fileID: 2457097420955582268}
   saveButton: {fileID: 7687869083631388049}
   mainMenuButton: {fileID: 6574675688418411340}
-  mainMenuNoSave: {fileID: 0}
+  mainMenuNoSave: {fileID: 3625926290197627256}
   SettingsMenu: {fileID: 316630821734747651}
   returnToPause: {fileID: 5199819899054161477}
   escape:
@@ -796,7 +796,7 @@ MonoBehaviour:
     m_SingletonActionBindings: []
     m_Flags: 0
   navigate:
-    m_Name: 
+    m_Name: Navigate
     m_Type: 0
     m_ExpectedControlType: 
     m_Id: ac1be47d-f95f-48a1-9b9f-b1f8f881d3a9

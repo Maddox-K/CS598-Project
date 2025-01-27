@@ -5,13 +5,14 @@ using UnityEngine;
 [System.Serializable]
 public class GameData
 {
+    // General Game Data
+    public bool autoSave;
+
     // Scene Management
     public string lastScene;
 
     // Player Data
-    //public Vector3 playerPosition;
     public float[] playerPos = new float[3];
-    //public Vector2 playerRotation;
     public float[] playerRot = new float[2];
     public int coinCount;
 
@@ -24,6 +25,9 @@ public class GameData
     
     public GameData()
     {
+        // General Game Data
+        autoSave = true;
+
         // Scene Management
         lastScene = null;
 

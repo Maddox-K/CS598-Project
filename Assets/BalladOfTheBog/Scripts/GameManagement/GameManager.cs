@@ -28,10 +28,19 @@ public class GameManager : MonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (scene.name == "BattleTest")
+        {
+            return;
+        }
+
         this._dataHandler = new FileDataHandler(Application.persistentDataPath, _fileName);
         this.dataPersistenceObjects = FindAllDataPersistenceObjects();
 
-        if (scene.name != "BattleTest")
+        if (scene.name == "Main Menu")
+        {
+            LoadGame(false);
+        }
+        else
         {
             LoadGame();
         }
@@ -52,8 +61,6 @@ public class GameManager : MonoBehaviour
         {
             gameData = new GameData();
         }
-        //Debug.Log(gameData.playerPosition);
-        //Debug.Log(gameData.encounterHappened);
     }
 
     // Start is called before the first frame update
@@ -68,17 +75,24 @@ public class GameManager : MonoBehaviour
         this.gameData = new GameData();
     }
 
-    public void LoadGame()
+    // optional bool determines if the loading is "temporary" or not
+    // temp load means that the game is loading data from the current state of gameData as opposed to gameData recorded in disk
+    // used for things like scene transitions when autosave is turned off
+    public void LoadGame(bool isTemp = true)
     {
         Debug.Log("loading data");
-        this.gameData = _dataHandler.Load();
+        if (isTemp == false)
+        {
+            this.gameData = _dataHandler.Load();
+        }
+
         if (gameData == null)
         {
             Debug.Log("Initializing data to defaults");
             NewGame();
         }
 
-        // push loaded to data to scripts in current scene that need it
+        // push loaded data to scripts in current scene that need it
         foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             if (dataPersistenceObj != null)
@@ -88,7 +102,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void SaveGame()
+    // isTemp performs the same function as in LoadGame()
+    // temp save is one that overwrites gameData object but does not overwrite gameData save file stored on disk
+    public void SaveGame(bool isTemp = true)
     {
         Debug.Log("saving data");
 
@@ -99,13 +115,16 @@ public class GameManager : MonoBehaviour
             dataPersistenceObj.SaveData(gameData);
         }
 
-        _dataHandler.Save(gameData);
+        if (isTemp == false)
+        {
+            _dataHandler.Save(gameData);
+        }
     }
 
-    private void OnApplicationQuit()
+    /* private void OnApplicationQuit()
     {
         SaveGame();
-    }
+    } */
 
     private List<I_DataPersistence> FindAllDataPersistenceObjects()
     {

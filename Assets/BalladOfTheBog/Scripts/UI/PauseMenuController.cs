@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
 
 public class PauseMenuController : MonoBehaviour
 {
@@ -12,6 +11,7 @@ public class PauseMenuController : MonoBehaviour
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainMenuButton;
+    [SerializeField] private Button mainMenuNoSave;
 
     [SerializeField] private GameObject SettingsMenu;
 
@@ -61,8 +61,9 @@ public class PauseMenuController : MonoBehaviour
         playButton.onClick.AddListener(ClosePauseMenu);
         settingsButton.onClick.AddListener(OpenSettingsMenu);
         returnToPause.onClick.AddListener(CloseSettingsMenu);
-        //saveButton.onClick.AddListener();
-        mainMenuButton.onClick.AddListener(ReturnToMainMenu);
+        saveButton.onClick.AddListener(PauseManuSave);
+        mainMenuButton.onClick.AddListener(ReturnToMainMenuAndSave);
+        mainMenuNoSave.onClick.AddListener(ReturnToMainMenu);
     }
 
     void Update()
@@ -103,9 +104,10 @@ public class PauseMenuController : MonoBehaviour
         GameManager.instance.Unpause();
     }
 
-    private void SaveGame()
+    private void PauseManuSave()
     {
-
+        Debug.Log("Pause Menu Save called");
+        GameManager.instance.SaveGame(false);
     }
 
     private void OpenSettingsMenu()
@@ -120,7 +122,7 @@ public class PauseMenuController : MonoBehaviour
         SettingsMenu.SetActive(false);
     }
 
-    private void ReturnToMainMenu()
+    private void ReturnToMainMenuAndSave()
     {
         Time.timeScale = 1;
         if (_currentSceneName == "BattleTest")
@@ -130,12 +132,22 @@ public class PauseMenuController : MonoBehaviour
         }
         else
         {
-            GameManager.instance.SaveGame();
+            GameManager.instance.SaveGame(false);
         }
         SceneManager.LoadScene("Main Menu");
         //ceneManager.LoadScene(""); This will need to vary since we can be in different scenes. So we mus detetct where we are
         //SceneManager.UnloadSceneAsync("Scene1");
     }
 
-
+    private void ReturnToMainMenu()
+    {
+        Debug.Log("Return to Main Menu called");
+        Time.timeScale = 1;
+        if (_currentSceneName == "BattleTest")
+        {
+            EncounterManager.instance.StopAllCoroutines();
+            EncounterManager.instance.SetBattleEnd();
+        }
+        SceneManager.LoadScene("Main Menu");
+    }
 }

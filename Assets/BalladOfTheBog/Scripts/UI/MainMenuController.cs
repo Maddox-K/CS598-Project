@@ -61,7 +61,7 @@ public class MainMenuController : MonoBehaviour
         if (!showSavesMenu)
         {
             savesMenu.gameObject.SetActive(true);
-            mainMenu.gameObject.SetActive(false);
+            //mainMenu.gameObject.SetActive(false);
         }
     }
 

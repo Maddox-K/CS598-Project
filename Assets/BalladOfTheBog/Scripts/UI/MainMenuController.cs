@@ -1,68 +1,56 @@
-
 using UnityEngine;
-using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class MainMenuController : MonoBehaviour
 {
-    [SerializeField] private Button startButton;
+    // Main Menu Buttons
+    [SerializeField] private Button continueButton;
     [SerializeField] private Button savesButton;
-    [SerializeField] private Button settigsButton;
+    [SerializeField] private Button newgameButton;
+    [SerializeField] private Button settingsButton;
     [SerializeField] private Button quitButton;
 
+    // Canvases for each sub-menu
     [SerializeField] private Canvas mainMenu;
     [SerializeField] private Canvas settingsMenu;
     [SerializeField] private Canvas savesMenu;
 
-    private UnityAction OpenSettingsMenu;
-
-    private void Awake()
-    {
-        
-    }
     void Start()
     {
-        startButton.onClick.AddListener(LoadGameScene);
-        settigsButton.onClick.AddListener(SwitchToSettingsMenu);
+        continueButton.onClick.AddListener(ContinueGameClicked);
         savesButton.onClick.AddListener(SwitchToSavesMenu);
-        quitButton.onClick.AddListener(() =>
-        {
-            Application.Quit();
-        });
-        
+        newgameButton.onClick.AddListener(NewGameClicked);
+        settingsButton.onClick.AddListener(SwitchToSettingsMenu);
+        quitButton.onClick.AddListener(() => Application.Quit());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void ContinueGameClicked()
     {
-        
+        continueButton.interactable = false;
+        savesButton.interactable = false;
+        newgameButton.interactable = false;
+        settingsButton.interactable = false;
+        quitButton.interactable = false;
+
+        SceneManager.LoadScene(GameManager.instance.gameData.lastScene);
     }
 
-    private void LoadGameScene()
-    {
-        SceneManager.LoadScene("Scene1");
-        //SceneManager.UnloadSceneAsync("Main Menu");
-    }
-
-    bool showSettingsMenu;
-    private void SwitchToSettingsMenu()
-    {
-        if(!showSettingsMenu)
-        {
-            settingsMenu.gameObject.SetActive(true);
-            mainMenu.gameObject.SetActive(false);
-        }
-    }
-
-    bool showSavesMenu;
     private void SwitchToSavesMenu()
     {
-        if (!showSavesMenu)
-        {
-            savesMenu.gameObject.SetActive(true);
-            //mainMenu.gameObject.SetActive(false);
-        }
+        savesMenu.gameObject.SetActive(true);
+        mainMenu.gameObject.SetActive(false);
     }
 
+    private void NewGameClicked()
+    {
+        savesMenu.gameObject.SetActive(true);
+        mainMenu.gameObject.SetActive(false);
+    }
+
+    private void SwitchToSettingsMenu()
+    {
+        settingsMenu.gameObject.SetActive(true);
+        mainMenu.gameObject.SetActive(false);
+    }
 }

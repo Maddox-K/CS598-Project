@@ -1,10 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class SavesMenuController : MonoBehaviour
 {
+    // Other Menus
     [SerializeField] private Canvas mainMenu;
     [SerializeField] private Canvas savesMenu;
 
@@ -16,19 +15,9 @@ public class SavesMenuController : MonoBehaviour
         returnToMainMenu.onClick.AddListener(SwitchToMainMenu);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    bool showMainMenu;
     private void SwitchToMainMenu()
     {
-        if (!showMainMenu)
-        {
-            savesMenu.gameObject.SetActive(false);
-            mainMenu.gameObject.SetActive(true);
-        }
+        savesMenu.gameObject.SetActive(false);
+        mainMenu.gameObject.SetActive(true);
     }
 }

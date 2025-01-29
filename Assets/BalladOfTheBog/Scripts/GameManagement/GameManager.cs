@@ -12,6 +12,7 @@ public class GameManager : MonoBehaviour
     private FileDataHandler _dataHandler;
     private List<I_DataPersistence> dataPersistenceObjects;
     public GameData gameData;
+    private string _selectedProfileId = "";
 
     // singleton class pattern
     public static GameManager instance { get; private set; }
@@ -70,6 +71,13 @@ public class GameManager : MonoBehaviour
         //LoadGame();
     }
 
+    public void ChangeSelectedProfileId(string newProfileId)
+    {
+        this._selectedProfileId = newProfileId;
+
+        LoadGame(false);
+    }
+
     public void NewGame()
     {
         this.gameData = new GameData();
@@ -83,7 +91,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("loading data");
         if (isTemp == false)
         {
-            this.gameData = _dataHandler.Load();
+            this.gameData = _dataHandler.Load(_selectedProfileId);
         }
 
         if (gameData == null)
@@ -117,20 +125,25 @@ public class GameManager : MonoBehaviour
 
         if (isTemp == false)
         {
-            _dataHandler.Save(gameData);
+            _dataHandler.Save(gameData, _selectedProfileId);
         }
     }
-
-    /* private void OnApplicationQuit()
-    {
-        SaveGame();
-    } */
 
     private List<I_DataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<I_DataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<I_DataPersistence>();
 
         return new List<I_DataPersistence>(dataPersistenceObjects);
+    }
+
+    public Dictionary<string, GameData> GetAllProfilesGameData()
+    {
+        return _dataHandler.LoadAllProfiles();
+    }
+
+    public bool HasGameData()
+    {
+        return gameData != null;
     }
 
     public void Pause()

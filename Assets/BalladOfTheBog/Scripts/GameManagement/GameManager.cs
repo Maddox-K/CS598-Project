@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -13,6 +14,9 @@ public class GameManager : MonoBehaviour
     private List<I_DataPersistence> dataPersistenceObjects;
     public GameData gameData;
     private string _selectedProfileId = "";
+
+    // main menu stuff
+    private GameObject _mainMenu;
 
     // singleton class pattern
     public static GameManager instance { get; private set; }
@@ -39,7 +43,24 @@ public class GameManager : MonoBehaviour
 
         if (scene.name == "Main Menu")
         {
-            LoadGame(false);
+            _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
+
+            // case that no save data was found
+            if (_selectedProfileId == null)
+            {
+                _mainMenu = GameObject.FindGameObjectWithTag("Main Menu");
+                Button[] mainMenuButtons = _mainMenu.gameObject.GetComponentsInChildren<Button>();
+                for (int i = 0; i < 2; i++)
+                {
+                    mainMenuButtons[i].interactable = false;
+                }
+                mainMenuButtons[2].Select();
+            }
+            // case that save data was found
+            else
+            {
+                LoadGame(false);
+            }
         }
         else
         {
@@ -58,10 +79,10 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this.gameObject);
 
-        if (gameData == null)
+        /* if (gameData == null)
         {
             gameData = new GameData();
-        }
+        } */
     }
 
     // Start is called before the first frame update
@@ -125,6 +146,7 @@ public class GameManager : MonoBehaviour
 
         if (isTemp == false)
         {
+            gameData.lastUpdated = System.DateTime.Now.ToBinary();
             _dataHandler.Save(gameData, _selectedProfileId);
         }
     }

@@ -13,6 +13,7 @@ TagManager:
   - Star
   - Music
   - Transition
+  - Main Menu
   layers:
   - Default
   - TransparentFX

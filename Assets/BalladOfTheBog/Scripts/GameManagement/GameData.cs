@@ -7,6 +7,7 @@ public class GameData
 {
     // General Game Data
     public bool autoSave;
+    public long lastUpdated;
 
     // Scene Management
     public string lastScene;

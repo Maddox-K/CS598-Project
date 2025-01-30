@@ -17,6 +17,11 @@ public class FileDataHandler
 
     public GameData Load(string profileId)
     {
+        if (profileId == null)
+        {
+            return null;
+        }
+
         string fullPath = Path.Combine(_dataDirectoryPath, profileId, _dataFileName);
         GameData loadedData = null;
         if (File.Exists(fullPath))
@@ -46,6 +51,11 @@ public class FileDataHandler
 
     public void Save(GameData data, string profileId)
     {
+        if (profileId == null)
+        {
+            return;
+        }
+
         string fullPath = Path.Combine(_dataDirectoryPath, profileId, _dataFileName);
         try
         {
@@ -101,5 +111,42 @@ public class FileDataHandler
         }
 
         return profileDictionary;
+    }
+
+    public string GetMostRecentlyUpdatedProfileId()
+    {
+        string mostRecentProfileId = null;
+
+        Dictionary<string, GameData> profilesGameData = LoadAllProfiles();
+
+        foreach (KeyValuePair<string, GameData> pair in profilesGameData)
+        {
+            string profileId = pair.Key;
+            GameData gameData = pair.Value;
+
+            if (gameData == null)
+            {
+                continue;
+            }
+
+            // this is the most recent valid data so far
+            if (mostRecentProfileId == null)
+            {
+                mostRecentProfileId = profileId;
+            }
+            else
+            {
+                DateTime mostRecentDateTime = DateTime.FromBinary(profilesGameData[mostRecentProfileId].lastUpdated);
+                DateTime newDateTime = DateTime.FromBinary(gameData.lastUpdated);
+
+                if (newDateTime > mostRecentDateTime)
+                {
+                    mostRecentProfileId = profileId;
+                }
+            }
+        }
+        
+        Debug.Log(mostRecentProfileId);
+        return mostRecentProfileId;
     }
 }

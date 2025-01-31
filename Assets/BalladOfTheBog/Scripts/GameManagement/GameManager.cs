@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -78,18 +77,12 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(this.gameObject);
-
-        /* if (gameData == null)
-        {
-            gameData = new GameData();
-        } */
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        //this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-        //LoadGame();
+        
     }
 
     public void ChangeSelectedProfileId(string newProfileId)
@@ -153,7 +146,7 @@ public class GameManager : MonoBehaviour
 
     private List<I_DataPersistence> FindAllDataPersistenceObjects()
     {
-        IEnumerable<I_DataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<I_DataPersistence>();
+        IEnumerable<I_DataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<I_DataPersistence>();
 
         return new List<I_DataPersistence>(dataPersistenceObjects);
     }

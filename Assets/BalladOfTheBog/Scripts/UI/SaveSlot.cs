@@ -10,6 +10,7 @@ public class SaveSlot : MonoBehaviour
     [SerializeField] private GameObject _noDataContent;
     [SerializeField] private GameObject _hasDataContent;
     [SerializeField] private TextMeshProUGUI _coinsCollectedText;
+    public bool hasData;
 
     [SerializeField] private SavesMenuController _savesController;
 
@@ -29,11 +30,13 @@ public class SaveSlot : MonoBehaviour
     {
         if (data == null)
         {
+            hasData = false;
             _noDataContent.SetActive(true);
             _hasDataContent.SetActive(false);
         }
         else
         {
+            hasData = true;
             _noDataContent.SetActive(false);
             _hasDataContent.SetActive(true);
 

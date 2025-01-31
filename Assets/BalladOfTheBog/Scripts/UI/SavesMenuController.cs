@@ -5,19 +5,28 @@ using UnityEngine.SceneManagement;
 
 public class SavesMenuController : MonoBehaviour
 {
+    // Menu Management
+    private bool isLoadingGame = false;
+
     // Save Slots
     private SaveSlot[] _saveSlots;
     private Button[] _saveSlotButtons;
-    private bool isLoadingGame = false;
+    private SaveSlot _pendingOverwrite;
 
     // Other Menus
     [SerializeField] private Canvas mainMenu;
     [SerializeField] private Canvas savesMenu;
+    [SerializeField] private Canvas confirmationMenu;
 
+    // Buttons
     [SerializeField] private Button returnToMainMenu;
+    [SerializeField] private Button cancelButton;
+    [SerializeField] private Button confirmButton;
 
     private void Awake()
     {
+        _pendingOverwrite = null;
+
         _saveSlots = savesMenu.GetComponentsInChildren<SaveSlot>();
 
         if (_saveSlots != null)
@@ -34,6 +43,8 @@ public class SavesMenuController : MonoBehaviour
     void Start()
     {
         returnToMainMenu.onClick.AddListener(SwitchToMainMenu);
+        cancelButton.onClick.AddListener(CancelNewGame);
+        confirmButton.onClick.AddListener(ConfirmNewGame);
     }
 
     public void OnSaveSlotClicked(SaveSlot saveSlot)
@@ -44,15 +55,38 @@ public class SavesMenuController : MonoBehaviour
         }
         returnToMainMenu.interactable = false;
 
-        GameManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
-
-        if (!isLoadingGame)
+        // loading a save file
+        if (isLoadingGame)
         {
-            GameManager.instance.NewGame();
+            GameManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
+            LoadGameScene();
         }
-        
-        SceneManager.LoadScene(GameManager.instance.gameData.lastScene);
+        // clicking new game on a save file with existing data
+        else if (saveSlot.hasData)
+        {
+            confirmationMenu.gameObject.SetActive(true);
+            savesMenu.gameObject.SetActive(false);
+            _pendingOverwrite = saveSlot;
+        }
+        // clicking new game on an empty save file
+        else
+        {
+            GameManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
+            GameManager.instance.NewGame();
+            LoadGameScene();
+        }
+    }
 
+    private void LoadGameScene()
+    {
+        SceneManager.LoadScene(GameManager.instance.gameData.lastScene);
+    }
+
+    public void ConfirmNewGame()
+    {
+        GameManager.instance.ChangeSelectedProfileId(_pendingOverwrite.GetProfileId());
+        GameManager.instance.NewGame();
+        LoadGameScene();
     }
 
     public void ActivateMenu(bool isLoadingGame)
@@ -96,5 +130,22 @@ public class SavesMenuController : MonoBehaviour
     {
         savesMenu.gameObject.SetActive(false);
         mainMenu.gameObject.SetActive(true);
+    }
+
+    private void CancelNewGame()
+    {
+        savesMenu.gameObject.SetActive(true);
+        foreach (SaveSlot save in _saveSlots)
+        {
+            save.SetInteractable(true);
+        }
+        returnToMainMenu.interactable = true;
+
+        if (_pendingOverwrite != null)
+        {
+            _pendingOverwrite = null;
+        }
+
+        confirmationMenu.gameObject.SetActive(false);
     }
 }

@@ -13,23 +13,11 @@ public class SaveSlot : MonoBehaviour
 
     [SerializeField] private SavesMenuController _savesController;
 
-    // navigation settings to be restored when necessary
-    [SerializeField] private Button _onUp;
-    [SerializeField] private Button _onRight;
-    [SerializeField] private Button _onLeft;
-    private Navigation _enabledNavigation;
-
     private Button _saveSlotButton;
 
     private void Awake()
     {
         _saveSlotButton = GetComponent<Button>();
-
-        _enabledNavigation = new Navigation();
-        _enabledNavigation.mode = Navigation.Mode.Explicit;
-        _enabledNavigation.selectOnUp = _onUp;
-        _enabledNavigation.selectOnRight = _onRight;
-        _enabledNavigation.selectOnLeft = _onLeft;
     }
 
     void Start()
@@ -55,22 +43,22 @@ public class SaveSlot : MonoBehaviour
 
     public string GetProfileId()
     {
-        return this._profileId;
+        return _profileId;
     }
 
     public void SetInteractable(bool interactable)
     {
         _saveSlotButton.interactable = interactable;
 
+        Navigation nav = new Navigation();
         if (!interactable)
         {
-            Navigation nav = new Navigation();
             nav.mode = Navigation.Mode.None;
-            _saveSlotButton.navigation = nav;
         }
         else
         {
-            _saveSlotButton.navigation = _enabledNavigation;
+            nav.mode = Navigation.Mode.Automatic;
         }
+        _saveSlotButton.navigation = nav;
     }
 }

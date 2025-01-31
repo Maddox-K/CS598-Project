@@ -26,15 +26,7 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
-        if (!GameManager.instance.HasGameData())
-        {
-            continueButton.interactable = false;
-        }
-        else
-        {
-            continueButton.onClick.AddListener(ContinueGameClicked);
-        }
-
+        continueButton.onClick.AddListener(ContinueGameClicked);
         savesButton.onClick.AddListener(SwitchToSavesMenu);
         newgameButton.onClick.AddListener(NewGameClicked);
         settingsButton.onClick.AddListener(SwitchToSettingsMenu);

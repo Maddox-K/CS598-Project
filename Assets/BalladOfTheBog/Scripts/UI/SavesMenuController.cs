@@ -7,6 +7,7 @@ public class SavesMenuController : MonoBehaviour
 {
     // Save Slots
     private SaveSlot[] _saveSlots;
+    private Button[] _saveSlotButtons;
     private bool isLoadingGame = false;
 
     // Other Menus
@@ -18,6 +19,15 @@ public class SavesMenuController : MonoBehaviour
     private void Awake()
     {
         _saveSlots = savesMenu.GetComponentsInChildren<SaveSlot>();
+
+        if (_saveSlots != null)
+        {
+            _saveSlotButtons = new Button[_saveSlots.Length];
+            for (int i = 0; i < _saveSlots.Length; i++)
+            {
+                _saveSlotButtons[i] = _saveSlots[i].GetComponent<Button>();
+            }
+        }
     }
 
     // Start is called before the first frame update
@@ -53,7 +63,7 @@ public class SavesMenuController : MonoBehaviour
 
         foreach (SaveSlot saveSlot in _saveSlots)
         {
-            GameData profileData = null;
+            GameData profileData;
             profilesGameData.TryGetValue(saveSlot.GetProfileId(), out profileData);
             saveSlot.SetData(profileData);
             if (profileData == null && isLoadingGame)
@@ -64,6 +74,21 @@ public class SavesMenuController : MonoBehaviour
             {
                 saveSlot.SetInteractable(true);
             }
+        }
+
+        Navigation nav = new Navigation();
+        nav.mode = Navigation.Mode.Explicit;
+        if (!_saveSlotButtons[0].interactable)
+        {
+            if (!_saveSlotButtons[1].interactable)
+            {
+                nav.selectOnDown = _saveSlotButtons[2];
+            }
+            else
+            {
+                nav.selectOnDown = _saveSlotButtons[1];
+            }
+            returnToMainMenu.navigation = nav;
         }
     }
 

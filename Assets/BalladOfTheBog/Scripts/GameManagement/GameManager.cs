@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,6 +13,10 @@ public class GameManager : MonoBehaviour
     private FileDataHandler _dataHandler;
     private List<I_DataPersistence> dataPersistenceObjects;
     public GameData gameData;
+    private string _selectedProfileId = "";
+
+    // main menu stuff
+    private GameObject _mainMenu;
 
     // singleton class pattern
     public static GameManager instance { get; private set; }
@@ -38,7 +43,24 @@ public class GameManager : MonoBehaviour
 
         if (scene.name == "Main Menu")
         {
-            LoadGame(false);
+            _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
+
+            // case that no save data was found
+            if (_selectedProfileId == null)
+            {
+                _mainMenu = GameObject.FindGameObjectWithTag("Main Menu");
+                Button[] mainMenuButtons = _mainMenu.gameObject.GetComponentsInChildren<Button>();
+                for (int i = 0; i < 2; i++)
+                {
+                    mainMenuButtons[i].interactable = false;
+                }
+                mainMenuButtons[2].Select();
+            }
+            // case that save data was found
+            else
+            {
+                LoadGame(false);
+            }
         }
         else
         {
@@ -57,10 +79,10 @@ public class GameManager : MonoBehaviour
         instance = this;
         DontDestroyOnLoad(this.gameObject);
 
-        if (gameData == null)
+        /* if (gameData == null)
         {
             gameData = new GameData();
-        }
+        } */
     }
 
     // Start is called before the first frame update
@@ -68,6 +90,13 @@ public class GameManager : MonoBehaviour
     {
         //this.dataPersistenceObjects = FindAllDataPersistenceObjects();
         //LoadGame();
+    }
+
+    public void ChangeSelectedProfileId(string newProfileId)
+    {
+        this._selectedProfileId = newProfileId;
+
+        LoadGame(false);
     }
 
     public void NewGame()
@@ -83,7 +112,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("loading data");
         if (isTemp == false)
         {
-            this.gameData = _dataHandler.Load();
+            this.gameData = _dataHandler.Load(_selectedProfileId);
         }
 
         if (gameData == null)
@@ -117,20 +146,26 @@ public class GameManager : MonoBehaviour
 
         if (isTemp == false)
         {
-            _dataHandler.Save(gameData);
+            gameData.lastUpdated = System.DateTime.Now.ToBinary();
+            _dataHandler.Save(gameData, _selectedProfileId);
         }
     }
-
-    /* private void OnApplicationQuit()
-    {
-        SaveGame();
-    } */
 
     private List<I_DataPersistence> FindAllDataPersistenceObjects()
     {
         IEnumerable<I_DataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>().OfType<I_DataPersistence>();
 
         return new List<I_DataPersistence>(dataPersistenceObjects);
+    }
+
+    public Dictionary<string, GameData> GetAllProfilesGameData()
+    {
+        return _dataHandler.LoadAllProfiles();
+    }
+
+    public bool HasGameData()
+    {
+        return gameData != null;
     }
 
     public void Pause()

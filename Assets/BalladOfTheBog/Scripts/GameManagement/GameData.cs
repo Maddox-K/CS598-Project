@@ -7,6 +7,7 @@ public class GameData
 {
     // General Game Data
     public bool autoSave;
+    public long lastUpdated;
 
     // Scene Management
     public string lastScene;
@@ -29,7 +30,7 @@ public class GameData
         autoSave = true;
 
         // Scene Management
-        lastScene = null;
+        lastScene = "Scene1";
 
         // Player Data
         //playerPosition = new Vector3(0, 0, 0);

@@ -13,8 +13,8 @@ public class GameData
     public string lastScene;
 
     // Player Data
-    public float[] playerPos = new float[3];
-    public float[] playerRot = new float[2];
+    public float[] playerPosition = new float[3];
+    public float[] playerRotation = new float[2];
     public int coinCount;
 
     // Enemies and Encounters
@@ -33,15 +33,13 @@ public class GameData
         lastScene = "Scene1";
 
         // Player Data
-        //playerPosition = new Vector3(0, 0, 0);
         for (int i = 0; i < 3; i++)
         {
-            playerPos[i] = 0.0f;
+            playerPosition[i] = 0.0f;
         }
-        //playerRotation = Vector2.zero;
         for (int i = 0; i < 2; i++)
         {
-            playerRot[i] = 0.0f;
+            playerRotation[i] = 0.0f;
         }
         this.coinCount = 0;
 

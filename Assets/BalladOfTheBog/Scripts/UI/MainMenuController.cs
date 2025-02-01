@@ -26,8 +26,17 @@ public class MainMenuController : MonoBehaviour
 
     void Start()
     {
-        continueButton.onClick.AddListener(ContinueGameClicked);
-        savesButton.onClick.AddListener(SwitchToSavesMenu);
+        if (GameManager.instance._selectedProfileId == null)
+        {
+            continueButton.interactable = false;
+            savesButton.interactable = false;
+        }
+        else
+        {
+            continueButton.onClick.AddListener(ContinueGameClicked);
+            savesButton.onClick.AddListener(SwitchToSavesMenu);
+        }
+        
         newgameButton.onClick.AddListener(NewGameClicked);
         settingsButton.onClick.AddListener(SwitchToSettingsMenu);
         quitButton.onClick.AddListener(() => Application.Quit());
@@ -52,7 +61,7 @@ public class MainMenuController : MonoBehaviour
             _savesController.ActivateMenu(true);
         }
 
-        mainMenu.gameObject.SetActive(false);
+        DeactivateMainMenu();
     }
 
     private void NewGameClicked()
@@ -63,12 +72,17 @@ public class MainMenuController : MonoBehaviour
             _savesController.ActivateMenu(false);
         }
         
-        mainMenu.gameObject.SetActive(false);
+        DeactivateMainMenu();
     }
 
     private void SwitchToSettingsMenu()
     {
         settingsMenu.gameObject.SetActive(true);
+        DeactivateMainMenu();
+    }
+
+    private void DeactivateMainMenu()
+    {
         mainMenu.gameObject.SetActive(false);
     }
 }

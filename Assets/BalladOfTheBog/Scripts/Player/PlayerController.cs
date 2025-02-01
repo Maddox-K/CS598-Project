@@ -225,14 +225,14 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         Vector3 temp = new Vector3();
         for (int i = 0; i < 3; i++)
         {
-            temp[i] = data.playerPos[i];
+            temp[i] = data.playerPosition[i];
         }
         transform.position = temp;
 
         //lookDirection = data.playerRotation;
         for (int i = 0; i < 2; i++)
         {
-            temp[i] = data.playerRot[i];
+            temp[i] = data.playerRotation[i];
         }
         lookDirection = temp;
     }
@@ -241,12 +241,12 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     {
         //data.playerPosition = transform.position;
         Vector3 currPos = transform.position;
-        data.playerPos[0] = currPos.x;
-        data.playerPos[1] = currPos.y;
-        data.playerPos[2] = currPos.z;
+        data.playerPosition[0] = currPos.x;
+        data.playerPosition[1] = currPos.y;
+        data.playerPosition[2] = currPos.z;
 
         //data.playerRotation = lookDirection;
-        data.playerRot[0] = lookDirection.x;
-        data.playerRot[1] = lookDirection.y;
+        data.playerRotation[0] = lookDirection.x;
+        data.playerRotation[1] = lookDirection.y;
     }
 }

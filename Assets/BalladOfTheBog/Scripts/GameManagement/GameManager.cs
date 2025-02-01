@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Linq;
-using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,14 +11,13 @@ public class GameManager : MonoBehaviour
     private FileDataHandler _dataHandler;
     private List<I_DataPersistence> dataPersistenceObjects;
     public GameData gameData;
-    private string _selectedProfileId = "";
-
-    // main menu stuff
-    private GameObject _mainMenu;
+    public string _selectedProfileId = "";
 
     // singleton class pattern
     public static GameManager instance { get; private set; }
 
+
+    // instance member functions
     private void OnEnable()
     {
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -28,43 +26,6 @@ public class GameManager : MonoBehaviour
     private void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
-    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        if (scene.name == "BattleTest")
-        {
-            return;
-        }
-
-        this._dataHandler = new FileDataHandler(Application.persistentDataPath, _fileName);
-        this.dataPersistenceObjects = FindAllDataPersistenceObjects();
-
-        if (scene.name == "Main Menu")
-        {
-            _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
-
-            // case that no save data was found
-            if (_selectedProfileId == null)
-            {
-                _mainMenu = GameObject.FindGameObjectWithTag("Main Menu");
-                Button[] mainMenuButtons = _mainMenu.gameObject.GetComponentsInChildren<Button>();
-                for (int i = 0; i < 2; i++)
-                {
-                    mainMenuButtons[i].interactable = false;
-                }
-                mainMenuButtons[2].Select();
-            }
-            // case that save data was found
-            else
-            {
-                LoadGame(false);
-            }
-        }
-        else
-        {
-            LoadGame();
-        }
     }
 
     private void Awake()
@@ -77,24 +38,46 @@ public class GameManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(this.gameObject);
+
+        _dataHandler = new FileDataHandler(Application.persistentDataPath, _fileName);
     }
 
-    // Start is called before the first frame update
-    void Start()
+    public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        
+        // Do not perform loading actions when going into an encounter
+        if (scene.name == "BattleTest")
+        {
+            return;
+        }
+
+        dataPersistenceObjects = FindAllDataPersistenceObjects();
+
+        if (scene.name == "Main Menu")
+        {
+            _selectedProfileId = _dataHandler.GetMostRecentlyUpdatedProfileId();
+
+            // case that save data was found
+            if (_selectedProfileId != null)
+            {
+                LoadGame(false);
+            }
+        }
+        else
+        {
+            LoadGame();
+        }
     }
 
     public void ChangeSelectedProfileId(string newProfileId)
     {
-        this._selectedProfileId = newProfileId;
+        _selectedProfileId = newProfileId;
 
         LoadGame(false);
     }
 
     public void NewGame()
     {
-        this.gameData = new GameData();
+        gameData = new GameData();
     }
 
     // optional bool determines if the loading is "temporary" or not
@@ -103,9 +86,9 @@ public class GameManager : MonoBehaviour
     public void LoadGame(bool isTemp = true)
     {
         Debug.Log("loading data");
-        if (isTemp == false)
+        if (!isTemp)
         {
-            this.gameData = _dataHandler.Load(_selectedProfileId);
+            gameData = _dataHandler.Load(_selectedProfileId);
         }
 
         if (gameData == null)
@@ -137,7 +120,7 @@ public class GameManager : MonoBehaviour
             dataPersistenceObj.SaveData(gameData);
         }
 
-        if (isTemp == false)
+        if (!isTemp)
         {
             gameData.lastUpdated = System.DateTime.Now.ToBinary();
             _dataHandler.Save(gameData, _selectedProfileId);

@@ -1400,7 +1400,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7847883674180878747}
-  - component: {fileID: 254496428901592680}
+  - component: {fileID: 2629736757807723288}
   m_Layer: 5
   m_Name: MainMenuButtonSet
   m_TagString: Untagged
@@ -1427,7 +1427,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &254496428901592680
+--- !u!114 &2629736757807723288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1436,10 +1436,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8027751951452417021}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a9a1c5eae3f0a4aaf519e3f3c6f72a, type: 3}
+  m_Script: {fileID: 11500000, guid: c330c22d66ee191428dd575f9d64fcb0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _firstSelected: {fileID: 8691297196280168615}
+  _overrideFirstSelected: {fileID: 4968699545042479355}
 --- !u!1 &8436924179391312259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1709,7 +1710,7 @@ GameObject:
   - component: {fileID: 8356441367472897748}
   m_Layer: 5
   m_Name: Main Menu
-  m_TagString: Untagged
+  m_TagString: Main Menu
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

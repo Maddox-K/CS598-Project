@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
 
 public class standard_NPC : NPC, I_Talkable
@@ -15,7 +12,6 @@ public class standard_NPC : NPC, I_Talkable
 
     public void Talk(Dialogue dialogue)
     {
-        Debug.Log("Interact");
         dialogueManager.DisplayNext(dialogue);
     }
 }

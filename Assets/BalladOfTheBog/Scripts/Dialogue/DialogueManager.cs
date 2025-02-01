@@ -2,34 +2,50 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Unity.Burst.CompilerServices;
 using UnityEngine.UI;
-using Unity.VisualScripting;
 
 public class DialogueManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI NPCNameText;
-    [SerializeField] private TextMeshProUGUI NPCDialogueText;
-    [SerializeField] private float typeSpeed = 10;
-    [SerializeField] private PlayerController pcontroller;
-    [SerializeField] private PauseMenuController pauseController;
-    [SerializeField] private Button[] choiceButtons;
-
+    // General dialogue variables
     public Queue<string> paragraphs = new Queue<string>();
     public bool conversationEnded;
-    public bool Conversating;
-    private bool isTyping;
-    private bool waitingForInput = false;
-    private string p;
+    private bool _isTyping;
+    private string _currentParagraph;
     private Coroutine typeDialogueCoroutine;
+    private const float maxTypeTime = 0.1f;
+    [SerializeField] private float _typeSpeed = 10;
 
-    private const float MAX_TYPE_TIME = 0.1f;
+    // references to other gameobjects necessary for dialogue to function
+    [SerializeField] private TextMeshProUGUI _NPCNameText;
+    [SerializeField] private TextMeshProUGUI _NPCDialogueText;
+
+    // external controllers
+    [SerializeField] private PlayerController _playercontroller;
+    [SerializeField] private PauseMenuController _pauseController;
+
+    // choice dialogue
+    [SerializeField] private Button[] choiceButtons;
+    private bool _waitingForInput = false;
+
+    // audio
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _dialogueTypeSound;
+    [SerializeField] private bool _stopAudioSource;
+    [SerializeField] private int _frequencyLevel;
+    [Range(-3, 3)]
+    [SerializeField] private float _minPitch = 0.8f;
+    [Range(-3, 3)]
+    [SerializeField] private float _maxPitch = 1.2f;
+
+    void Awake()
+    {
+        _audioSource = gameObject.AddComponent<AudioSource>();
+    }
 
     public void DisplayNext(Dialogue dialogue)
     {
-        //Debug.Log("Starting conversation with " + dialogue.name);
         // if nothing in the queue
-        if (waitingForInput == true)
+        if (_waitingForInput)
         {
             return;
         }
@@ -41,7 +57,7 @@ public class DialogueManager : MonoBehaviour
                 // start conversation
                 StartConversation(dialogue);
             }
-            else if (conversationEnded && !isTyping)
+            else if (conversationEnded && !_isTyping)
             {
                 // end conversation
                 EndConversation();
@@ -50,31 +66,24 @@ public class DialogueManager : MonoBehaviour
         }
 
         // if something in the queue
-        if (!isTyping)
+        if (!_isTyping)
         {
-            p = paragraphs.Dequeue();
-            if (p == "[choose]")
+            _currentParagraph = paragraphs.Dequeue();
+            if (_currentParagraph == "[choose]")
             {
                 MakeDialogueChoice(dialogue);
-                //p = paragraphs.Dequeue();
             }
             else
             {
-                Debug.Log(p);
-                typeDialogueCoroutine = StartCoroutine(TypeDialogueText(p));
+                typeDialogueCoroutine = StartCoroutine(TypeDialogueText(_currentParagraph));
             }
         }
-
         else
         {
             FinishParagraphEarly();
         }
-        //p = paragraphs.Dequeue();
 
-        //update ConversationText
-        //NPCDialogueText.text = p;
-
-        if (paragraphs.Count == 0 && waitingForInput == false)
+        if (paragraphs.Count == 0 && !_waitingForInput)
         {
             conversationEnded = true;
         }
@@ -82,9 +91,8 @@ public class DialogueManager : MonoBehaviour
 
     private void StartConversation(Dialogue dialogue)
     {
-        pcontroller.move.Disable();
-        pauseController.escape.Disable();
-        //Conversating = true;
+        _playercontroller.move.Disable();
+        _pauseController.escape.Disable();
 
         foreach (Button button in choiceButtons)
         {
@@ -96,7 +104,7 @@ public class DialogueManager : MonoBehaviour
             gameObject.SetActive(true);
         }
 
-        NPCNameText.text = dialogue.speaker_name;
+        _NPCNameText.text = dialogue.speaker_name;
 
         for (int i = 0; i < dialogue.paragraphs.Length; i++)
         {
@@ -106,9 +114,8 @@ public class DialogueManager : MonoBehaviour
 
     private void EndConversation()
     {
-        pcontroller.move.Enable();
-        pauseController.escape.Enable();
-        //Conversating = false;
+        _playercontroller.move.Enable();
+        _pauseController.escape.Enable();
 
         paragraphs.Clear();
 
@@ -122,46 +129,60 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeDialogueText(string p)
     {
-        if (pcontroller.interact.enabled == false)
+        if (_playercontroller.interact.enabled == false)
         {
-            pcontroller.interact.Enable();
+            _playercontroller.interact.Enable();
         }
 
-        isTyping = true;
+        _isTyping = true;
 
         int maxVisibleChars = 0;
 
-        NPCDialogueText.text = p;
-        NPCDialogueText.maxVisibleCharacters = maxVisibleChars;
+        _NPCDialogueText.text = p;
+        _NPCDialogueText.maxVisibleCharacters = maxVisibleChars;
 
         foreach(char c in p.ToCharArray())
         {
+            PlayDialogueSound(_NPCDialogueText.maxVisibleCharacters);
+
             maxVisibleChars++;
+            _NPCDialogueText.maxVisibleCharacters = maxVisibleChars;
 
-            NPCDialogueText.maxVisibleCharacters = maxVisibleChars;
-
-            yield return new WaitForSeconds(MAX_TYPE_TIME / typeSpeed);
+            yield return new WaitForSeconds(maxTypeTime / _typeSpeed);
         }
 
-        isTyping = false;
+        _isTyping = false;
+    }
+
+    private void PlayDialogueSound(int currentDisplayedCharCount)
+    {
+        if (currentDisplayedCharCount % _frequencyLevel == 0)
+        {
+            if (_stopAudioSource)
+            {
+                _audioSource.Stop();
+            }
+            _audioSource.pitch = Random.Range(_minPitch, _maxPitch);
+            _audioSource.PlayOneShot(_dialogueTypeSound);
+        }
     }
 
     private void FinishParagraphEarly()
     {
         StopCoroutine(typeDialogueCoroutine);
 
-        NPCDialogueText.maxVisibleCharacters = p.Length;
+        _NPCDialogueText.maxVisibleCharacters = _currentParagraph.Length;
 
-        isTyping = false;
+        _isTyping = false;
     }
 
     private void MakeDialogueChoice(Dialogue dialogue)
     {
-        pcontroller.interact.Disable();
+        _playercontroller.interact.Disable();
 
         if (dialogue.choices != null && dialogue.choices.Length > 0)
         {
-            waitingForInput = true;
+            _waitingForInput = true;
 
             for (int i = 0; i < dialogue.choices.Length; i++)
             {
@@ -181,17 +202,12 @@ public class DialogueManager : MonoBehaviour
         Dialogue nextDialogue = dialogue.choices[choiceIndex].nextDialogue;
         paragraphs.Clear();
 
-        /* for (int i = 0; i < nextDialogue.paragraphs.Length; i++)
-        {
-            paragraphs.Enqueue(nextDialogue.paragraphs[i]);
-        } */
-
         foreach (Button button in choiceButtons)
         {
             button.gameObject.SetActive(false);
         }
 
-        waitingForInput = false;
+        _waitingForInput = false;
 
         DisplayNext(nextDialogue);
     }

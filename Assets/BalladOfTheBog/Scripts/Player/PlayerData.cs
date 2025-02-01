@@ -25,10 +25,10 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
     public int currency_count;
     private GameObject currencyGUI;
     private TextMeshProUGUI _currencyGUIText;
-    public bool canTakeDamage = true;
     private const float cooldownTime = 1.25f;
 
-    // health
+    // health and taking damage
+    public bool canTakeDamage = true;
     private int _maxHealth = 3;
     private int _currentHealth;
     private GameObject _healthBar;
@@ -45,6 +45,11 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         if (SceneManager.GetActiveScene().name != "BattleTest")
         {
             currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI");
+            if (currencyGUI != null)
+            {
+                _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                _currencyGUIText.text = currency_count.ToString();
+            }
         }
         else
         {
@@ -58,16 +63,6 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
                 }
             }
         }
-        /* if (currencyGUI != null)
-        {
-            _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-            _currencyGUIText.text = currency_count.ToString();
-        } */
-    }
-
-    private void OnEnable()
-    {
-        //SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     void Start()
@@ -85,11 +80,6 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         }
     }
 
-    private void OnDisable()
-    {
-        //SceneManager.sceneLoaded -= OnSceneLoaded;
-    }
-
     public void IncrementCurrency()
     {
         currency_count++;
@@ -102,11 +92,6 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
         {
             return;
         }
-
-        /* if (DamageSound != null)
-        {
-            _audioSource.PlayOneShot(DamageSound);
-        } */
 
         int healthBeforeDamage = _currentHealth;
         canTakeDamage = false;
@@ -138,23 +123,12 @@ public class PlayerData : MonoBehaviour, I_DataPersistence
             pcontroller.move.Disable();
             pcontroller.dash.Disable();
             animator.SetTrigger("DeathTrigger");
-            //StartCoroutine(AnimateDeath());
-            //animator.SetTrigger("DeathTrigger");
             EncounterManager.instance.GameOver();
         }
         else
         {
             StartCoroutine(DamageCoolDown());
         }
-    }
-
-    IEnumerator AnimateDeath()
-    {
-        animator.SetTrigger("DeathTrigger");
-
-        yield return new WaitForSeconds(1.1f);
-
-        EncounterManager.instance.GameOver();
     }
 
     IEnumerator DamageCoolDown()

@@ -5,6 +5,10 @@ using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
+    // debugging
+    [Header("Debugging")]
+    [SerializeField] public bool savingLoadingEnabled = true;
+
     // data handling, save and load
     [Header("File Storage Config")]
     [SerializeField] private string _fileName;
@@ -85,6 +89,11 @@ public class GameManager : MonoBehaviour
     // used for things like scene transitions when autosave is turned off
     public void LoadGame(bool isTemp = true)
     {
+        if (!savingLoadingEnabled)
+        {
+            return;
+        }
+
         Debug.Log("loading data");
         if (!isTemp)
         {
@@ -111,8 +120,12 @@ public class GameManager : MonoBehaviour
     // temp save is one that overwrites gameData object but does not overwrite gameData save file stored on disk
     public void SaveGame(bool isTemp = true)
     {
-        Debug.Log("saving data");
+        if (!savingLoadingEnabled)
+        {
+            return;
+        }
 
+        Debug.Log("saving data");
         gameData.lastScene = SceneManager.GetActiveScene().name;
 
         foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)

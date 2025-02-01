@@ -23,17 +23,14 @@ public class PauseMenuController : MonoBehaviour
     public InputAction escape;
     public InputAction navigate;
     private string _currentSceneName;
-    private GameObject _currentlySelected;
 
     private void Awake()
     {
-        //_currentlySelected = EventSystem.current.currentSelectedGameObject;
         pauseMenuControls = new PopUpMenuControls();
     }
 
     private void OnEnable()
     {
-        //EventSystem.current.SetSelectedGameObject(playButton.gameObject);
         escape = pauseMenuControls.PopUpMenu.Escape;
         escape.Enable();
         navigate = pauseMenuControls.PopUpMenu.Navigate;
@@ -54,15 +51,8 @@ public class PauseMenuController : MonoBehaviour
         _currentSceneName = scene.name;
         if (scene.name == "BattleTest")
         {
-            Image saveButtonImage = saveButton.GetComponent<Image>();
-            Color newColor = saveButtonImage.color;
-            newColor.a = 0.5f;
-            saveButtonImage.color = newColor;
-
-            Image exitSaveButtonImage = mainMenuButton.GetComponent<Image>();
-            newColor = exitSaveButtonImage.color;
-            newColor.a = 0.5f;
-            exitSaveButtonImage.color = newColor;
+            saveButton.interactable = false;
+            mainMenuButton.interactable = false;
         }
     }
 
@@ -73,11 +63,18 @@ public class PauseMenuController : MonoBehaviour
         playButton.onClick.AddListener(ClosePauseMenu);
         settingsButton.onClick.AddListener(OpenSettingsMenu);
         returnToPause.onClick.AddListener(CloseSettingsMenu);
-        if (_currentSceneName != "BattleTest")
+
+        if (!GameManager.instance.savingLoadingEnabled)
+        {
+            saveButton.interactable = false;
+            mainMenuButton.interactable = false;
+        }
+        if (_currentSceneName != "BattleTest" && GameManager.instance.savingLoadingEnabled)
         {
             saveButton.onClick.AddListener(PauseManuSave);
             mainMenuButton.onClick.AddListener(ReturnToMainMenuAndSave);
         }
+
         mainMenuNoSave.onClick.AddListener(ReturnToMainMenu);
     }
 
@@ -150,13 +147,10 @@ public class PauseMenuController : MonoBehaviour
             GameManager.instance.SaveGame(false);
         }
         SceneManager.LoadScene("Main Menu");
-        //ceneManager.LoadScene(""); This will need to vary since we can be in different scenes. So we mus detetct where we are
-        //SceneManager.UnloadSceneAsync("Scene1");
     }
 
     private void ReturnToMainMenu()
     {
-        Debug.Log("Return to Main Menu called");
         Time.timeScale = 1;
         if (_currentSceneName == "BattleTest")
         {

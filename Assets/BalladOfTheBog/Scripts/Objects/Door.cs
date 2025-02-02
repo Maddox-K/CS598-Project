@@ -3,6 +3,7 @@ using UnityEngine;
 public class Door : MonoBehaviour, IInteractable
 {
     [SerializeField] private Vector2 _teleportLocation;
+    [SerializeField] private Vector2 _lookDirectionOnTeleport;
     [SerializeField] private Animator _transitionAnimator;
 
     // audio
@@ -13,7 +14,7 @@ public class Door : MonoBehaviour, IInteractable
     {
         _audioSource = gameObject.AddComponent<AudioSource>();
     }
-    
+
     public void Interact()
     {
         if (_audioSource != null && _doorOpenSound != null)
@@ -30,5 +31,10 @@ public class Door : MonoBehaviour, IInteractable
     public Vector2 GetTeleport()
     {
         return _teleportLocation;
+    }
+
+    public Vector2 GetDirection()
+    {
+        return _lookDirectionOnTeleport;
     }
 }

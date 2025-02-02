@@ -122,6 +122,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         yield return new WaitForSeconds(0.42f);
 
         GetComponent<Transform>().position = door.GetTeleport();
+        lookDirection = door.GetDirection();
     }
 
     private IEnumerator Dash()
@@ -158,7 +159,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         GameObject closestObj = closest.gameObject;
 
-        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy"))
+        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy") || closestObj.CompareTag("Door"))
         {
             if (closestObj.transform.childCount > 0)
             {
@@ -231,7 +232,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
-        //transform.position = data.playerPosition;
         Vector3 temp = new Vector3();
         for (int i = 0; i < 3; i++)
         {
@@ -239,7 +239,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         }
         transform.position = temp;
 
-        //lookDirection = data.playerRotation;
         for (int i = 0; i < 2; i++)
         {
             temp[i] = data.playerRotation[i];
@@ -249,13 +248,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
-        //data.playerPosition = transform.position;
         Vector3 currPos = transform.position;
         data.playerPosition[0] = currPos.x;
         data.playerPosition[1] = currPos.y;
         data.playerPosition[2] = currPos.z;
 
-        //data.playerRotation = lookDirection;
         data.playerRotation[0] = lookDirection.x;
         data.playerRotation[1] = lookDirection.y;
     }

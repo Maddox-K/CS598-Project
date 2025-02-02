@@ -53485,6 +53485,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+--- !u!4 &1022696880 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+  m_PrefabInstance: {fileID: 1557546999}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1102134397
 GameObject:
   m_ObjectHideFlags: 0
@@ -54266,6 +54271,71 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3930129948774564747, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
   m_PrefabInstance: {fileID: 2947329995824624070}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1557546999
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2108341690}
+    m_Modifications:
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1648219710599074785, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571292890094842841, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_Name
+      value: InteractObject
+      objectReference: {fileID: 0}
+    - target: {fileID: 5571292890094842841, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
 --- !u!4 &1579671193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
@@ -55583,7 +55653,8 @@ Transform:
   m_LocalPosition: {x: 2.95, y: -0.68, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1022696880}
   m_Father: {fileID: 2076300400}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &2108341691
@@ -55644,6 +55715,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _teleportLocation: {x: 100, y: 200}
+  _lookDirectionOnTeleport: {x: 0, y: 1}
   _transitionAnimator: {fileID: 55021363}
   _doorOpenSound: {fileID: 8300000, guid: d2c6d56931c13b74991d31a904b0b9ad, type: 3}
 --- !u!1001 &215736581223406127

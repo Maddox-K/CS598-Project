@@ -108,8 +108,20 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 case "Enemy":
                     _closestObject.GetComponent<Enemy>().Interact();
                     break;
+                case "Door":
+                    Door interactDoor = _closestObject.GetComponent<Door>();
+                    interactDoor.Interact();
+                    StartCoroutine(DoorTransition(interactDoor));
+                    break;
             }
         }
+    }
+
+    private IEnumerator DoorTransition(Door door)
+    {
+        yield return new WaitForSeconds(0.42f);
+
+        GetComponent<Transform>().position = door.GetTeleport();
     }
 
     private IEnumerator Dash()

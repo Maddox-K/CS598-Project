@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using TMPro;
 using System.Collections.Generic;
 
 public class PlayerController : MonoBehaviour, I_DataPersistence
@@ -105,7 +104,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
             switch (_closestObject.tag)
             {
                 case "SNPC":
-                    _closestObject.GetComponent<standard_NPC>().Interact();
+                    _closestObject.GetComponent<StandardNPC>().Interact();
                     break;
                 case "Enemy":
                     _closestObject.GetComponent<Enemy>().Interact();

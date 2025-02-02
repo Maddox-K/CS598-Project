@@ -1,7 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class Enemy : NPC, I_DataPersistence
@@ -10,8 +6,6 @@ public class Enemy : NPC, I_DataPersistence
     [SerializeField] private Dialogue predialogue;
     [SerializeField] private Dialogue postdialogue;
     [SerializeField] public EnemyAttacks enemyAttacks;
-    //[SerializeField] private EncounterManager encounterManager;
-    [SerializeField] private DialogueManager dialogueManager;
     private bool encounterHappened;
 
     [ContextMenu("Generate guid for id")]

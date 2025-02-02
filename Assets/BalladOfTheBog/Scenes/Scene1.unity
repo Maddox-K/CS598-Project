@@ -53321,6 +53321,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
+--- !u!1 &935486555 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7731494318788404873, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
+  m_PrefabInstance: {fileID: 2947329995824624070}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1102134397
 GameObject:
   m_ObjectHideFlags: 0
@@ -53613,11 +53618,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048491779867f374f8d66a6bc32466e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 467924224}
   id: fa52f535-5f06-433b-a054-8c79e52d9a47
   predialogue: {fileID: 0}
   postdialogue: {fileID: 11400000, guid: 77cf8b661d3af994cbd0e498195765da, type: 2}
   enemyAttacks: {fileID: 11400000, guid: 1c0a506eff0dcb04abb63e46831063cd, type: 2}
-  dialogueManager: {fileID: 467924224}
 --- !u!210 &1131292060
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -53815,10 +53820,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1359785912}
   - component: {fileID: 1359785911}
-  - component: {fileID: 1359785910}
   - component: {fileID: 1359785914}
   - component: {fileID: 1359785913}
   - component: {fileID: 1359785915}
+  - component: {fileID: 1359785916}
   m_Layer: 0
   m_Name: NPC2
   m_TagString: SNPC
@@ -53826,20 +53831,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1359785910
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1359785909}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6a543ba0a0e4ad49b0277d1195427a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: 3209dc8034c944343b6b8d8e80c833a1, type: 2}
-  dialogueManager: {fileID: 467924224}
 --- !u!212 &1359785911
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -54000,11 +53991,39 @@ SortingGroup:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &1359785916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1359785909}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b378b51078f05d24aaf166ba6b58fabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 467924224}
+  _dialogue: {fileID: 11400000, guid: 3209dc8034c944343b6b8d8e80c833a1, type: 2}
 --- !u!4 &1403243218 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3930129948774564747, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
   m_PrefabInstance: {fileID: 2947329995824624070}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1403243225
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 935486555}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b378b51078f05d24aaf166ba6b58fabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 467924224}
+  _dialogue: {fileID: 11400000, guid: c16dc9957726d1e4585ffe9cf1776869, type: 2}
 --- !u!4 &1579671193 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1025263943249075156, guid: 82f5cdee434bac04e92937de6e4e8142, type: 3}
@@ -54441,11 +54460,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 048491779867f374f8d66a6bc32466e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 467924224}
   id: 8c98f7b4-e18a-4e2c-8a66-b335c5c8179f
   predialogue: {fileID: 11400000, guid: 0a59546120aaa2e4da98a6292f806cee, type: 2}
   postdialogue: {fileID: 11400000, guid: baa6efce7b50bd74d9fb666edadf00f5, type: 2}
   enemyAttacks: {fileID: 11400000, guid: 05dc8e7043341b8449d50a99df89e12b, type: 2}
-  dialogueManager: {fileID: 467924224}
 --- !u!212 &1839882622
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -54616,10 +54635,10 @@ GameObject:
   m_Component:
   - component: {fileID: 1875126185}
   - component: {fileID: 1875126184}
-  - component: {fileID: 1875126183}
   - component: {fileID: 1875126182}
   - component: {fileID: 1875126181}
   - component: {fileID: 1875126186}
+  - component: {fileID: 1875126187}
   m_Layer: 0
   m_Name: NPC3
   m_TagString: SNPC
@@ -54707,20 +54726,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 2}
   m_EdgeRadius: 0
---- !u!114 &1875126183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1875126180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6a543ba0a0e4ad49b0277d1195427a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: 887cc4ffbcae9e642b7ccedbe097c047, type: 2}
-  dialogueManager: {fileID: 467924224}
 --- !u!212 &1875126184
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -54801,6 +54806,20 @@ SortingGroup:
   m_SortingLayer: 2
   m_SortingOrder: 0
   m_SortAtRoot: 0
+--- !u!114 &1875126187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1875126180}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b378b51078f05d24aaf166ba6b58fabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 467924224}
+  _dialogue: {fileID: 11400000, guid: 887cc4ffbcae9e642b7ccedbe097c047, type: 2}
 --- !u!1 &1940393836
 GameObject:
   m_ObjectHideFlags: 0
@@ -55551,10 +55570,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 4075298667043930326, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7731494318788404873, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1403243225}
   m_SourcePrefab: {fileID: 100100000, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
 --- !u!1001 &4018518591615419973
 PrefabInstance:

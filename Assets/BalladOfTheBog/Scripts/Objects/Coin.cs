@@ -1,37 +1,48 @@
 using System.Collections;
 using UnityEngine;
 
-public class Coin : MonoBehaviour, I_DataPersistence
+public class Coin : MonoBehaviour, IDataPersistence
 {
     // core fields
-    [SerializeField] private string id;
-    [SerializeField] private PlayerData playerData;
-    private bool _canBeCollected = true;
+    [SerializeField] private string _id;
+    [SerializeField] private PlayerData _playerData;
     public bool collected;
+
+    // audio
     private AudioSource _audioSource;
 
     // animation
-    private Animator animator;
+    private Animator _animator;
     private SpriteRenderer _spriteRenderer;
-    private const float _fadeDuration = 0.5f;
-    private const float _moveDistance = 1f;
+    private const float fadeDuration = 0.5f;
+    private const float moveDistance = 1f;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+
+        _animator = gameObject.GetComponent<Animator>();
+
+        _audioSource = gameObject.GetComponent<AudioSource>();
+    }
 
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
-        id = System.Guid.NewGuid().ToString();
+        _id = System.Guid.NewGuid().ToString();
     }
 
     public void Collect()
     {
-        if (!_canBeCollected)
+        if (collected)
         {
             return;
         }
 
         collected = true;
-        _canBeCollected = false;
-        playerData.IncrementCurrency();
+        
+        _playerData.IncrementCurrency();
 
         if (_audioSource != null)
         {
@@ -43,21 +54,21 @@ public class Coin : MonoBehaviour, I_DataPersistence
 
     IEnumerator CollectAnimate()
     {
-        if (animator != null)
+        if (_animator != null)
         {
-            animator.speed = 3f;
+            _animator.speed = 3f;
         }
 
         float elapsed = 0f;
         Vector2 startPosition = transform.position;
 
-        while (elapsed < _fadeDuration)
+        while (elapsed < fadeDuration)
         {
             elapsed += Time.deltaTime;
 
             // Move the coin up
-            float moveProgress = elapsed / _fadeDuration;
-            transform.position = startPosition + new Vector2(0, moveProgress * _moveDistance);
+            float moveProgress = elapsed / fadeDuration;
+            transform.position = startPosition + new Vector2(0, moveProgress * moveDistance);
 
             // Fade the coin out
             if (_spriteRenderer != null)
@@ -75,7 +86,7 @@ public class Coin : MonoBehaviour, I_DataPersistence
 
     public void LoadData(GameData data)
     {
-        data.coinsCollected.TryGetValue(id, out collected);
+        data.coinsCollected.TryGetValue(_id, out collected);
         if (collected)
         {
             gameObject.SetActive(false);
@@ -84,26 +95,10 @@ public class Coin : MonoBehaviour, I_DataPersistence
 
     public void SaveData(GameData data)
     {
-        if (data.coinsCollected.ContainsKey(id))
+        if (data.coinsCollected.ContainsKey(_id))
         {
-            data.coinsCollected.Remove(id);
+            data.coinsCollected.Remove(_id);
         }
-        data.coinsCollected.Add(id, collected);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        _spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
-
-        animator = gameObject.GetComponent<Animator>();
-
-        _audioSource = gameObject.GetComponent<AudioSource>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        data.coinsCollected.Add(_id, collected);
     }
 }

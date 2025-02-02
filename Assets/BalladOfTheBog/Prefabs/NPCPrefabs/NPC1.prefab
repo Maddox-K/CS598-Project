@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 2910216058810884285}
   - component: {fileID: 5996914165507336991}
   - component: {fileID: 705475024901109535}
-  - component: {fileID: 4075298667043930326}
   - component: {fileID: 2322358508140485877}
   - component: {fileID: 576301916796315621}
+  - component: {fileID: 1678364772433365368}
   m_Layer: 0
   m_Name: NPC1
   m_TagString: SNPC
@@ -170,20 +170,6 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 1.5
---- !u!114 &4075298667043930326
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7731494318788404873}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b6a543ba0a0e4ad49b0277d1195427a8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  dialogue: {fileID: 11400000, guid: c16dc9957726d1e4585ffe9cf1776869, type: 2}
-  dialogueManager: {fileID: 0}
 --- !u!210 &2322358508140485877
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -213,6 +199,20 @@ MonoBehaviour:
     maximumBound: {x: -9, y: -4}
   speed: 1
   changeDirection: 2
+--- !u!114 &1678364772433365368
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7731494318788404873}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b378b51078f05d24aaf166ba6b58fabd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogueManager: {fileID: 0}
+  _dialogue: {fileID: 11400000, guid: c16dc9957726d1e4585ffe9cf1776869, type: 2}
 --- !u!1001 &8812829112029077713
 PrefabInstance:
   m_ObjectHideFlags: 0

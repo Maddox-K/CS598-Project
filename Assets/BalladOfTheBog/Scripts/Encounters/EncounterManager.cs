@@ -13,26 +13,26 @@ public class EncounterManager : MonoBehaviour
     private AudioSource _audioSource;
 
     // Game Over
-    private GameObject gameOverPrefab;
+    private GameObject _gameOverPrefab;
     private CanvasGroup _gameOverCanvasGroup;
-    private Button[] gameOverButtons = new Button[2];
+    private Button[] _gameOverButtons = new Button[2];
     private const float fadeDuration = 0.7f;
 
     // Player Stuff
     private GameObject _player;
-    private PlayerController pcontroller;
+    private PlayerController _playercontroller;
     private PlayerData _playerData;
 
     // Scene Management
     public string prevScene;
-    private bool encounterInProgress;
+    private bool _encounterInProgress;
     private GameObject _transitionParent;
     private Animator _transition;
 
     // Enemy
-    private EnemyAttacks eAttacks;
-    private List<GameObject> projectiles = new List<GameObject>();
-    private List<Vector2> velocities = new List<Vector2>();
+    private EnemyAttacks _enemyAttacks;
+    private List<GameObject> _projectiles = new List<GameObject>();
+    private List<Vector2> _velocities = new List<Vector2>();
 
     private void Awake()
     {
@@ -53,11 +53,10 @@ public class EncounterManager : MonoBehaviour
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        //Debug.Log("finding player");
         _player = GameObject.FindGameObjectWithTag("Player");
         if (_player != null)
         {
-            pcontroller = _player.GetComponent<PlayerController>();
+            _playercontroller = _player.GetComponent<PlayerController>();
             _playerData = _player.GetComponent<PlayerData>();
         }
 
@@ -67,28 +66,23 @@ public class EncounterManager : MonoBehaviour
             _transition = _transitionParent.GetComponent<Animator>();
         }
 
-        if (scene.name == "BattleTest" && eAttacks != null)
+        if (scene.name == "BattleTest" && _enemyAttacks != null)
         {
             _audioSource = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
 
-            gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
-            if (gameOverPrefab != null)
+            _gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
+            if (_gameOverPrefab != null)
             {
-                _gameOverCanvasGroup = gameOverPrefab.GetComponent<CanvasGroup>();
+                _gameOverCanvasGroup = _gameOverPrefab.GetComponent<CanvasGroup>();
             }
 
-            gameOverButtons[0] = gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
-            gameOverButtons[1] = gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
-            gameOverButtons[0].onClick.AddListener(() => StartEncounter());
-            gameOverButtons[1].onClick.AddListener(() => SceneManager.LoadScene("Main Menu"));
+            _gameOverButtons[0] = _gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
+            _gameOverButtons[1] = _gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
+            _gameOverButtons[0].onClick.AddListener(() => StartEncounter());
+            _gameOverButtons[1].onClick.AddListener(() => SceneManager.LoadScene("Main Menu"));
 
             StartEncounter();
         }
-    }
-
-    void Start()
-    {
-        
     }
 
     private void OnDisable()
@@ -98,10 +92,10 @@ public class EncounterManager : MonoBehaviour
 
     public void EncounterInit(Enemy enemy)
     {
-        pcontroller.interact.Disable();
+        _playercontroller.interact.Disable();
 
         GameManager.instance.gameData.lastEnemyEncountered = enemy.Id;
-        eAttacks = enemy.enemyAttacks;
+        _enemyAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;
         if (GameManager.instance.gameData.autoSave)
         {
@@ -136,22 +130,22 @@ public class EncounterManager : MonoBehaviour
 
         _gameOverCanvasGroup.alpha = 0;
         _playerData.SetHealth();
-        pcontroller.gameObject.transform.position = new Vector3(0, 0, 0);
-        pcontroller.lookDirection = new Vector2(0, -1);
-        pcontroller.dash.Enable();
+        _playercontroller.gameObject.transform.position = new Vector3(0, 0, 0);
+        _playercontroller.lookDirection = new Vector2(0, -1);
+        _playercontroller.dash.Enable();
 
-        encounterInProgress = true;
-        if (gameOverPrefab.activeSelf == true)
+        _encounterInProgress = true;
+        if (_gameOverPrefab.activeSelf == true)
         {
-            gameOverPrefab.SetActive(false);
+            _gameOverPrefab.SetActive(false);
         }
-        if (pcontroller.move.enabled == false)
+        if (_playercontroller.move.enabled == false)
         {
-            pcontroller.move.Enable();
+            _playercontroller.move.Enable();
         }
 
         StartCoroutine(DelaySpawns());
-        StartCoroutine(EndBattle(eAttacks));
+        StartCoroutine(EndBattle(_enemyAttacks));
     }
 
     IEnumerator EndBattle(EnemyAttacks enemyAttacks)
@@ -168,10 +162,10 @@ public class EncounterManager : MonoBehaviour
 
     public void SetBattleEnd()
     {
-        encounterInProgress = false;
-        projectiles.Clear();
-        velocities.Clear();
-        pcontroller.dash.Disable();
+        _encounterInProgress = false;
+        _projectiles.Clear();
+        _velocities.Clear();
+        _playercontroller.dash.Disable();
         SceneManager.LoadScene(prevScene);
     }
 
@@ -179,7 +173,7 @@ public class EncounterManager : MonoBehaviour
     {
         yield return new WaitForSeconds(spawnDelay);
 
-        StartCoroutine(SpawnProjectiles(eAttacks));
+        StartCoroutine(SpawnProjectiles(_enemyAttacks));
     }
 
     IEnumerator SpawnProjectiles(EnemyAttacks enemyAttacks)
@@ -195,8 +189,8 @@ public class EncounterManager : MonoBehaviour
             yield return new WaitForSeconds(times[i]);
 
             GameObject projectile = Instantiate(proj.gameObject, (Vector3)positions[i], Quaternion.identity);
-            projectiles.Add(projectile);
-            velocities.Add(directions[i].normalized * speeds[i]);
+            _projectiles.Add(projectile);
+            _velocities.Add(directions[i].normalized * speeds[i]);
         }
     }
 
@@ -207,22 +201,17 @@ public class EncounterManager : MonoBehaviour
             _audioSource.Stop();
         }
 
-        encounterInProgress = false;
+        _encounterInProgress = false;
         StopAllCoroutines();
-        for (int i = 0; i < projectiles.Count; i++)
+        for (int i = 0; i < _projectiles.Count; i++)
         {
-            Destroy(projectiles[i]);
+            Destroy(_projectiles[i]);
         }
-        projectiles.Clear();
-        velocities.Clear();
-        gameOverPrefab.SetActive(true);
-
-        //_playerData.canTakeDamage = true;
+        _projectiles.Clear();
+        _velocities.Clear();
+        _gameOverPrefab.SetActive(true);
 
         StartCoroutine(FadeIn());
-        
-        //pcontroller.move.Disable();
-        //pcontroller.dash.Disable();
     }
 
     private IEnumerator FadeIn()
@@ -245,22 +234,16 @@ public class EncounterManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!encounterInProgress || eAttacks.affectedByGravity)
+        if (!_encounterInProgress || _enemyAttacks.affectedByGravity)
         {
             return;
         }
-        if (projectiles.Count > 0)
+        if (_projectiles.Count > 0)
         {
-            for (int i = 0; i < projectiles.Count; i++)
+            for (int i = 0; i < _projectiles.Count; i++)
             {
-                projectiles[i].GetComponent<Rigidbody2D>().velocity = velocities[i];
+                _projectiles[i].GetComponent<Rigidbody2D>().velocity = _velocities[i];
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

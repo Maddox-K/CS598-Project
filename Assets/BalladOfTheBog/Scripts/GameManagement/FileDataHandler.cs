@@ -11,8 +11,8 @@ public class FileDataHandler
 
     public FileDataHandler(string dataDirectoryPath, string dataFileName)
     {
-        this._dataDirectoryPath = dataDirectoryPath;
-        this._dataFileName = dataFileName;
+        _dataDirectoryPath = dataDirectoryPath;
+        _dataFileName = dataFileName;
     }
 
     public GameData Load(string profileId)

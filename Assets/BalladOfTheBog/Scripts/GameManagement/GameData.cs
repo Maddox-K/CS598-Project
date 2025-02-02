@@ -1,6 +1,4 @@
-using System.Collections;
 using System.Collections.Generic;
-using UnityEngine;
 
 [System.Serializable]
 public class GameData
@@ -41,7 +39,7 @@ public class GameData
         {
             playerRotation[i] = 0.0f;
         }
-        this.coinCount = 0;
+        coinCount = 0;
 
         // Enemies and Encounters
         enemiesEncountered = new Dictionary<string, bool>();

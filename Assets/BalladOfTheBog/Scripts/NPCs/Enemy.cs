@@ -1,48 +1,47 @@
 using UnityEngine;
 
-public class Enemy : NPC, I_DataPersistence
+public class Enemy : NPC, IDataPersistence
 {
-    [SerializeField] private string id;
-    [SerializeField] private Dialogue predialogue;
-    [SerializeField] private Dialogue postdialogue;
+    [SerializeField] private string _id;
+    [SerializeField] private Dialogue _preEncounterDialogue;
+    [SerializeField] private Dialogue _postEncounterDialogue;
     [SerializeField] public EnemyAttacks enemyAttacks;
-    private bool encounterHappened;
+    private bool _encounterHappened;
 
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
-        id = System.Guid.NewGuid().ToString();
+        _id = System.Guid.NewGuid().ToString();
     }
 
     public string Id
     {
-        get { return id; }
+        get { return _id; }
     }
 
     public override void Interact()
     {
-        if (encounterHappened == true && postdialogue != null)
+        if (_encounterHappened && _postEncounterDialogue != null)
         {
-            dialogueManager.DisplayNext(postdialogue);
+            dialogueManager.DisplayNext(_postEncounterDialogue);
         }
-        else if ((predialogue == null) || (dialogueManager.paragraphs.Count > 0 && dialogueManager.paragraphs.Peek() == "[encounter]"))
+        else if ((_preEncounterDialogue == null) || (dialogueManager.paragraphs.Count > 0 && dialogueManager.paragraphs.Peek() == "[encounter]"))
         {
-            //encounterHappened = true;
             EncounterManager.instance.EncounterInit(this);
         }
         else
         {
-            dialogueManager.DisplayNext(predialogue);
+            dialogueManager.DisplayNext(_preEncounterDialogue);
         }
     }
 
     public void LoadData(GameData data)
     {
-        data.enemiesEncountered.TryGetValue(id, out encounterHappened);
-        if (encounterHappened == true && data.lastEnemyEncountered == id)
+        data.enemiesEncountered.TryGetValue(_id, out _encounterHappened);
+        if (_encounterHappened == true && data.lastEnemyEncountered == _id)
         {
             data.lastEnemyEncountered = null;
-            if (postdialogue != null)
+            if (_postEncounterDialogue != null)
             {
                 Interact();
             }
@@ -52,22 +51,10 @@ public class Enemy : NPC, I_DataPersistence
 
     public void SaveData(GameData data)
     {
-        if (data.enemiesEncountered.ContainsKey(id))
+        if (data.enemiesEncountered.ContainsKey(_id))
         {
-            data.enemiesEncountered.Remove(id);
+            data.enemiesEncountered.Remove(_id);
         }
-        data.enemiesEncountered.Add(id, encounterHappened);
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        data.enemiesEncountered.Add(_id, _encounterHappened);
     }
 }

@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
-public class PlayerData : MonoBehaviour, I_DataPersistence
+public class PlayerData : MonoBehaviour, IDataPersistence
 {
     private PlayerController pcontroller;
 

@@ -13,7 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("File Storage Config")]
     [SerializeField] private string _fileName;
     private FileDataHandler _dataHandler;
-    private List<I_DataPersistence> dataPersistenceObjects;
+    private List<IDataPersistence> dataPersistenceObjects;
     public GameData gameData;
     public string _selectedProfileId = "";
 
@@ -107,7 +107,7 @@ public class GameManager : MonoBehaviour
         }
 
         // push loaded data to scripts in current scene that need it
-        foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
+        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             if (dataPersistenceObj != null)
             {
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
         Debug.Log("saving data");
         gameData.lastScene = SceneManager.GetActiveScene().name;
 
-        foreach (I_DataPersistence dataPersistenceObj in dataPersistenceObjects)
+        foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {
             dataPersistenceObj.SaveData(gameData);
         }
@@ -140,11 +140,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private List<I_DataPersistence> FindAllDataPersistenceObjects()
+    private List<IDataPersistence> FindAllDataPersistenceObjects()
     {
-        IEnumerable<I_DataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<I_DataPersistence>();
+        IEnumerable<IDataPersistence> dataPersistenceObjects = FindObjectsOfType<MonoBehaviour>(true).OfType<IDataPersistence>();
 
-        return new List<I_DataPersistence>(dataPersistenceObjects);
+        return new List<IDataPersistence>(dataPersistenceObjects);
     }
 
     public Dictionary<string, GameData> GetAllProfilesGameData()

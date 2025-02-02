@@ -3,23 +3,23 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
 
-public class PlayerController : MonoBehaviour, I_DataPersistence
+public class PlayerController : MonoBehaviour, IDataPersistence
 {
-    public PlayerData playerData;
+    private PlayerData _playerData;
 
     //physics
-    public Rigidbody2D rb;
-    public float speed = 5f;
-    public Vector2 moveDirection = Vector2.zero;
+    private Rigidbody2D _playerRigidBody;
+    private const float speed = 5f;
+    private Vector2 moveDirection = Vector2.zero;
     public Vector2 lookDirection = Vector2.zero;
     public bool isDashing;
-    private bool canDash = true;
+    private bool _canDash = true;
     private const float dashDuration = .4f;
     private const float dashSpeed = 10f;
     private const float dashCoolDown = 3f;
 
     //animation
-    public Animator animator;
+    private Animator _animator;
 
     //input
     public PlayerInputActions playerControls;
@@ -33,11 +33,16 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
     private GameObject _closestObject;
 
 
-    private void Awake() {
+    private void Awake()
+    {
         playerControls = new PlayerInputActions();
+        _playerData = GetComponent<PlayerData>();
+        _playerRigidBody = GetComponent<Rigidbody2D>();
+        _animator = GetComponent<Animator>();
     }
 
-    private void OnEnable() {
+    private void OnEnable()
+    {
         move = playerControls.Player.Move;
         move.Enable();
         interact = playerControls.Player.Interact;
@@ -51,12 +56,6 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         dash.Disable();
     }
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     // Update is called once per frame
     void Update()
     {
@@ -68,7 +67,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
         //movement
         moveDirection = move.ReadValue<Vector2>();
 
-        if (dash.WasPressedThisFrame() && canDash)
+        if (dash.WasPressedThisFrame() && _canDash)
         {
             StartCoroutine(Dash());
         }
@@ -80,9 +79,9 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
             lookDirection.Normalize();
         }
 
-        animator.SetFloat("look_x", lookDirection.x);
-        animator.SetFloat("look_y", lookDirection.y);
-        animator.SetFloat("Speed", moveDirection.magnitude);
+        _animator.SetFloat("look_x", lookDirection.x);
+        _animator.SetFloat("look_y", lookDirection.y);
+        _animator.SetFloat("Speed", moveDirection.magnitude);
 
         // interaction
         if (_thingsInRange.Count > 0)
@@ -115,18 +114,18 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
     private IEnumerator Dash()
     {
-        animator.SetTrigger("DashTrigger");
+        _animator.SetTrigger("DashTrigger");
 
-        canDash = false;
+        _canDash = false;
         isDashing = true;
-        rb.velocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
+        _playerRigidBody.velocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
         yield return new WaitForSeconds(dashDuration);
 
         isDashing = false;
 
         yield return new WaitForSeconds(dashCoolDown);
 
-        canDash = true;
+        _canDash = true;
     }
 
     GameObject GetClosestObject()
@@ -181,7 +180,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
             return;
         }
 
-        rb.velocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
+        _playerRigidBody.velocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)
@@ -192,7 +191,7 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
         if (thisCollided.CompareTag("Projectile"))
         {
-            playerData.TakeDamage(thisCollided.GetComponent<Projectile>());
+            _playerData.TakeDamage(thisCollided.GetComponent<Projectile>());
         }
         else if (thisCollided.CompareTag("Currency"))
         {
@@ -212,9 +211,9 @@ public class PlayerController : MonoBehaviour, I_DataPersistence
 
     private void OnTriggerStay2D(Collider2D collider)
     {
-        if (playerData.canTakeDamage && collider.gameObject.CompareTag("Projectile"))
+        if (_playerData.canTakeDamage && collider.gameObject.CompareTag("Projectile"))
         {
-            playerData.TakeDamage(collider.gameObject.GetComponent<Projectile>());
+            _playerData.TakeDamage(collider.gameObject.GetComponent<Projectile>());
         }
     }
 

@@ -113,6 +113,9 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                     interactDoor.Interact();
                     StartCoroutine(DoorTransition(interactDoor));
                     break;
+                case "SceneChange":
+                    _closestObject.GetComponent<SceneChange>().Interact();
+                    break;
             }
         }
     }
@@ -159,7 +162,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         GameObject closestObj = closest.gameObject;
 
-        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy") || closestObj.CompareTag("Door"))
+        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy") || closestObj.CompareTag("Door") || closestObj.CompareTag("SceneChange"))
         {
             if (closestObj.transform.childCount > 0)
             {

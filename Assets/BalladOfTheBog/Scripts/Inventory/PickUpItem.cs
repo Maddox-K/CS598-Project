@@ -5,6 +5,7 @@ using UnityEngine;
 public class PickUpItem : MonoBehaviour
 {
     private InventoryController inventoryController;
+    public GameObject itemButton;
 
     private void Start()
     {
@@ -21,6 +22,8 @@ public class PickUpItem : MonoBehaviour
                 {
                     //Item can be added to Inventory
                     inventoryController.isFulll[i] = true;
+                    Instantiate(itemButton, inventoryController.slots[i].transform);
+                    Destroy(gameObject);
                     break;
                 }
             }

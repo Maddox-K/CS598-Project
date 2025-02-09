@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class SavesMenuController : MonoBehaviour
 {
@@ -22,6 +23,9 @@ public class SavesMenuController : MonoBehaviour
     [SerializeField] private Button returnToMainMenu;
     [SerializeField] private Button cancelButton;
     [SerializeField] private Button confirmButton;
+
+    // Animation
+    [SerializeField] private Animator _startGameAnimator;
 
     private void Awake()
     {
@@ -59,7 +63,7 @@ public class SavesMenuController : MonoBehaviour
         if (isLoadingGame)
         {
             GameManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
-            LoadGameScene();
+            StartCoroutine(LoadGameScene());
         }
         // clicking new game on a save file with existing data
         else if (saveSlot.hasData)
@@ -73,12 +77,16 @@ public class SavesMenuController : MonoBehaviour
         {
             GameManager.instance.ChangeSelectedProfileId(saveSlot.GetProfileId());
             GameManager.instance.NewGame();
-            LoadGameScene();
+            StartCoroutine(LoadGameScene());
         }
     }
 
-    private void LoadGameScene()
+    private IEnumerator LoadGameScene()
     {
+        _startGameAnimator.SetTrigger("EndScene");
+
+        yield return new WaitForSeconds(2.0f);
+
         SceneManager.LoadScene(GameManager.instance.gameData.lastScene);
     }
 

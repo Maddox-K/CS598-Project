@@ -5,15 +5,18 @@ using UnityEngine.UI;
 
 public class SettingsController : MonoBehaviour
 {
+    // Menus
     [SerializeField] private Canvas MainMenu;
     [SerializeField] private Canvas SettingsMenu;
 
+    // Buttons
     [SerializeField] private Button returnToMainMenu;
     [SerializeField] private Button graphicsButton;
     [SerializeField] private Button soundButton;
     [SerializeField] private Button controlsButton;
     [SerializeField] private Button creditsButton;
 
+    // Sub-Panels
     [SerializeField] private GameObject GraphicsPanel;
     [SerializeField] private GameObject SoundPanel;
     [SerializeField] private GameObject ControlsPanel;
@@ -61,13 +64,15 @@ public class SettingsController : MonoBehaviour
 
     }
 
-    bool showMainMenu;
+    //bool showMainMenu;
     private void SwitchToMainMenu()
     {
-        if (!showMainMenu)
-        {
-            SettingsMenu.gameObject.SetActive(false);
-            MainMenu.gameObject.SetActive(true);
-        }
+        GraphicsPanel.SetActive(false);
+        SoundPanel.SetActive(false);
+        ControlsPanel.SetActive(false);
+        CreditsPanel.SetActive(false);
+
+        SettingsMenu.gameObject.SetActive(false);
+        MainMenu.gameObject.SetActive(true);
     }
 }

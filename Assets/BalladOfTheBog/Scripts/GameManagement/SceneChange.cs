@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 public class SceneChange : MonoBehaviour, IInteractable
 {
     [SerializeField] private string _sceneToLoad;
+    [SerializeField] private Animator _sceneTransitionAnimator;
 
     /* void OnEnable()
     {
@@ -31,6 +32,17 @@ public class SceneChange : MonoBehaviour, IInteractable
         {
             GameManager.instance.SaveGame();
         }
+
+        StartCoroutine(TransitionScene());
+
+        //SceneManager.LoadScene(_sceneToLoad);
+    }
+
+    private IEnumerator TransitionScene()
+    {
+        _sceneTransitionAnimator.SetTrigger("EndScene");
+
+        yield return new WaitForSeconds(2.0f);
 
         SceneManager.LoadScene(_sceneToLoad);
     }

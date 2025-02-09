@@ -17,4 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BalladOfTheBog/Scenes/BattleTest.unity
     guid: 988519d48aa07b545852d02a1aa25ab6
+  - enabled: 1
+    path: Assets/BalladOfTheBog/Scenes/WorldOne.unity
+    guid: 69d4cc8b1627d7543964c9855d14b22f
   m_configObjects: {}

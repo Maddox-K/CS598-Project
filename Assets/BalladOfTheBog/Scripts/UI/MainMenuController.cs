@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -18,6 +19,9 @@ public class MainMenuController : MonoBehaviour
 
     // Controllers
     private SavesMenuController _savesController = null;
+
+    // Animation
+    [SerializeField] private Animator _startGameAnimator;
 
     void Awake()
     {
@@ -49,6 +53,15 @@ public class MainMenuController : MonoBehaviour
         newgameButton.interactable = false;
         settingsButton.interactable = false;
         quitButton.interactable = false;
+
+        StartCoroutine(AnimateGameStart());
+    }
+
+    private IEnumerator AnimateGameStart()
+    {
+        _startGameAnimator.SetTrigger("EndScene");
+
+        yield return new WaitForSeconds(2.0f);
 
         SceneManager.LoadScene(GameManager.instance.gameData.lastScene);
     }

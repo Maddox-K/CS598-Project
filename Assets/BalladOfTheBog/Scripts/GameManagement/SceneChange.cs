@@ -9,7 +9,7 @@ public class SceneChange : MonoBehaviour, IInteractable
 
     public void Interact()
     {
-        if (GameManager.instance.gameData.autoSave)
+        if (PlayerPrefs.GetInt("AutoSave") == 1)
         {
             GameManager.instance.SaveGame(false);
         }

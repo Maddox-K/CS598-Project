@@ -97,7 +97,7 @@ public class EncounterManager : MonoBehaviour
         GameManager.instance.gameData.lastEnemyEncountered = enemy.Id;
         _enemyAttacks = enemy.enemyAttacks;
         prevScene = enemy.gameObject.scene.name;
-        if (GameManager.instance.gameData.autoSave)
+        if (PlayerPrefs.GetInt("AutoSave") == 1)
         {
             GameManager.instance.SaveGame(false);
         }

@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     // data handling, save and load
     [Header("File Storage Config")]
     [SerializeField] private string _fileName;
-    private FileDataHandler _dataHandler;
+    public FileDataHandler _dataHandler;
     private List<IDataPersistence> dataPersistenceObjects;
     public GameData gameData;
     public string _selectedProfileId = "";

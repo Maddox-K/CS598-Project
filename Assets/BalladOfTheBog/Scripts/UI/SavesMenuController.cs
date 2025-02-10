@@ -87,6 +87,7 @@ public class SavesMenuController : MonoBehaviour
 
         yield return new WaitForSeconds(2.0f);
 
+        Debug.Log(GameManager.instance.gameData.lastScene);
         SceneManager.LoadScene(GameManager.instance.gameData.lastScene);
     }
 
@@ -94,7 +95,7 @@ public class SavesMenuController : MonoBehaviour
     {
         GameManager.instance.ChangeSelectedProfileId(_pendingOverwrite.GetProfileId());
         GameManager.instance.NewGame();
-        LoadGameScene();
+        StartCoroutine(LoadGameScene());
     }
 
     public void ActivateMenu(bool isLoadingGame)

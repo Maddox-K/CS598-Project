@@ -428,7 +428,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &213752711
 RectTransform:
   m_ObjectHideFlags: 0
@@ -858,7 +858,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &559108770
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2251,10 +2251,14 @@ MonoBehaviour:
   soundButton: {fileID: 399906926}
   controlsButton: {fileID: 1746323158}
   creditsButton: {fileID: 1248279091}
-  GraphicsPanel: {fileID: 156435176}
-  SoundPanel: {fileID: 1531522263}
-  ControlsPanel: {fileID: 1732162357}
-  CreditsPanel: {fileID: 1596165019}
+  _generalPanel: {fileID: 156435176}
+  _soundPanel: {fileID: 1531522263}
+  _controlsPanel: {fileID: 1732162357}
+  _creditsPanel: {fileID: 1596165019}
+  _autoSaveOn: {fileID: 1087050293}
+  _onCheck: {fileID: 213752710}
+  _autoSaveOff: {fileID: 345535538}
+  _offCheck: {fileID: 559108769}
 --- !u!114 &1465160926
 MonoBehaviour:
   m_ObjectHideFlags: 0

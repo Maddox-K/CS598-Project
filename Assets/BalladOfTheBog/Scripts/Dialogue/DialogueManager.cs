@@ -13,15 +13,15 @@ public class DialogueManager : MonoBehaviour
     private string _currentParagraph;
     private Coroutine typeDialogueCoroutine;
     private const float maxTypeTime = 0.1f;
-    [SerializeField] private float _typeSpeed = 10;
+    private const float typeSpeed = 10.0f;
 
     // references to other gameobjects necessary for dialogue to function
     [SerializeField] private TextMeshProUGUI _NPCNameText;
     [SerializeField] private TextMeshProUGUI _NPCDialogueText;
 
     // external controllers
-    [SerializeField] private PlayerController _playercontroller;
-    [SerializeField] private PauseMenuController _pauseController;
+    private PlayerController _playerController;
+    private PauseMenuController _pauseController;
 
     // choice dialogue
     [SerializeField] private Button[] choiceButtons;
@@ -40,6 +40,20 @@ public class DialogueManager : MonoBehaviour
     void Awake()
     {
         _audioSource = gameObject.AddComponent<AudioSource>();
+    }
+
+    void Start()
+    {
+        _playerController = GameObject.FindWithTag("Player").gameObject.GetComponent<PlayerController>();
+        if (_playerController == null)
+        {
+            Debug.Log("player not found");
+        }
+        _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PauseMenuController>();
+        if (_pauseController == null)
+        {
+            Debug.Log("pause null");
+        }
     }
 
     public void DisplayNext(Dialogue dialogue)
@@ -91,9 +105,18 @@ public class DialogueManager : MonoBehaviour
 
     private void StartConversation(Dialogue dialogue)
     {
-        _playercontroller.move.Disable();
-        _pauseController.escape.Disable();
-
+        if (_playerController == null)
+        {
+            _playerController = GameObject.FindWithTag("Player").gameObject.GetComponent<PlayerController>();
+            _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PauseMenuController>();
+        }
+        
+        if (_playerController != null && _pauseController != null)
+        {
+            _playerController.move.Disable();
+            _pauseController.escape.Disable();
+        }
+        
         foreach (Button button in choiceButtons)
         {
             button.gameObject.SetActive(false);
@@ -114,9 +137,12 @@ public class DialogueManager : MonoBehaviour
 
     private void EndConversation()
     {
-        _playercontroller.move.Enable();
-        _pauseController.escape.Enable();
-
+        if (_playerController != null && _pauseController != null)
+        {
+            _playerController.move.Enable();
+            _pauseController.escape.Enable();
+        }
+        
         paragraphs.Clear();
 
         conversationEnded = false;
@@ -129,9 +155,9 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeDialogueText(string p)
     {
-        if (_playercontroller.interact.enabled == false)
+        if (!_playerController.interact.enabled)
         {
-            _playercontroller.interact.Enable();
+            _playerController.interact.Enable();
         }
 
         _isTyping = true;
@@ -148,7 +174,7 @@ public class DialogueManager : MonoBehaviour
             maxVisibleChars++;
             _NPCDialogueText.maxVisibleCharacters = maxVisibleChars;
 
-            yield return new WaitForSeconds(maxTypeTime / _typeSpeed);
+            yield return new WaitForSeconds(maxTypeTime / typeSpeed);
         }
 
         _isTyping = false;
@@ -178,7 +204,7 @@ public class DialogueManager : MonoBehaviour
 
     private void MakeDialogueChoice(Dialogue dialogue)
     {
-        _playercontroller.interact.Disable();
+        _playerController.interact.Disable();
 
         if (dialogue.choices != null && dialogue.choices.Length > 0)
         {
@@ -210,5 +236,13 @@ public class DialogueManager : MonoBehaviour
         _waitingForInput = false;
 
         DisplayNext(nextDialogue);
+    }
+
+    void Update()
+    {
+        if (_playerController == null)
+        {
+            Debug.Log("null");
+        }
     }
 }

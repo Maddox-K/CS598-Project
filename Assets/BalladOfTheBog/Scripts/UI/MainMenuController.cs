@@ -23,9 +23,15 @@ public class MainMenuController : MonoBehaviour
     // Animation
     [SerializeField] private Animator _startGameAnimator;
 
+    // Audio
+    private AudioSource _buttonAudioSource;
+    [SerializeField] private AudioClip _buttonClip;
+
     void Awake()
     {
         _savesController = GetComponent<SavesMenuController>();
+
+        _buttonAudioSource = gameObject.GetComponent<AudioSource>();
     }
 
     void Start()
@@ -48,6 +54,8 @@ public class MainMenuController : MonoBehaviour
 
     private void ContinueGameClicked()
     {
+        PlayButtonAudio();
+
         continueButton.interactable = false;
         savesButton.interactable = false;
         newgameButton.interactable = false;
@@ -68,6 +76,8 @@ public class MainMenuController : MonoBehaviour
 
     private void SwitchToSavesMenu()
     {
+        PlayButtonAudio();
+
         savesMenu.gameObject.SetActive(true);
         if (_savesController != null)
         {
@@ -79,6 +89,8 @@ public class MainMenuController : MonoBehaviour
 
     private void NewGameClicked()
     {
+        PlayButtonAudio();
+
         savesMenu.gameObject.SetActive(true);
         if (_savesController != null)
         {
@@ -90,6 +102,8 @@ public class MainMenuController : MonoBehaviour
 
     private void SwitchToSettingsMenu()
     {
+        PlayButtonAudio();
+
         settingsMenu.gameObject.SetActive(true);
         DeactivateMainMenu();
     }
@@ -97,5 +111,10 @@ public class MainMenuController : MonoBehaviour
     private void DeactivateMainMenu()
     {
         mainMenu.gameObject.SetActive(false);
+    }
+
+    private void PlayButtonAudio()
+    {
+        _buttonAudioSource.PlayOneShot(_buttonClip);
     }
 }

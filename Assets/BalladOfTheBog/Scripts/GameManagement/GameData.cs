@@ -4,7 +4,6 @@ using System.Collections.Generic;
 public class GameData
 {
     // General Game Data
-    public bool autoSave;
     public long lastUpdated;
 
     // Scene Management
@@ -24,9 +23,6 @@ public class GameData
     
     public GameData()
     {
-        // General Game Data
-        autoSave = true;
-
         // Scene Management
         lastScene = "Scene1";
 

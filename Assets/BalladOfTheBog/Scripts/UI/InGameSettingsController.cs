@@ -2,18 +2,18 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SettingsController : MonoBehaviour
+public class InGameSettingsController : MonoBehaviour
 {
     // Menus
-    [SerializeField] private Canvas MainMenu;
-    [SerializeField] private Canvas SettingsMenu;
+    private GameObject _settingsMenu;
+    private GameObject _pauseMenuHolder;
 
-    // Menu Buttons
-    [SerializeField] private Button returnToMainMenu;
-    [SerializeField] private Button generalButton;
-    [SerializeField] private Button soundButton;
-    [SerializeField] private Button controlsButton;
-    [SerializeField] private Button creditsButton;
+    // Buttons
+    [SerializeField] private Button _returnToPause;
+    [SerializeField] private Button _generalButton;
+    [SerializeField] private Button _soundButton;
+    [SerializeField] private Button _controlsButton;
+    [SerializeField] private Button _creditsButton;
 
     // Sub-Panels
     [SerializeField] private GameObject _generalPanel;
@@ -29,10 +29,7 @@ public class SettingsController : MonoBehaviour
 
     void Awake()
     {
-        if (!PlayerPrefs.HasKey("AutoSave"))
-        {
-            PlayerPrefs.SetInt("AutoSave", 1);
-        }
+        _settingsMenu = gameObject;
 
         if (PlayerPrefs.GetInt("AutoSave") == 0)
         {
@@ -47,30 +44,32 @@ public class SettingsController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        returnToMainMenu.onClick.AddListener(SwitchToMainMenu);
+        _pauseMenuHolder = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(0).gameObject;
 
-        generalButton.onClick.AddListener(() =>
+        _returnToPause.onClick.AddListener(ReturnToPauseMenu);
+
+        _generalButton.onClick.AddListener(() =>
         {
             _generalPanel.SetActive(true);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(false);
             _creditsPanel.SetActive(false);
         });
-        soundButton.onClick.AddListener(() =>
+        _soundButton.onClick.AddListener(() =>
         {
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(true);
             _controlsPanel.SetActive(false);
             _creditsPanel.SetActive(false);
         });
-        controlsButton.onClick.AddListener(() =>
+        _controlsButton.onClick.AddListener(() =>
         {
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(true);
             _creditsPanel.SetActive(false);
         });
-        creditsButton.onClick.AddListener(() =>
+        _creditsButton.onClick.AddListener(() =>
         {
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(false);
@@ -82,15 +81,15 @@ public class SettingsController : MonoBehaviour
         _autoSaveOff.onClick.AddListener(DeactivateAutoSave);
     }
 
-    private void SwitchToMainMenu()
+    private void ReturnToPauseMenu()
     {
         _generalPanel.SetActive(false);
         _soundPanel.SetActive(false);
         _controlsPanel.SetActive(false);
         _creditsPanel.SetActive(false);
 
-        SettingsMenu.gameObject.SetActive(false);
-        MainMenu.gameObject.SetActive(true);
+        _pauseMenuHolder.SetActive(true);
+        _settingsMenu.SetActive(false);
     }
 
     private void ActivateAutoSave()
@@ -121,13 +120,13 @@ public class SettingsController : MonoBehaviour
 
     private IEnumerator DelayAutoSaveEdit(bool settingTrue)
     {
-        returnToMainMenu.interactable = false;
+        _returnToPause.interactable = false;
         _autoSaveOn.interactable = false;
         _autoSaveOff.interactable = false;
 
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSecondsRealtime(0.25f);
 
-        returnToMainMenu.interactable = true;
+        _returnToPause.interactable = true;
         _autoSaveOn.interactable = true;
         _autoSaveOff.interactable = true;
 

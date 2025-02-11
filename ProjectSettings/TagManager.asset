@@ -16,6 +16,9 @@ TagManager:
   - Main Menu
   - Door
   - SceneChange
+  - SettingsMenu
+  - PauseMenu
+  - TransitionHolder
   layers:
   - Default
   - TransparentFX

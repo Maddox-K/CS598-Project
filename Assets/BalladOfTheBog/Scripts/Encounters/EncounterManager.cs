@@ -60,10 +60,10 @@ public class EncounterManager : MonoBehaviour
             _playerData = _player.GetComponent<PlayerData>();
         }
 
-        _transitionParent = GameObject.FindGameObjectWithTag("Transition");
+        _transitionParent = GameObject.FindGameObjectWithTag("TransitionHolder");
         if (_transitionParent != null)
         {
-            _transition = _transitionParent.GetComponent<Animator>();
+            _transition = _transitionParent.transform.GetChild(0).GetComponent<Animator>();
         }
 
         if (scene.name == "BattleTest" && _enemyAttacks != null)
@@ -157,16 +157,24 @@ public class EncounterManager : MonoBehaviour
         {
             data.enemiesEncountered[data.lastEnemyEncountered] = true;
         }
-        SetBattleEnd();
+        SetBattleEnd(true);
     }
 
-    public void SetBattleEnd()
+    public void SetBattleEnd(bool reachedEnd)
     {
         _encounterInProgress = false;
         _projectiles.Clear();
         _velocities.Clear();
         _playercontroller.dash.Disable();
-        SceneManager.LoadScene(prevScene);
+
+        if (reachedEnd)
+        {
+            SceneManager.LoadScene(prevScene);
+        }
+        else
+        {
+            _playerData.canTakeDamage = false;
+        }
     }
 
     IEnumerator DelaySpawns()

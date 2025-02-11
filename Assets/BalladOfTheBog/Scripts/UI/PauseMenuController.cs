@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -5,28 +6,39 @@ using UnityEngine.UI;
 
 public class PauseMenuController : MonoBehaviour
 {
-    [SerializeField] private GameObject PauseMenu;
+    // Menus
+    [SerializeField] private GameObject _pauseMenuHolder;
+    private GameObject _settingsMenu;
 
+    // Buttons
     [SerializeField] private Button playButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button mainMenuNoSave;
+    //[SerializeField] private Button returnToPause;
 
-    [SerializeField] private GameObject SettingsMenu;
-
-    [SerializeField] private Button returnToPause;
-
+    // Player
     private PlayerController _playerController;
 
+    // Input
     private PopUpMenuControls pauseMenuControls;
     public InputAction escape;
     public InputAction navigate;
     private string _currentSceneName;
 
+    // Animation
+    [SerializeField] private Animator _sceneTransitionAnimator;
+
+    // Sound
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         pauseMenuControls = new PopUpMenuControls();
+
+        _audioSource = gameObject.AddComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -40,7 +52,6 @@ public class PauseMenuController : MonoBehaviour
 
     private void OnDisable()
     {
-        
         escape.Disable();
         navigate.Disable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -58,11 +69,14 @@ public class PauseMenuController : MonoBehaviour
 
     void Start()
     {
+        _settingsMenu = GameObject.FindGameObjectWithTag("SettingsMenu");
+        _settingsMenu.SetActive(false);
+        _settingsMenu.GetComponent<Canvas>().enabled = true;
+
         _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
 
         playButton.onClick.AddListener(ClosePauseMenu);
         settingsButton.onClick.AddListener(OpenSettingsMenu);
-        returnToPause.onClick.AddListener(CloseSettingsMenu);
 
         if (!GameManager.instance.savingLoadingEnabled)
         {
@@ -82,7 +96,7 @@ public class PauseMenuController : MonoBehaviour
     {
         if(escape.WasPressedThisFrame())
         {
-            if (PauseMenu.activeInHierarchy)
+            if (_pauseMenuHolder.activeInHierarchy)
             {
                 ClosePauseMenu();
             }
@@ -96,10 +110,13 @@ public class PauseMenuController : MonoBehaviour
     //Call this by pressing escape
     private void OpenPauseMenu()
     {
-        PauseMenu.SetActive(true);
+        PlayButtonAudio();
+
+        _pauseMenuHolder.SetActive(true);
         if (_playerController != null)
         {
             _playerController.interact.Disable();
+            _playerController.move.Disable();
         }
         GameManager.instance.Pause();
     }
@@ -107,56 +124,72 @@ public class PauseMenuController : MonoBehaviour
     //We call this by eithe pressinf resume or esc
     private void ClosePauseMenu()
     {
-        //EventSystem.current.SetSelectedGameObject(_currentlySelected);
-        PauseMenu.SetActive(false);
+        PlayButtonAudio();
+
+        _pauseMenuHolder.SetActive(false);
         if (_playerController != null)
         {
             _playerController.interact.Enable();
+            _playerController.move.Enable();
         }
         GameManager.instance.Unpause();
     }
 
     private void PauseManuSave()
     {
+        PlayButtonAudio();
+
         Debug.Log("Pause Menu Save called");
         GameManager.instance.SaveGame(false);
     }
 
     private void OpenSettingsMenu()
     {
-        PauseMenu.SetActive(false);
-        SettingsMenu.SetActive(true);
-    }
-
-    private void CloseSettingsMenu()
-    {
-        PauseMenu.SetActive(true);
-        SettingsMenu.SetActive(false);
+        PlayButtonAudio();
+        
+        _pauseMenuHolder.SetActive(false);
+        _settingsMenu.SetActive(true);
     }
 
     private void ReturnToMainMenuAndSave()
     {
+        PlayButtonAudio();
+
         Time.timeScale = 1;
-        if (_currentSceneName == "BattleTest")
-        {
-            EncounterManager.instance.StopAllCoroutines();
-            EncounterManager.instance.SetBattleEnd();
-        }
-        else
-        {
-            GameManager.instance.SaveGame(false);
-        }
-        SceneManager.LoadScene("Main Menu");
+        
+        GameManager.instance.SaveGame(false);
+
+        StartCoroutine(AnimateReturn());
     }
 
     private void ReturnToMainMenu()
     {
+        PlayButtonAudio();
+
         Time.timeScale = 1;
         if (_currentSceneName == "BattleTest")
         {
             EncounterManager.instance.StopAllCoroutines();
-            EncounterManager.instance.SetBattleEnd();
+            EncounterManager.instance.SetBattleEnd(false);
         }
+        
+        StartCoroutine(AnimateReturn());
+    }
+
+    private IEnumerator AnimateReturn()
+    {
+        if (_sceneTransitionAnimator != null)
+        {
+            _sceneTransitionAnimator.SetTrigger("EndScene");
+        }
+
+        yield return new WaitForSeconds(2.0f);
+
         SceneManager.LoadScene("Main Menu");
+    }
+
+    private void PlayButtonAudio()
+    {
+        _audioSource.PlayOneShot(_buttonClip);
     }
 }

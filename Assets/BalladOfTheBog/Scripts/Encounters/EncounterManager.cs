@@ -26,8 +26,13 @@ public class EncounterManager : MonoBehaviour
     // Scene Management
     public string prevScene;
     private bool _encounterInProgress;
+
+    // Transitioning
     private GameObject _transitionParent;
+    private GameObject _transitionObject;
     private Animator _transition;
+    private GameObject _leftFrogPanel;
+    private GameObject _rightFrogPanel;
 
     // Enemy
     private EnemyAttacks _enemyAttacks;
@@ -44,6 +49,11 @@ public class EncounterManager : MonoBehaviour
 
         instance = this;
         DontDestroyOnLoad(this.gameObject);
+    }
+
+    void Start()
+    {
+        
     }
 
     private void OnEnable()
@@ -63,11 +73,17 @@ public class EncounterManager : MonoBehaviour
         _transitionParent = GameObject.FindGameObjectWithTag("TransitionHolder");
         if (_transitionParent != null)
         {
-            _transition = _transitionParent.transform.GetChild(0).GetComponent<Animator>();
+            _transitionObject = _transitionParent.transform.GetChild(0).gameObject;
+            _transition = _transitionObject.GetComponent<Animator>();
+            
+            _leftFrogPanel = _transitionObject.transform.GetChild(0).transform.GetChild(0).gameObject;
+            _rightFrogPanel = _transitionObject.transform.GetChild(0).transform.GetChild(1).gameObject;
         }
 
         if (scene.name == "BattleTest" && _enemyAttacks != null)
         {
+            _transition.SetTrigger("End");
+
             _audioSource = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
 
             _gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
@@ -116,7 +132,10 @@ public class EncounterManager : MonoBehaviour
             _transition.SetTrigger("Start");
         }
 
-        yield return new WaitForSeconds(1.5f);
+        yield return new WaitForSeconds(1f);
+
+        _leftFrogPanel.transform.position = new Vector3(-225, 540, 0);
+        _rightFrogPanel.transform.position = new Vector3(225, 540, 0);
 
         SceneManager.LoadScene("BattleTest");
     }
@@ -169,12 +188,28 @@ public class EncounterManager : MonoBehaviour
 
         if (reachedEnd)
         {
-            SceneManager.LoadScene(prevScene);
+            StartCoroutine(TransitionBackToGame());
         }
         else
         {
             _playerData.canTakeDamage = false;
         }
+    }
+
+    private IEnumerator TransitionBackToGame()
+    {
+        if (_transition != null)
+        {
+            _transition.SetTrigger("Start");
+        }
+        else
+        {
+            Debug.Log("null");
+        }
+
+        yield return new WaitForSeconds(1.5f);
+
+        SceneManager.LoadScene(prevScene);
     }
 
     IEnumerator DelaySpawns()

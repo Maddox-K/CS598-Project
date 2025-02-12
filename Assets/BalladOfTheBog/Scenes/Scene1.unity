@@ -53770,8 +53770,8 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2036357562594802697}
-  - {fileID: 55021364}
   - {fileID: 2309140509970085383}
+  - {fileID: 55021364}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &817068293 stripped
@@ -56398,9 +56398,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: FrogWipe
       objectReference: {fileID: 0}
-    - target: {fileID: 1392526304175519128, guid: 6163f2bef60dfcc499c511088b2af7b5, type: 3}
-      propertyPath: m_TagString
-      value: Untagged
+    - target: {fileID: 3328212595601679892, guid: 6163f2bef60dfcc499c511088b2af7b5, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: -700
       objectReference: {fileID: 0}
     - target: {fileID: 4381345625718822351, guid: 6163f2bef60dfcc499c511088b2af7b5, type: 3}
       propertyPath: m_LocalPosition.x
@@ -56441,10 +56441,6 @@ PrefabInstance:
     - target: {fileID: 4381345625718822351, guid: 6163f2bef60dfcc499c511088b2af7b5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6854949115946564241, guid: 6163f2bef60dfcc499c511088b2af7b5, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

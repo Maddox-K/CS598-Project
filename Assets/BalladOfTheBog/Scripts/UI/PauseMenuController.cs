@@ -171,6 +171,9 @@ public class PauseMenuController : MonoBehaviour
         {
             EncounterManager.instance.StopAllCoroutines();
             EncounterManager.instance.SetBattleEnd(false);
+
+            _sceneTransitionAnimator.gameObject.SetActive(true);
+            _sceneTransitionAnimator.enabled = true;
         }
         
         StartCoroutine(AnimateReturn());
@@ -183,7 +186,7 @@ public class PauseMenuController : MonoBehaviour
             _sceneTransitionAnimator.SetTrigger("EndScene");
         }
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.2f);
 
         SceneManager.LoadScene("Main Menu");
     }

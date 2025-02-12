@@ -69,7 +69,7 @@ public class MainMenuController : MonoBehaviour
     {
         _startGameAnimator.SetTrigger("EndScene");
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.4f);
 
         SceneManager.LoadScene(GameManager.instance.gameData.lastScene);
     }

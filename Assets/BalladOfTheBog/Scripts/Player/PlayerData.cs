@@ -155,10 +155,8 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         for (int i = 0; i < flashCount; i++)
         {
             sourceImage.sprite = _hurtFrogFace;
-            //yield return new WaitForSeconds(duration / (flashCount * 2));
             yield return new WaitForSeconds(duration * .75f);
             sourceImage.sprite = originalSprite;
-            //yield return new WaitForSeconds(duration / (flashCount * 2));
             yield return new WaitForSeconds(duration * 0.25f);
         }
         sourceImage.gameObject.SetActive(false);

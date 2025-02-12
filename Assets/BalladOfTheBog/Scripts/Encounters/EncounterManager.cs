@@ -33,6 +33,7 @@ public class EncounterManager : MonoBehaviour
     private Animator _transition;
     private GameObject _leftFrogPanel;
     private GameObject _rightFrogPanel;
+    private Animator _quitTransition;
 
     // Enemy
     private EnemyAttacks _enemyAttacks;
@@ -74,6 +75,7 @@ public class EncounterManager : MonoBehaviour
         if (_transitionParent != null)
         {
             _transitionObject = _transitionParent.transform.GetChild(0).gameObject;
+            _quitTransition = _transitionParent.transform.GetChild(1).GetComponent<Animator>();
             _transition = _transitionObject.GetComponent<Animator>();
             
             _leftFrogPanel = _transitionObject.transform.GetChild(0).transform.GetChild(0).gameObject;
@@ -83,6 +85,7 @@ public class EncounterManager : MonoBehaviour
         if (scene.name == "BattleTest" && _enemyAttacks != null)
         {
             _transition.SetTrigger("End");
+            _quitTransition.enabled = false;
 
             _audioSource = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
 
@@ -94,11 +97,35 @@ public class EncounterManager : MonoBehaviour
 
             _gameOverButtons[0] = _gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
             _gameOverButtons[1] = _gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
-            _gameOverButtons[0].onClick.AddListener(() => StartEncounter());
-            _gameOverButtons[1].onClick.AddListener(() => SceneManager.LoadScene("Main Menu"));
+            _gameOverButtons[0].onClick.AddListener(() => TryAgain());
+            _gameOverButtons[1].onClick.AddListener(() => StartCoroutine(GiveUp()));
 
             StartEncounter();
         }
+    }
+
+    private void TryAgain()
+    {
+        foreach (Button button in _gameOverButtons)
+        {
+            button.interactable = false;
+        }
+
+        StartEncounter();
+    }
+
+    private IEnumerator GiveUp()
+    {
+        if (_quitTransition != null)
+        {
+            _quitTransition.gameObject.SetActive(true);
+            _quitTransition.enabled = true;
+            _quitTransition.SetTrigger("EndScene");
+        }
+
+        yield return new WaitForSeconds(1.2f);
+
+        SceneManager.LoadScene("Main Menu");
     }
 
     private void OnDisable()
@@ -148,6 +175,13 @@ public class EncounterManager : MonoBehaviour
         }
 
         _gameOverCanvasGroup.alpha = 0;
+        if (!_gameOverButtons[0].interactable)
+        {
+            foreach (Button button in _gameOverButtons)
+            {
+                button.interactable = true;
+            }
+        }
         _playerData.SetHealth();
         _playercontroller.gameObject.transform.position = new Vector3(0, 0, 0);
         _playercontroller.lookDirection = new Vector2(0, -1);
@@ -198,14 +232,9 @@ public class EncounterManager : MonoBehaviour
 
     private IEnumerator TransitionBackToGame()
     {
-        if (_transition != null)
-        {
-            _transition.SetTrigger("Start");
-        }
-        else
-        {
-            Debug.Log("null");
-        }
+        Debug.Log("transition called");
+        _transition.SetTrigger("Start");
+        _transition.Play("FrogTransition");
 
         yield return new WaitForSeconds(1.5f);
 

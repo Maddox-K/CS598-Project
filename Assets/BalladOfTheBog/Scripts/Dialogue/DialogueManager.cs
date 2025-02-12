@@ -45,15 +45,8 @@ public class DialogueManager : MonoBehaviour
     void Start()
     {
         _playerController = GameObject.FindWithTag("Player").gameObject.GetComponent<PlayerController>();
-        if (_playerController == null)
-        {
-            Debug.Log("player not found");
-        }
+        
         _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PauseMenuController>();
-        if (_pauseController == null)
-        {
-            Debug.Log("pause null");
-        }
     }
 
     public void DisplayNext(Dialogue dialogue)

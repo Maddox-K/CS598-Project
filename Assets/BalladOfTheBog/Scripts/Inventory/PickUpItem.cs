@@ -23,7 +23,9 @@ public class PickUpItem : MonoBehaviour
                     //Item can be added to Inventory
                     inventoryController.isFulll[i] = true;
                     Instantiate(itemButton, inventoryController.slots[i].transform);
-                    Destroy(gameObject);
+                    //Change list to ignore objects
+                    //Destroy(gameObject);
+                    gameObject.SetActive(false);
                     break;
                 }
             }

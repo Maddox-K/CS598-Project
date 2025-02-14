@@ -18,6 +18,7 @@ GameObject:
   - component: {fileID: 8879105221380245680}
   - component: {fileID: 2670095920965618334}
   - component: {fileID: 5361373414779668876}
+  - component: {fileID: 5832325253882718667}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -131,13 +132,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275ed93b4a40c754aa09a6b999b8d4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 8879105221380245680}
-  rb: {fileID: 4214028212895202246}
-  speed: 5
-  moveDirection: {x: 0, y: 0}
   lookDirection: {x: 0, y: 0}
   isDashing: 0
-  animator: {fileID: 3362139211031825187}
   move:
     m_Name: Move
     m_Type: 0
@@ -387,3 +383,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &5832325253882718667
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830172652074087050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c69c08d0e233c14faa57a663a2eeeb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isFulll: 000000000000
+  slots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  InventoryUI: {fileID: 0}

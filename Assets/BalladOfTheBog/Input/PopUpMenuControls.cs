@@ -44,6 +44,15 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Tab"",
+                    ""type"": ""Button"",
+                    ""id"": ""079cb321-14bd-4f11-a527-6782d301e1ec"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -244,6 +253,17 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
                     ""action"": ""Navigate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""caff6541-d975-492f-bced-e8acd4a27a74"",
+                    ""path"": ""<Keyboard>/tab"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Tab"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -315,6 +335,7 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
         m_PopUpMenu = asset.FindActionMap("PopUpMenu", throwIfNotFound: true);
         m_PopUpMenu_Escape = m_PopUpMenu.FindAction("Escape", throwIfNotFound: true);
         m_PopUpMenu_Navigate = m_PopUpMenu.FindAction("Navigate", throwIfNotFound: true);
+        m_PopUpMenu_Tab = m_PopUpMenu.FindAction("Tab", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -378,12 +399,14 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
     private List<IPopUpMenuActions> m_PopUpMenuActionsCallbackInterfaces = new List<IPopUpMenuActions>();
     private readonly InputAction m_PopUpMenu_Escape;
     private readonly InputAction m_PopUpMenu_Navigate;
+    private readonly InputAction m_PopUpMenu_Tab;
     public struct PopUpMenuActions
     {
         private @PopUpMenuControls m_Wrapper;
         public PopUpMenuActions(@PopUpMenuControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Escape => m_Wrapper.m_PopUpMenu_Escape;
         public InputAction @Navigate => m_Wrapper.m_PopUpMenu_Navigate;
+        public InputAction @Tab => m_Wrapper.m_PopUpMenu_Tab;
         public InputActionMap Get() { return m_Wrapper.m_PopUpMenu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -399,6 +422,9 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
             @Navigate.started += instance.OnNavigate;
             @Navigate.performed += instance.OnNavigate;
             @Navigate.canceled += instance.OnNavigate;
+            @Tab.started += instance.OnTab;
+            @Tab.performed += instance.OnTab;
+            @Tab.canceled += instance.OnTab;
         }
 
         private void UnregisterCallbacks(IPopUpMenuActions instance)
@@ -409,6 +435,9 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
             @Navigate.started -= instance.OnNavigate;
             @Navigate.performed -= instance.OnNavigate;
             @Navigate.canceled -= instance.OnNavigate;
+            @Tab.started -= instance.OnTab;
+            @Tab.performed -= instance.OnTab;
+            @Tab.canceled -= instance.OnTab;
         }
 
         public void RemoveCallbacks(IPopUpMenuActions instance)
@@ -475,5 +504,6 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
     {
         void OnEscape(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
+        void OnTab(InputAction.CallbackContext context);
     }
 }

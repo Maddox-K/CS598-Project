@@ -9,6 +9,7 @@ public class PauseMenuController : MonoBehaviour
     // Menus
     [SerializeField] private GameObject _pauseMenuHolder;
     private GameObject _settingsMenu;
+    [SerializeField] private GameObject Inventory;
 
     // Buttons
     [SerializeField] private Button playButton;
@@ -25,6 +26,7 @@ public class PauseMenuController : MonoBehaviour
     private PopUpMenuControls pauseMenuControls;
     public InputAction escape;
     public InputAction navigate;
+    public InputAction tab;
     private string _currentSceneName;
 
     // Animation
@@ -48,6 +50,9 @@ public class PauseMenuController : MonoBehaviour
         navigate = pauseMenuControls.PopUpMenu.Navigate;
         navigate.Enable();
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        tab = pauseMenuControls.PopUpMenu.Tab;
+        tab.Enable();
     }
 
     private void OnDisable()
@@ -55,6 +60,8 @@ public class PauseMenuController : MonoBehaviour
         escape.Disable();
         navigate.Disable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        tab.Disable();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -103,6 +110,18 @@ public class PauseMenuController : MonoBehaviour
             else
             {
                 OpenPauseMenu();
+            }
+        }
+
+        if (tab.WasPressedThisFrame())
+        {
+            if (Inventory.activeInHierarchy)
+            {
+                CloseInventory();
+            }
+            else
+            {
+                OpenInventory();
             }
         }
     }
@@ -194,5 +213,15 @@ public class PauseMenuController : MonoBehaviour
     private void PlayButtonAudio()
     {
         _audioSource.PlayOneShot(_buttonClip);
+    }
+
+    private void OpenInventory()
+    {
+        Inventory.SetActive(true);
+    }
+
+    private void CloseInventory()
+    {
+        Inventory.SetActive(false);
     }
 }

@@ -236,6 +236,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         Vector3 temp = new Vector3();
+
         for (int i = 0; i < 3; i++)
         {
             temp[i] = data.playerPosition[i];

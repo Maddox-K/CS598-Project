@@ -66,6 +66,20 @@ public class GameManager : MonoBehaviour
                 LoadGame(false);
             }
         }
+        else if (gameData.changingScenes || gameData.lastEnemyEncountered != null)
+        {
+            LoadGame();
+
+            gameData.changingScenes = false;
+            if (PlayerPrefs.GetInt("AutoSave") == 1)
+            {
+                SaveGame(false);
+            }
+            else
+            {
+                SaveGame();
+            }
+        }
         else
         {
             LoadGame();

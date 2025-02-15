@@ -6,16 +6,18 @@ public class SceneChange : MonoBehaviour, IInteractable
 {
     [SerializeField] private string _sceneToLoad;
     [SerializeField] private Animator _sceneTransitionAnimator;
+    [SerializeField] private float[] _sceneCoordinates = new float[2];
+    [SerializeField] private float[] _sceneDirection = new float[2];
 
     public void Interact()
     {
-        if (PlayerPrefs.GetInt("AutoSave") == 1)
+        GameData data = GameManager.instance.gameData;
+
+        data.changingScenes = true;
+        for (int i = 0; i < 2; i++)
         {
-            GameManager.instance.SaveGame(false);
-        }
-        else
-        {
-            GameManager.instance.SaveGame();
+            data.playerPosition[i] = _sceneCoordinates[i];
+            data.playerRotation[i] = _sceneDirection[i];
         }
 
         StartCoroutine(TransitionScene());
@@ -25,7 +27,7 @@ public class SceneChange : MonoBehaviour, IInteractable
     {
         _sceneTransitionAnimator.SetTrigger("EndScene");
 
-        yield return new WaitForSeconds(2.0f);
+        yield return new WaitForSeconds(1.4f);
 
         SceneManager.LoadScene(_sceneToLoad);
     }

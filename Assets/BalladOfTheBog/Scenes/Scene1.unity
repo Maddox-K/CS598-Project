@@ -54740,6 +54740,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sceneToLoad: WorldOne
   _sceneTransitionAnimator: {fileID: 107186737}
+  _sceneCoordinates:
+  - 0
+  - 14
+  _sceneDirection:
+  - -1
+  - 0
 --- !u!1 &1218767274
 GameObject:
   m_ObjectHideFlags: 0

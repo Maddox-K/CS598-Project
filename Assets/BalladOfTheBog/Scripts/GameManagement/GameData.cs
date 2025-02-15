@@ -8,6 +8,7 @@ public class GameData
 
     // Scene Management
     public string lastScene;
+    public bool changingScenes;
 
     // Player Data
     public float[] playerPosition = new float[3];
@@ -25,6 +26,7 @@ public class GameData
     {
         // Scene Management
         lastScene = "Scene1";
+        changingScenes = false;
 
         // Player Data
         for (int i = 0; i < 3; i++)

@@ -39,6 +39,7 @@ public class EncounterManager : MonoBehaviour
     private EnemyAttacks _enemyAttacks;
     private List<GameObject> _projectiles = new List<GameObject>();
     private List<Vector2> _velocities = new List<Vector2>();
+    private GameObject _grid;
 
     private void Awake()
     {
@@ -88,6 +89,8 @@ public class EncounterManager : MonoBehaviour
             _quitTransition.enabled = false;
 
             _audioSource = GameObject.FindGameObjectWithTag("Music").GetComponent<AudioSource>();
+
+            _grid = GameObject.FindGameObjectWithTag("Grid");
 
             _gameOverPrefab = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject;
             if (_gameOverPrefab != null)
@@ -172,6 +175,16 @@ public class EncounterManager : MonoBehaviour
         if (_audioSource != null)
         {
             _audioSource.Play();
+        }
+
+        switch (_enemyAttacks.encounterScenery)
+        {
+            case 0:
+                _grid.transform.GetChild(0).gameObject.SetActive(true);
+                break;
+            case 1:
+                _grid.transform.GetChild(1).gameObject.SetActive(true);
+                break;
         }
 
         _gameOverCanvasGroup.alpha = 0;

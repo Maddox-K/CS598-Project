@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -18,7 +17,6 @@ public class PopUpMenuController : MonoBehaviour
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button mainMenuNoSave;
-    //[SerializeField] private Button returnToPause;
 
     // Player
     private PlayerController _playerController;
@@ -50,25 +48,29 @@ public class PopUpMenuController : MonoBehaviour
         escape.Enable();
         navigate = pauseMenuControls.PopUpMenu.Navigate;
         navigate.Enable();
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
         tab = pauseMenuControls.PopUpMenu.Tab;
-        tab.Enable();
+        
+        if (SceneManager.GetActiveScene().name != "BattleTest")
+        {
+            tab.Enable();
+        }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
     {
         escape.Disable();
         navigate.Disable();
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-
         tab.Disable();
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         _currentSceneName = scene.name;
-        if (scene.name == "BattleTest")
+        if (_currentSceneName == "BattleTest")
         {
             saveButton.interactable = false;
             mainMenuButton.interactable = false;

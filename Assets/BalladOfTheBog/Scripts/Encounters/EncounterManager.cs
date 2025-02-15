@@ -37,7 +37,7 @@ public class EncounterManager : MonoBehaviour
 
     // Enemy
     private EnemyAttacks _enemyAttacks;
-    private List<GameObject> _projectiles = new List<GameObject>();
+    private List<Rigidbody2D> _projectileBodies = new List<Rigidbody2D>();
     private List<Vector2> _velocities = new List<Vector2>();
     private GameObject _grid;
 
@@ -229,7 +229,7 @@ public class EncounterManager : MonoBehaviour
     public void SetBattleEnd(bool reachedEnd)
     {
         _encounterInProgress = false;
-        _projectiles.Clear();
+        _projectileBodies.Clear();
         _velocities.Clear();
         _playercontroller.dash.Disable();
 
@@ -263,7 +263,8 @@ public class EncounterManager : MonoBehaviour
 
     IEnumerator SpawnProjectiles(EnemyAttacks enemyAttacks)
     {
-        Projectile proj = enemyAttacks.projectile;
+        Projectile[] projectiles = enemyAttacks.projectiles;
+        int[] selector = enemyAttacks.projectileSelector;
         Vector2[] positions = enemyAttacks.spawnPositions;
         Vector2[] directions = enemyAttacks.launchDirections;
         float[] times = enemyAttacks.launchTimes;
@@ -273,9 +274,14 @@ public class EncounterManager : MonoBehaviour
         {
             yield return new WaitForSeconds(times[i]);
 
-            GameObject projectile = Instantiate(proj.gameObject, (Vector3)positions[i], Quaternion.identity);
-            _projectiles.Add(projectile);
-            _velocities.Add(directions[i].normalized * speeds[i]);
+            GameObject projectile = Instantiate(projectiles[selector[i]].gameObject, (Vector3)positions[i], Quaternion.identity);
+
+            if (projectiles[selector[i]].GetType() == typeof(Projectile))
+            {
+                _projectileBodies.Add(projectile.GetComponent<Rigidbody2D>());
+                _velocities.Add(directions[i].normalized * speeds[i]);
+            }
+            Debug.Log(_projectileBodies.Count);
         }
     }
 
@@ -288,11 +294,11 @@ public class EncounterManager : MonoBehaviour
 
         _encounterInProgress = false;
         StopAllCoroutines();
-        for (int i = 0; i < _projectiles.Count; i++)
+        for (int i = 0; i < _projectileBodies.Count; i++)
         {
-            Destroy(_projectiles[i]);
+            Destroy(_projectileBodies[i].gameObject);
         }
-        _projectiles.Clear();
+        _projectileBodies.Clear();
         _velocities.Clear();
         _gameOverPrefab.SetActive(true);
 
@@ -319,15 +325,15 @@ public class EncounterManager : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (!_encounterInProgress || _enemyAttacks.affectedByGravity)
+        if (!_encounterInProgress)
         {
             return;
         }
-        if (_projectiles.Count > 0)
+        if (_projectileBodies.Count > 0)
         {
-            for (int i = 0; i < _projectiles.Count; i++)
+            for (int i = 0; i < _projectileBodies.Count; i++)
             {
-                _projectiles[i].GetComponent<Rigidbody2D>().velocity = _velocities[i];
+                _projectileBodies[i].velocity = _velocities[i];
             }
         }
     }

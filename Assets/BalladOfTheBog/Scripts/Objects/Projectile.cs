@@ -2,17 +2,17 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    private Animator animator;
-    private Rigidbody2D rb;
+    protected Animator animator;
+    protected Rigidbody2D rb;
     public int damage;
 
-    void Start()
+    protected virtual void Start()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
     }
 
-    void Update()
+    protected virtual void Update()
     {
         if (animator != null)
         {

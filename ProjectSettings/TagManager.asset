@@ -19,6 +19,7 @@ TagManager:
   - SettingsMenu
   - PauseMenu
   - TransitionHolder
+  - Grid
   layers:
   - Default
   - TransparentFX

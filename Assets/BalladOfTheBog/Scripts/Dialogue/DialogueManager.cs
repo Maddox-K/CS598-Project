@@ -21,7 +21,7 @@ public class DialogueManager : MonoBehaviour
 
     // external controllers
     private PlayerController _playerController;
-    private PauseMenuController _pauseController;
+    private PopUpMenuController _pauseController;
 
     // choice dialogue
     [SerializeField] private Button[] choiceButtons;
@@ -46,7 +46,7 @@ public class DialogueManager : MonoBehaviour
     {
         _playerController = GameObject.FindWithTag("Player").gameObject.GetComponent<PlayerController>();
         
-        _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PauseMenuController>();
+        _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PopUpMenuController>();
     }
 
     public void DisplayNext(Dialogue dialogue)
@@ -101,7 +101,7 @@ public class DialogueManager : MonoBehaviour
         if (_playerController == null)
         {
             _playerController = GameObject.FindWithTag("Player").gameObject.GetComponent<PlayerController>();
-            _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PauseMenuController>();
+            _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PopUpMenuController>();
         }
         
         if (_playerController != null && _pauseController != null)

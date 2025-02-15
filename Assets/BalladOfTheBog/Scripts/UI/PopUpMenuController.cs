@@ -1,10 +1,11 @@
 using System.Collections;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PauseMenuController : MonoBehaviour
+public class PopUpMenuController : MonoBehaviour
 {
     // Menus
     [SerializeField] private GameObject _pauseMenuHolder;
@@ -131,6 +132,7 @@ public class PauseMenuController : MonoBehaviour
     {
         PlayButtonAudio();
 
+        Inventory.SetActive(false);
         _pauseMenuHolder.SetActive(true);
         if (_playerController != null)
         {
@@ -168,6 +170,7 @@ public class PauseMenuController : MonoBehaviour
         
         _pauseMenuHolder.SetActive(false);
         _settingsMenu.SetActive(true);
+        Inventory.SetActive(false);
     }
 
     private void ReturnToMainMenuAndSave()
@@ -218,6 +221,8 @@ public class PauseMenuController : MonoBehaviour
     private void OpenInventory()
     {
         Inventory.SetActive(true);
+        _pauseMenuHolder.SetActive(false);
+        _settingsMenu.SetActive(false);
     }
 
     private void CloseInventory()

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     //physics
     private Rigidbody2D _playerRigidBody;
-    private const float speed = 5f;
+    public float speed = 5f;
     private Vector2 moveDirection = Vector2.zero;
     public Vector2 lookDirection = Vector2.zero;
     public bool isDashing;

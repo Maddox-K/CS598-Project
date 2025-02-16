@@ -13,26 +13,29 @@ MonoBehaviour:
   m_Name: TestAttacks2
   m_EditorClassIdentifier: 
   encounterScenery: 1
-  projectile: {fileID: 2492284416381052986, guid: 66dd8af781675504e9cccdce4c24d0ac, type: 3}
+  projectiles:
+  - {fileID: 3335102146370857929, guid: 66dd8af781675504e9cccdce4c24d0ac, type: 3}
+  - {fileID: 6819068496578054052, guid: b288f1350add65643ac93770f176d794, type: 3}
+  projectileSelector: 0000000000000000010000000000000000000000000000000000000001000000000000000000000000000000000000000100000000000000000000000000000000000000010000000000000000000000
   spawnPositions:
   - {x: 0, y: 8}
   - {x: 4, y: 8}
-  - {x: -2, y: 8}
+  - {x: -12, y: 10}
   - {x: -1, y: 8}
   - {x: 5, y: 8}
   - {x: 8, y: 8}
   - {x: -3, y: 8}
-  - {x: 10, y: 8}
+  - {x: 10, y: 12}
   - {x: 9, y: 8}
   - {x: 8, y: 8}
   - {x: 0, y: 8}
   - {x: 6, y: 8}
-  - {x: -1, y: 8}
+  - {x: -1, y: 13}
   - {x: 7, y: 8}
   - {x: -2, y: 8}
   - {x: -4, y: 8}
   - {x: 3, y: 8}
-  - {x: 0, y: 8}
+  - {x: 0, y: -12}
   - {x: -2, y: 8}
   - {x: 4, y: 8}
   launchDirections:
@@ -99,4 +102,3 @@ MonoBehaviour:
   - 0
   - 0
   endTime: 9
-  affectedByGravity: 1

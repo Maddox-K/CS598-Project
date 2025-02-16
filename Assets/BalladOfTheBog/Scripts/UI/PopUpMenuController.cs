@@ -28,6 +28,7 @@ public class PopUpMenuController : MonoBehaviour
     public InputAction escape;
     public InputAction navigate;
     public InputAction tab;
+    public InputAction rightButtonClick;
     private string _currentSceneName;
 
     // Animation
@@ -54,6 +55,9 @@ public class PopUpMenuController : MonoBehaviour
 
         tab = pauseMenuControls.PopUpMenu.Tab;
         tab.Enable();
+        //rightButtonClick = pauseMenuControls.PopUpMenu.ClickOutOfInventory;
+        //rightButtonClick.Enable();
+
     }
 
     private void OnDisable()
@@ -63,6 +67,7 @@ public class PopUpMenuController : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
         tab.Disable();
+        //rightButtonClick.Disable();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -125,6 +130,13 @@ public class PopUpMenuController : MonoBehaviour
                 OpenInventory();
             }
         }
+        //if (rightButtonClick.WasPerformedThisFrame())
+        //{
+        //    if (Inventory.activeInHierarchy)
+        //    {
+        //        CloseInventory();
+        //    }
+        //}
     }
 
     //Call this by pressing escape

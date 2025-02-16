@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,38 +9,42 @@ public class Tomato : MonoBehaviour
 
     private GameObject player;
     private PlayerController playerController;
-
-    private float duration = 5.0f;
-    private float currentTime;
+    private float duration = 10f;
+    private bool isBuffActive = false;
 
     private void Start()
     {
-        currentTime = duration;
-
-        tomatoButton.onClick.AddListener(() =>
-        {
-            player = GameObject.Find("Player");
-            playerController = player.GetComponent<PlayerController>();
-            playerController.speed = 10.0f;
-
-            Destroy(tomatoPrefab);
-            //Destroy()
-        });
+        tomatoButton.onClick.AddListener(ApplySpeedBuff);
     }
 
-    private void Update()
+    private void ApplySpeedBuff()
     {
-        currentTime -= Time.deltaTime;
+        if (isBuffActive) return;
 
-        if (currentTime <= 0) 
-        {
-            RemoveEffect();
-        }
-    }
-
-    private void RemoveEffect()
-    {
+        player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
-        playerController.speed = 5.0f;
+
+        Debug.Log("Speed buff applied!");
+        playerController.speed = 10.0f;
+        isBuffActive = true;
+
+        // Start the coroutine from the player instead of the tomato
+        player.GetComponent<MonoBehaviour>().StartCoroutine(RemoveEffectAfterDelay());
+
+        Destroy(gameObject); // Destroy the tomato object
+    }
+
+    private IEnumerator RemoveEffectAfterDelay()
+    {
+        yield return new WaitForSeconds(duration);
+
+        if (playerController != null)
+        {
+            Debug.Log("Speed buff expired. Resetting speed.");
+            playerController.speed = 5.0f;
+        }
+
+        isBuffActive = false;
     }
 }
+

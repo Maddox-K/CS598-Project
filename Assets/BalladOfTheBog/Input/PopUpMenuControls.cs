@@ -53,6 +53,15 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""ClickOutOfInventory"",
+                    ""type"": ""Button"",
+                    ""id"": ""be02284a-c085-477b-9807-3b898b2318b0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -264,6 +273,17 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
                     ""action"": ""Tab"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""272a5e91-08f4-4614-86c2-8bd1dd1c31b4"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""ClickOutOfInventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -336,6 +356,7 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
         m_PopUpMenu_Escape = m_PopUpMenu.FindAction("Escape", throwIfNotFound: true);
         m_PopUpMenu_Navigate = m_PopUpMenu.FindAction("Navigate", throwIfNotFound: true);
         m_PopUpMenu_Tab = m_PopUpMenu.FindAction("Tab", throwIfNotFound: true);
+        m_PopUpMenu_ClickOutOfInventory = m_PopUpMenu.FindAction("ClickOutOfInventory", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -400,6 +421,7 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PopUpMenu_Escape;
     private readonly InputAction m_PopUpMenu_Navigate;
     private readonly InputAction m_PopUpMenu_Tab;
+    private readonly InputAction m_PopUpMenu_ClickOutOfInventory;
     public struct PopUpMenuActions
     {
         private @PopUpMenuControls m_Wrapper;
@@ -407,6 +429,7 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
         public InputAction @Escape => m_Wrapper.m_PopUpMenu_Escape;
         public InputAction @Navigate => m_Wrapper.m_PopUpMenu_Navigate;
         public InputAction @Tab => m_Wrapper.m_PopUpMenu_Tab;
+        public InputAction @ClickOutOfInventory => m_Wrapper.m_PopUpMenu_ClickOutOfInventory;
         public InputActionMap Get() { return m_Wrapper.m_PopUpMenu; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -425,6 +448,9 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
             @Tab.started += instance.OnTab;
             @Tab.performed += instance.OnTab;
             @Tab.canceled += instance.OnTab;
+            @ClickOutOfInventory.started += instance.OnClickOutOfInventory;
+            @ClickOutOfInventory.performed += instance.OnClickOutOfInventory;
+            @ClickOutOfInventory.canceled += instance.OnClickOutOfInventory;
         }
 
         private void UnregisterCallbacks(IPopUpMenuActions instance)
@@ -438,6 +464,9 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
             @Tab.started -= instance.OnTab;
             @Tab.performed -= instance.OnTab;
             @Tab.canceled -= instance.OnTab;
+            @ClickOutOfInventory.started -= instance.OnClickOutOfInventory;
+            @ClickOutOfInventory.performed -= instance.OnClickOutOfInventory;
+            @ClickOutOfInventory.canceled -= instance.OnClickOutOfInventory;
         }
 
         public void RemoveCallbacks(IPopUpMenuActions instance)
@@ -505,5 +534,6 @@ public partial class @PopUpMenuControls: IInputActionCollection2, IDisposable
         void OnEscape(InputAction.CallbackContext context);
         void OnNavigate(InputAction.CallbackContext context);
         void OnTab(InputAction.CallbackContext context);
+        void OnClickOutOfInventory(InputAction.CallbackContext context);
     }
 }

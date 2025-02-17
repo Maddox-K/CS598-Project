@@ -16,7 +16,7 @@ public class EncounterManager : MonoBehaviour
     private GameObject _gameOverPrefab;
     private CanvasGroup _gameOverCanvasGroup;
     private Button[] _gameOverButtons = new Button[2];
-    private const float fadeDuration = 0.7f;
+    private const float fadeDuration = 0.6f;
 
     // Player Stuff
     private GameObject _player;
@@ -101,8 +101,11 @@ public class EncounterManager : MonoBehaviour
 
             _gameOverButtons[0] = _gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
             _gameOverButtons[1] = _gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
-            _gameOverButtons[0].onClick.AddListener(() => TryAgain());
+
+            /* _gameOverButtons[0].onClick.AddListener(() => TryAgain());
+            _gameOverButtons[0].interactable = false;
             _gameOverButtons[1].onClick.AddListener(() => StartCoroutine(GiveUp()));
+            _gameOverButtons[1].interactable = false; */
 
             StartEncounter();
         }
@@ -322,12 +325,17 @@ public class EncounterManager : MonoBehaviour
         _projectileBodies.Clear();
         _specialProjectiles.Clear();
         _velocities.Clear();
-        _gameOverPrefab.SetActive(true);
 
-        StartCoroutine(FadeIn());
+        _gameOverPrefab.SetActive(true);
+        for (int i = 0; i < _gameOverButtons.Length; i++)
+        {
+            _gameOverButtons[i].interactable = false;
+        }
+
+        StartCoroutine(FadeInGameOver());
     }
 
-    private IEnumerator FadeIn()
+    private IEnumerator FadeInGameOver()
     {
         yield return new WaitForSeconds(1.1f);
 
@@ -342,6 +350,14 @@ public class EncounterManager : MonoBehaviour
 
         _gameOverCanvasGroup.alpha = 1;
 
+        _gameOverButtons[0].onClick.AddListener(() => TryAgain());
+        _gameOverButtons[1].onClick.AddListener(() => GiveUp());
+        for (int i = 0; i < _gameOverButtons.Length; i++)
+        {
+            _gameOverButtons[i].interactable = true;
+        }
+        _gameOverButtons[0].Select();
+        
         _playerData.canTakeDamage = true;
     }
 

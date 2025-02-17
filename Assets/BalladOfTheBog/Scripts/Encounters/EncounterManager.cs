@@ -39,6 +39,7 @@ public class EncounterManager : MonoBehaviour
     private EnemyAttacks _enemyAttacks;
     private List<Rigidbody2D> _projectileBodies = new List<Rigidbody2D>();
     private List<Vector2> _velocities = new List<Vector2>();
+    private List<GameObject> _specialProjectiles = new List<GameObject>();
     private GameObject _grid;
 
     private void Awake()
@@ -229,8 +230,19 @@ public class EncounterManager : MonoBehaviour
     public void SetBattleEnd(bool reachedEnd)
     {
         _encounterInProgress = false;
+
+        for (int i = 0; i < _projectileBodies.Count; i++)
+        {
+            Destroy(_projectileBodies[i].gameObject);
+        }
+        for (int i = 0; i < _specialProjectiles.Count; i++)
+        {
+            Destroy(_specialProjectiles[i]);
+        }
         _projectileBodies.Clear();
+        _specialProjectiles.Clear();
         _velocities.Clear();
+        
         _playercontroller.dash.Disable();
 
         if (reachedEnd)
@@ -281,7 +293,10 @@ public class EncounterManager : MonoBehaviour
                 _projectileBodies.Add(projectile.GetComponent<Rigidbody2D>());
                 _velocities.Add(directions[i].normalized * speeds[i]);
             }
-            Debug.Log(_projectileBodies.Count);
+            else
+            {
+                _specialProjectiles.Add(projectile);
+            }
         }
     }
 
@@ -293,12 +308,19 @@ public class EncounterManager : MonoBehaviour
         }
 
         _encounterInProgress = false;
+
         StopAllCoroutines();
+
         for (int i = 0; i < _projectileBodies.Count; i++)
         {
             Destroy(_projectileBodies[i].gameObject);
         }
+        for (int i = 0; i < _specialProjectiles.Count; i++)
+        {
+            Destroy(_specialProjectiles[i]);
+        }
         _projectileBodies.Clear();
+        _specialProjectiles.Clear();
         _velocities.Clear();
         _gameOverPrefab.SetActive(true);
 

@@ -50,7 +50,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         dash = playerControls.Player.Dash;
     }
 
-    private void OnDisable() {
+    private void OnDisable()
+    {
         move.Disable();
         interact.Disable();
         dash.Disable();
@@ -212,6 +213,10 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         else if (thisCollided.CompareTag("Currency"))
         {
             thisCollided.GetComponent<Coin>().Collect();
+        }
+        else if (thisCollided.CompareTag("PuzzleZone"))
+        {
+            thisCollided.GetComponent<PuzzleZone>().SwitchToPuzzle();
         }
     }
 

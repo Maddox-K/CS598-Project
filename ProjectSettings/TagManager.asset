@@ -20,6 +20,7 @@ TagManager:
   - PauseMenu
   - TransitionHolder
   - Grid
+  - PuzzleZone
   layers:
   - Default
   - TransparentFX

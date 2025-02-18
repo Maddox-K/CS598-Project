@@ -38,6 +38,9 @@ public class PopUpMenuController : MonoBehaviour
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _buttonClip;
 
+    private PlayerController playerController;
+    private Rigidbody2D player;
+
     private void Awake()
     {
         pauseMenuControls = new PopUpMenuControls();
@@ -103,6 +106,9 @@ public class PopUpMenuController : MonoBehaviour
         }
 
         mainMenuNoSave.onClick.AddListener(ReturnToMainMenu);
+
+        player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+        
     }
 
     void Update()
@@ -130,6 +136,12 @@ public class PopUpMenuController : MonoBehaviour
                 OpenInventory();
             }
         }
+
+        if (player.velocity.magnitude > 0.1f)
+        {
+            CloseInventory();
+        }
+
         //if (rightButtonClick.WasPerformedThisFrame())
         //{
         //    if (Inventory.activeInHierarchy)
@@ -240,5 +252,6 @@ public class PopUpMenuController : MonoBehaviour
     private void CloseInventory()
     {
         Inventory.SetActive(false);
+
     }
 }

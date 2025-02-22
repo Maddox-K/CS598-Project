@@ -56,6 +56,9 @@ public class PopUpMenuController : MonoBehaviour
         navigate.Enable();
         SceneManager.sceneLoaded += OnSceneLoaded;
 
+        //May need to move this line back to start. (Weird bug)
+        player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+
         tab = pauseMenuControls.PopUpMenu.Tab;
         tab.Enable();
         //rightButtonClick = pauseMenuControls.PopUpMenu.ClickOutOfInventory;
@@ -107,7 +110,7 @@ public class PopUpMenuController : MonoBehaviour
 
         mainMenuNoSave.onClick.AddListener(ReturnToMainMenu);
 
-        player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+        //player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
         
     }
 

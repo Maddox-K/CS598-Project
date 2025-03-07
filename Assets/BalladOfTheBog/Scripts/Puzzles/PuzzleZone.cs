@@ -8,6 +8,9 @@ public class PuzzleZone : MonoBehaviour
     private Grid _grid;
     public Dictionary<Vector2Int, (Transform, bool)> puzzleContents = new Dictionary<Vector2Int, (Transform, bool)>();
     public Dictionary<Vector2Int, (Transform, bool)> startContents = new Dictionary<Vector2Int, (Transform, bool)>();
+    [SerializeField] public Vector2Int[] solutionTiles;
+    [SerializeField] private int _numRequiredToSolve;
+    public int numSolved = 0;
 
     // player
     private GameObject _player;
@@ -81,6 +84,8 @@ public class PuzzleZone : MonoBehaviour
 
     private void ResetPuzzle()
     {
+        numSolved = 0;
+
         puzzleContents = new Dictionary<Vector2Int, (Transform, bool)>(startContents);
         _playerPuzzleController.currentContents = puzzleContents;
 
@@ -94,5 +99,10 @@ public class PuzzleZone : MonoBehaviour
                 value.Item1.position = initPos;
             }
         }
+    }
+
+    public int GetNumRequired()
+    {
+        return _numRequiredToSolve;
     }
 }

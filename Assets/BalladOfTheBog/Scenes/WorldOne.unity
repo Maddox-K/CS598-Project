@@ -2114,6 +2114,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9b3e3a7a889c6044a8094463320ede3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  solutionTiles:
+  - {x: -5, y: -4}
+  - {x: -6, y: -4}
+  _numRequiredToSolve: 2
+  numSolved: 0
   _miniSprite: {fileID: -629929625, guid: 898b04a67ea93914c85ce4e97f60c104, type: 3}
   _initialPlayerPosition: {x: -3, y: -1, z: 0}
 --- !u!61 &1662690048

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -122,6 +123,11 @@ public class PlayerPuzzleController : MonoBehaviour
             {
                 _objectToPush.position += Vector3.left;
                 _objectToPush = null;
+
+                if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
+                {
+                    Debug.Log("Puzzle Solved!");
+                }
             }
 
             _playerTransform.position += Vector3.left;
@@ -142,6 +148,11 @@ public class PlayerPuzzleController : MonoBehaviour
             {
                 _objectToPush.position += Vector3.right;
                 _objectToPush = null;
+
+                if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
+                {
+                    Debug.Log("Puzzle Solved!");
+                }
             }
 
             _playerTransform.position += Vector3.right;
@@ -162,6 +173,11 @@ public class PlayerPuzzleController : MonoBehaviour
             {
                 _objectToPush.position += Vector3.down;
                 _objectToPush = null;
+
+                if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
+                {
+                    Debug.Log("Puzzle Solved!");
+                }
             }
 
             _playerTransform.position += Vector3.down;
@@ -182,6 +198,11 @@ public class PlayerPuzzleController : MonoBehaviour
             {
                 _objectToPush.position += Vector3.up;
                 _objectToPush = null;
+
+                if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
+                {
+                    Debug.Log("Puzzle Solved!");
+                }
             }
 
             _playerTransform.position += Vector3.up;
@@ -217,28 +238,45 @@ public class PlayerPuzzleController : MonoBehaviour
                 break;
         }
 
-        if (currentContents.TryGetValue(Vector2Int.RoundToInt(coords), out (Transform, bool) value))
+        Vector2Int SpaceToCheck = Vector2Int.RoundToInt(coords);
+        Vector2Int AdjacentSpace = Vector2Int.RoundToInt(nextCoords);
+
+        if (currentContents.TryGetValue(SpaceToCheck, out (Transform, bool) value)) // space you are trying to move into has either an obstacle or a wall on it
         {
-            if (!value.Item2)
+            if (!value.Item2) // space contains a wall
             {
                 return true;
             }
-            else if (currentContents.ContainsKey(Vector2Int.RoundToInt(nextCoords)))
+            else if (currentContents.ContainsKey(AdjacentSpace)) // space contains an obstacle and the obstacle's adjacent space is not empty
             {
                 return true;
             }
-            else
+            else // space contains an obstacle and the adjacent space is empty
             {
+                if (currentPuzzle.solutionTiles.Contains(SpaceToCheck))
+                {
+                    currentPuzzle.numSolved--;
+                }
+                if (currentPuzzle.solutionTiles.Contains(AdjacentSpace))
+                {
+                    currentPuzzle.numSolved++;
+                }
+
                 _objectToPush = value.Item1;
-                currentContents.Remove(Vector2Int.RoundToInt(coords));
-                currentContents.Add(Vector2Int.RoundToInt(nextCoords), (value.Item1, true));
+                currentContents.Remove(SpaceToCheck);
+                currentContents.Add(AdjacentSpace, (value.Item1, true));
                 return false;
             }
         }
-        else
+        else // space you are trying to move into is empty
         {
             return false;
         }
+    }
+
+    private bool CheckCompletion(int solved, int required)
+    {
+        return solved == required;
     }
 
     private void PlayMoveAudio()

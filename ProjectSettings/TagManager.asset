@@ -21,6 +21,7 @@ TagManager:
   - TransitionHolder
   - Grid
   - PuzzleZone
+  - ResetMenu
   layers:
   - Default
   - TransparentFX

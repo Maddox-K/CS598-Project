@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class PlayerPuzzleController : MonoBehaviour
 {
@@ -23,11 +24,28 @@ public class PlayerPuzzleController : MonoBehaviour
     // moving objects
     private Transform _objectToPush = null;
 
+    // UI
+    private Button _resetMenuButton;
+
+    // Audio
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _move;
+    [SerializeField] private AudioClip _pushedIntoSolution;
+    [SerializeField] private AudioClip _cannotMove;
+
     private void Awake()
     {
         playerControls = new PlayerInputActions();
         
         _playerTransform = GetComponent<Transform>();
+
+        GameObject resetMenu = GameObject.FindGameObjectWithTag("ResetMenu");
+        if (resetMenu != null)
+        {
+            _resetMenuButton = resetMenu.transform.GetChild(0).gameObject.GetComponent<Button>();
+        }
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void OnEnable()
@@ -84,6 +102,12 @@ public class PlayerPuzzleController : MonoBehaviour
             GetComponent<SpriteRenderer>().sprite = _normalSprite;
             GetComponent<Animator>().enabled = true;
             GetComponent<PlayerController>().enabled = true;
+
+            if (_resetMenuButton != null)
+            {
+                _resetMenuButton.gameObject.SetActive(false);
+            }
+
             this.enabled = false;
         }
     }
@@ -92,6 +116,8 @@ public class PlayerPuzzleController : MonoBehaviour
     {
         if (!CheckCollision("left"))
         {
+            PlayMoveAudio();
+
             if (_objectToPush != null)
             {
                 _objectToPush.position += Vector3.left;
@@ -100,12 +126,18 @@ public class PlayerPuzzleController : MonoBehaviour
 
             _playerTransform.position += Vector3.left;
         }
+        else
+        {
+            PlayBlockedAudio();
+        }
     }
 
     private void MoveRight()
     {
         if (!CheckCollision("right"))
         {
+            PlayMoveAudio();
+
             if (_objectToPush != null)
             {
                 _objectToPush.position += Vector3.right;
@@ -114,12 +146,18 @@ public class PlayerPuzzleController : MonoBehaviour
 
             _playerTransform.position += Vector3.right;
         }
+        else
+        {
+            PlayBlockedAudio();
+        }
     }
 
     private void MoveDown()
     {
         if (!CheckCollision("down"))
         {
+            PlayMoveAudio();
+
             if (_objectToPush != null)
             {
                 _objectToPush.position += Vector3.down;
@@ -128,12 +166,18 @@ public class PlayerPuzzleController : MonoBehaviour
 
             _playerTransform.position += Vector3.down;
         }
+        else
+        {
+            PlayBlockedAudio();
+        }
     }
 
     private void MoveUp()
     {
         if (!CheckCollision("up"))
         {
+            PlayMoveAudio();
+
             if (_objectToPush != null)
             {
                 _objectToPush.position += Vector3.up;
@@ -141,6 +185,10 @@ public class PlayerPuzzleController : MonoBehaviour
             }
 
             _playerTransform.position += Vector3.up;
+        }
+        else
+        {
+            PlayBlockedAudio();
         }
     }
 
@@ -191,5 +239,15 @@ public class PlayerPuzzleController : MonoBehaviour
         {
             return false;
         }
+    }
+
+    private void PlayMoveAudio()
+    {
+        _audioSource.PlayOneShot(_move);
+    }
+
+    private void PlayBlockedAudio()
+    {
+        _audioSource.PlayOneShot(_cannotMove);
     }
 }

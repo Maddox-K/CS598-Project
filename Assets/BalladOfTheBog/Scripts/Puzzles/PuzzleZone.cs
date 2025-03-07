@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class PuzzleZone : MonoBehaviour
@@ -13,6 +14,9 @@ public class PuzzleZone : MonoBehaviour
     private PlayerController _playerController;
     private PlayerPuzzleController _playerPuzzleController;
     [SerializeField] private Sprite _miniSprite;
+
+    // UI
+    private Button _resetMenuButton;
     
     void Awake()
     {
@@ -25,6 +29,12 @@ public class PuzzleZone : MonoBehaviour
             _playerTransform = _player.transform;
             _playerController = _player.GetComponent<PlayerController>();
             _playerPuzzleController = _player.GetComponent<PlayerPuzzleController>();
+        }
+
+        GameObject resetMenu = GameObject.FindGameObjectWithTag("ResetMenu");
+        if (resetMenu != null)
+        {
+            _resetMenuButton = resetMenu.transform.GetChild(0).gameObject.GetComponent<Button>();
         }
     }
 
@@ -41,5 +51,11 @@ public class PuzzleZone : MonoBehaviour
 
         Vector3Int cellPosition = _grid.WorldToCell(_playerTransform.position);
         _playerTransform.position = _grid.CellToWorld(cellPosition);
+
+        if (_resetMenuButton != null)
+        {
+            _resetMenuButton.gameObject.SetActive(true);
+            _resetMenuButton.Select();
+        }
     }
 }

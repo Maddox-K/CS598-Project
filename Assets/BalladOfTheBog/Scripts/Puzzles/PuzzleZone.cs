@@ -7,6 +7,7 @@ public class PuzzleZone : MonoBehaviour
     // world
     private Grid _grid;
     public Dictionary<Vector2Int, (Transform, bool)> puzzleContents = new Dictionary<Vector2Int, (Transform, bool)>();
+    public Dictionary<Vector2Int, (Transform, bool)> startContents = new Dictionary<Vector2Int, (Transform, bool)>();
 
     // player
     private GameObject _player;
@@ -14,6 +15,8 @@ public class PuzzleZone : MonoBehaviour
     private PlayerController _playerController;
     private PlayerPuzzleController _playerPuzzleController;
     [SerializeField] private Sprite _miniSprite;
+    [SerializeField] private Vector3 _initialPlayerPosition;
+    private Vector3Int _initialPlayerCellPosition;
 
     // UI
     private Button _resetMenuButton;
@@ -36,6 +39,23 @@ public class PuzzleZone : MonoBehaviour
         {
             _resetMenuButton = resetMenu.transform.GetChild(0).gameObject.GetComponent<Button>();
         }
+
+        _initialPlayerCellPosition = _grid.WorldToCell(_initialPlayerPosition);
+    }
+
+    void Start()
+    {
+        foreach (Vector2Int key in startContents.Keys)
+        {
+            if (startContents[key].Item2)
+            {
+                Debug.Log(key);
+            }
+        }
+        if (_resetMenuButton != null)
+        {
+            _resetMenuButton.onClick.AddListener(ResetPuzzle);
+        }
     }
 
     public void SwitchToPuzzle()
@@ -56,6 +76,23 @@ public class PuzzleZone : MonoBehaviour
         {
             _resetMenuButton.gameObject.SetActive(true);
             _resetMenuButton.Select();
+        }
+    }
+
+    private void ResetPuzzle()
+    {
+        puzzleContents = new Dictionary<Vector2Int, (Transform, bool)>(startContents);
+        _playerPuzzleController.currentContents = puzzleContents;
+
+        _playerTransform.position = _grid.CellToWorld(_initialPlayerCellPosition);
+
+        foreach ((Transform, bool) value in puzzleContents.Values)
+        {
+            if (value.Item2)
+            {
+                Vector3 initPos = value.Item1.gameObject.GetComponent<Obstacle>().GetInitialPosition();
+                value.Item1.position = initPos;
+            }
         }
     }
 }

@@ -2115,6 +2115,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _miniSprite: {fileID: -629929625, guid: 898b04a67ea93914c85ce4e97f60c104, type: 3}
+  _initialPlayerPosition: {x: -3, y: -1, z: 0}
 --- !u!61 &1662690048
 BoxCollider2D:
   m_ObjectHideFlags: 0

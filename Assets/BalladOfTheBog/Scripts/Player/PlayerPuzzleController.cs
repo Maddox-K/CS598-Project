@@ -114,7 +114,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
     private void MoveLeft()
     {
-        if (!CheckCollision("left"))
+        if (!CheckCollision(1))
         {
             PlayMoveAudio();
 
@@ -134,7 +134,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
     private void MoveRight()
     {
-        if (!CheckCollision("right"))
+        if (!CheckCollision(2))
         {
             PlayMoveAudio();
 
@@ -154,7 +154,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
     private void MoveDown()
     {
-        if (!CheckCollision("down"))
+        if (!CheckCollision(3))
         {
             PlayMoveAudio();
 
@@ -174,7 +174,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
     private void MoveUp()
     {
-        if (!CheckCollision("up"))
+        if (!CheckCollision(4))
         {
             PlayMoveAudio();
 
@@ -192,26 +192,26 @@ public class PlayerPuzzleController : MonoBehaviour
         }
     }
 
-    private bool CheckCollision(string direction)
+    private bool CheckCollision(int direction)
     {
         Vector3 coords = _playerTransform.position;
         Vector3 nextCoords = Vector3.zero;
 
         switch (direction)
         {
-            case "left":
+            case 1:
                 coords += Vector3.left;
                 nextCoords += (coords + Vector3.left);
                 break;
-            case "right":
+            case 2:
                 coords += Vector3.right;
                 nextCoords += (coords + Vector3.right);
                 break;
-            case "down":
+            case 3:
                 coords += Vector3.down;
                 nextCoords += (coords + Vector3.down);
                 break;
-            case "up":
+            case 4:
                 coords += Vector3.up;
                 nextCoords += (coords + Vector3.up);
                 break;

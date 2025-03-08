@@ -11,6 +11,8 @@ public class PuzzleZone : MonoBehaviour
     [SerializeField] public Vector2Int[] solutionTiles;
     [SerializeField] private int _numRequiredToSolve;
     public int numSolved = 0;
+    private Camera _playerCamera;
+    private Camera _staticCamera;
 
     // player
     private GameObject _player;
@@ -35,6 +37,7 @@ public class PuzzleZone : MonoBehaviour
             _playerTransform = _player.transform;
             _playerController = _player.GetComponent<PlayerController>();
             _playerPuzzleController = _player.GetComponent<PlayerPuzzleController>();
+            _playerCamera = _player.transform.GetChild(0).GetComponent<Camera>();
         }
 
         GameObject resetMenu = GameObject.FindGameObjectWithTag("ResetMenu");
@@ -44,17 +47,12 @@ public class PuzzleZone : MonoBehaviour
         }
 
         _initialPlayerCellPosition = _grid.WorldToCell(_initialPlayerPosition);
+
+        _staticCamera = transform.GetChild(0).GetComponent<Camera>();
     }
 
     void Start()
     {
-        foreach (Vector2Int key in startContents.Keys)
-        {
-            if (startContents[key].Item2)
-            {
-                Debug.Log(key);
-            }
-        }
         if (_resetMenuButton != null)
         {
             _resetMenuButton.onClick.AddListener(ResetPuzzle);
@@ -63,14 +61,19 @@ public class PuzzleZone : MonoBehaviour
 
     public void SwitchToPuzzle()
     {
+        _staticCamera.enabled = true;
+        _playerCamera.enabled = false;
+
         _player.GetComponent<SpriteRenderer>().sprite = _miniSprite;
         _player.GetComponent<Animator>().enabled = false;
 
         _player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
         _playerController.enabled = false;
+        
         _playerPuzzleController.enabled = true;
         _playerPuzzleController.currentPuzzle = this;
         _playerPuzzleController.currentContents = puzzleContents;
+        _playerPuzzleController.currentPuzzleCamera = _staticCamera;
 
         Vector3Int cellPosition = _grid.WorldToCell(_playerTransform.position);
         _playerTransform.position = _grid.CellToWorld(cellPosition);

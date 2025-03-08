@@ -9,6 +9,8 @@ public class PlayerPuzzleController : MonoBehaviour
     private Transform _playerTransform;
     public PuzzleZone currentPuzzle;
     public Dictionary<Vector2Int, (Transform, bool)> currentContents = new Dictionary<Vector2Int, (Transform, bool)>();
+    private Camera _camera;
+    public Camera currentPuzzleCamera;
 
     // Input
     public PlayerInputActions playerControls;
@@ -47,6 +49,8 @@ public class PlayerPuzzleController : MonoBehaviour
         }
 
         _audioSource = GetComponent<AudioSource>();
+
+        _camera = transform.GetChild(0).GetComponent<Camera>();
     }
 
     private void OnEnable()
@@ -97,8 +101,12 @@ public class PlayerPuzzleController : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("PuzzleZone"))
         {
+            _camera.enabled = true;
+            currentPuzzleCamera.enabled = false;
+
             currentPuzzle = null;
             currentContents = null;
+            currentPuzzleCamera = null;
 
             GetComponent<SpriteRenderer>().sprite = _normalSprite;
             GetComponent<Animator>().enabled = true;

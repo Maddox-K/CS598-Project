@@ -25,6 +25,7 @@ public class DialogueManager : MonoBehaviour
 
     // choice dialogue
     [SerializeField] private Button[] choiceButtons;
+    private GameObject[] _choiceIndicators;
     private bool _waitingForInput = false;
 
     // audio
@@ -40,6 +41,13 @@ public class DialogueManager : MonoBehaviour
     void Awake()
     {
         _audioSource = gameObject.AddComponent<AudioSource>();
+
+        _choiceIndicators = new GameObject[choiceButtons.Length];
+
+        for (int i = 0; i < _choiceIndicators.Length; i++)
+        {
+            _choiceIndicators[i] = choiceButtons[i].transform.GetChild(0).gameObject;
+        }
     }
 
     void Start()
@@ -205,6 +213,8 @@ public class DialogueManager : MonoBehaviour
 
             for (int i = 0; i < dialogue.choices.Length; i++)
             {
+                _choiceIndicators[i].SetActive(false);
+
                 choiceButtons[i].gameObject.SetActive(true);
                 choiceButtons[i].GetComponentInChildren<TextMeshProUGUI>().text = dialogue.choices[i].choiceText;
 
@@ -214,6 +224,8 @@ public class DialogueManager : MonoBehaviour
                 choiceButtons[i].onClick.AddListener(() => OnChoiceSelected(dialogue, choiceIndex));
             }
         }
+
+        _choiceIndicators[0].SetActive(true);
     }
 
     private void OnChoiceSelected(Dialogue dialogue, int choiceIndex)

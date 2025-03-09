@@ -8,4 +8,9 @@ public class MenuButtonSet : MonoBehaviour
     {
         _firstSelected.Select();
     }
+
+    void Start()
+    {
+        _firstSelected.transform.GetChild(0).gameObject.SetActive(true);
+    }
 }

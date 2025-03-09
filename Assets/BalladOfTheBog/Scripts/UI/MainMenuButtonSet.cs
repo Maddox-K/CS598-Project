@@ -17,5 +17,7 @@ public class MainMenuButtonSet : MenuButtonSet
             _firstSelected = _overrideFirstSelected;
             _firstSelected.Select();
         }
+
+        _firstSelected.transform.GetChild(0).gameObject.SetActive(true);
     }
 }

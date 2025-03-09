@@ -27,6 +27,10 @@ public class SettingsController : MonoBehaviour
     [SerializeField] private Button _autoSaveOff;
     [SerializeField] private GameObject _offCheck;
 
+    // Audio
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _buttonClip;
+
     void Awake()
     {
         if (!PlayerPrefs.HasKey("AutoSave"))
@@ -42,6 +46,8 @@ public class SettingsController : MonoBehaviour
         {
             _onCheck.SetActive(true);
         }
+
+        _audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -51,6 +57,7 @@ public class SettingsController : MonoBehaviour
 
         generalButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
             _generalPanel.SetActive(true);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(false);
@@ -58,6 +65,7 @@ public class SettingsController : MonoBehaviour
         });
         soundButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(true);
             _controlsPanel.SetActive(false);
@@ -65,6 +73,7 @@ public class SettingsController : MonoBehaviour
         });
         controlsButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(true);
@@ -72,6 +81,7 @@ public class SettingsController : MonoBehaviour
         });
         creditsButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(false);
@@ -84,6 +94,8 @@ public class SettingsController : MonoBehaviour
 
     private void SwitchToMainMenu()
     {
+        PlayButtonAudio();
+
         _generalPanel.SetActive(false);
         _soundPanel.SetActive(false);
         _controlsPanel.SetActive(false);
@@ -95,6 +107,8 @@ public class SettingsController : MonoBehaviour
 
     private void ActivateAutoSave()
     {
+        PlayButtonAudio();
+
         if (_offCheck.activeSelf)
         {
             StartCoroutine(DelayAutoSaveEdit(true));
@@ -108,6 +122,8 @@ public class SettingsController : MonoBehaviour
 
     private void DeactivateAutoSave()
     {
+        PlayButtonAudio();
+
         if (_onCheck.activeSelf)
         {
             StartCoroutine(DelayAutoSaveEdit(false));
@@ -139,5 +155,10 @@ public class SettingsController : MonoBehaviour
         {
             _autoSaveOff.Select();
         }
+    }
+
+    private void PlayButtonAudio()
+    {
+        _audioSource.PlayOneShot(_buttonClip);
     }
 }

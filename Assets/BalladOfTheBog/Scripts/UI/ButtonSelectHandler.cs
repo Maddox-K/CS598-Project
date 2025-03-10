@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ButtonSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHandler
+public class ButtonSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private GameObject _highlighter;
 
@@ -16,6 +16,16 @@ public class ButtonSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHandl
     }
 
     public void OnDeselect(BaseEventData eventData)
+    {
+        _highlighter.SetActive(false);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        _highlighter.SetActive(true);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
     {
         _highlighter.SetActive(false);
     }

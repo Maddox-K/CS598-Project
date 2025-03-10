@@ -8,6 +8,7 @@ public class MainMenuButtonSet : MenuButtonSet
     void OnEnable()
     {
         _firstSelected.Select();
+        _firstSelected.transform.GetChild(0).gameObject.SetActive(true);
     }
 
     void Start()

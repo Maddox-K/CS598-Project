@@ -2,10 +2,12 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour, IDataPersistence
 {
     private PlayerData _playerData;
+    private string _currentScene;
 
     //physics
     private Rigidbody2D _playerRigidBody;
@@ -48,6 +50,8 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         interact = playerControls.Player.Interact;
         interact.Enable();
         dash = playerControls.Player.Dash;
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
     private void OnDisable()
@@ -55,6 +59,13 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         move.Disable();
         interact.Disable();
         dash.Disable();
+
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        _currentScene = scene.name;
     }
 
     // Update is called once per frame
@@ -147,6 +158,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     GameObject GetClosestObject()
     {
+        if (_currentScene == "BattleTest")
+        {
+            return null;
+        }
+
         Collider2D closest = null;
         float closestDistanceSqr = float.MaxValue;
         Vector3 playerPosition = transform.position;

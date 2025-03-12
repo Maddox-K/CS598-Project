@@ -12,6 +12,7 @@ public class MenuButtonSet : MonoBehaviour
     void OnEnable()
     {
         _firstSelected.Select();
+        _firstSelected.transform.GetChild(0).gameObject.SetActive(true);
 
         InputSystem.onEvent += OnInputEvent;
     }

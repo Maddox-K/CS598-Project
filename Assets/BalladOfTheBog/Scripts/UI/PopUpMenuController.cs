@@ -18,7 +18,7 @@ public class PopUpMenuController : MonoBehaviour
     [SerializeField] private Button saveButton;
     [SerializeField] private Button mainMenuButton;
     [SerializeField] private Button mainMenuNoSave;
-    //[SerializeField] private Button returnToPause;
+    [SerializeField] private GameObject[] _buttonHighlighters;
 
     // Player
     private PlayerController _playerController;
@@ -58,9 +58,6 @@ public class PopUpMenuController : MonoBehaviour
 
         tab = pauseMenuControls.PopUpMenu.Tab;
         tab.Enable();
-        //rightButtonClick = pauseMenuControls.PopUpMenu.ClickOutOfInventory;
-        //rightButtonClick.Enable();
-
     }
 
     private void OnDisable()
@@ -191,6 +188,11 @@ public class PopUpMenuController : MonoBehaviour
     private void OpenSettingsMenu()
     {
         PlayButtonAudio();
+
+        for (int i = 0; i < _buttonHighlighters.Length; i++)
+        {
+            _buttonHighlighters[i].SetActive(false);
+        }
         
         _pauseMenuHolder.SetActive(false);
         _settingsMenu.SetActive(true);

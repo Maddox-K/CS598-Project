@@ -371,7 +371,7 @@ public class EncounterManager : MonoBehaviour
         {
             for (int i = 0; i < _projectileBodies.Count; i++)
             {
-                _projectileBodies[i].velocity = _velocities[i];
+                _projectileBodies[i].linearVelocity = _velocities[i];
             }
         }
     }

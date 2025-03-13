@@ -146,7 +146,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         _canDash = false;
         isDashing = true;
-        _playerRigidBody.velocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
+        _playerRigidBody.linearVelocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
         yield return new WaitForSeconds(dashDuration);
 
         isDashing = false;
@@ -213,7 +213,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
             return;
         }
 
-        _playerRigidBody.velocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
+        _playerRigidBody.linearVelocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
     }
 
     private void OnTriggerEnter2D(Collider2D collider)

@@ -134,7 +134,7 @@ public class PopUpMenuController : MonoBehaviour
             }
         }
 
-        if (player.velocity.magnitude > 0.1f)
+        if (player.linearVelocity.magnitude > 0.1f)
         {
             CloseInventory();
         }

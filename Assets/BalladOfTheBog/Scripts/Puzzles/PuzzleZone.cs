@@ -67,7 +67,7 @@ public class PuzzleZone : MonoBehaviour
         _player.GetComponent<SpriteRenderer>().sprite = _miniSprite;
         _player.GetComponent<Animator>().enabled = false;
 
-        _player.GetComponent<Rigidbody2D>().velocity = Vector3.zero;
+        _player.GetComponent<Rigidbody2D>().linearVelocity = Vector3.zero;
         _playerController.enabled = false;
         
         _playerPuzzleController.enabled = true;

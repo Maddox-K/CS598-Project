@@ -27,6 +27,10 @@ public class InGameSettingsController : MonoBehaviour
     [SerializeField] private Button _autoSaveOff;
     [SerializeField] private GameObject _offCheck;
 
+    // Audio
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _buttonClip;
+
     void Awake()
     {
         _settingsMenu = gameObject;
@@ -39,6 +43,8 @@ public class InGameSettingsController : MonoBehaviour
         {
             _onCheck.SetActive(true);
         }
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -50,6 +56,8 @@ public class InGameSettingsController : MonoBehaviour
 
         _generalButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
+
             _generalPanel.SetActive(true);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(false);
@@ -57,6 +65,8 @@ public class InGameSettingsController : MonoBehaviour
         });
         _soundButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
+
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(true);
             _controlsPanel.SetActive(false);
@@ -64,6 +74,8 @@ public class InGameSettingsController : MonoBehaviour
         });
         _controlsButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
+
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(true);
@@ -71,6 +83,8 @@ public class InGameSettingsController : MonoBehaviour
         });
         _creditsButton.onClick.AddListener(() =>
         {
+            PlayButtonAudio();
+
             _generalPanel.SetActive(false);
             _soundPanel.SetActive(false);
             _controlsPanel.SetActive(false);
@@ -83,6 +97,8 @@ public class InGameSettingsController : MonoBehaviour
 
     private void ReturnToPauseMenu()
     {
+        PlayButtonAudio();
+
         _generalPanel.SetActive(false);
         _soundPanel.SetActive(false);
         _controlsPanel.SetActive(false);
@@ -94,6 +110,8 @@ public class InGameSettingsController : MonoBehaviour
 
     private void ActivateAutoSave()
     {
+        PlayButtonAudio();
+
         if (_offCheck.activeSelf)
         {
             StartCoroutine(DelayAutoSaveEdit(true));
@@ -107,6 +125,8 @@ public class InGameSettingsController : MonoBehaviour
 
     private void DeactivateAutoSave()
     {
+        PlayButtonAudio();
+
         if (_onCheck.activeSelf)
         {
             StartCoroutine(DelayAutoSaveEdit(false));
@@ -138,5 +158,10 @@ public class InGameSettingsController : MonoBehaviour
         {
             _autoSaveOff.Select();
         }
+    }
+
+    private void PlayButtonAudio()
+    {
+        _audioSource.PlayOneShot(_buttonClip);
     }
 }

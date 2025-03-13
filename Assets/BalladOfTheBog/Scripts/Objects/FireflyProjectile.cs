@@ -31,7 +31,7 @@ public class FireflyProjectile : Projectile
     {
         while (true)
         {
-            rb.velocity = Vector2.zero;
+            rb.linearVelocity = Vector2.zero;
 
             yield return new WaitForSeconds(0.15f);
 
@@ -41,7 +41,7 @@ public class FireflyProjectile : Projectile
         
             _move = ((direction * playerBias) + (random * (1 - playerBias))).normalized;
 
-            rb.velocity = _move * speed;
+            rb.linearVelocity = _move * speed;
 
             yield return new WaitForSeconds(0.4f);
         }

@@ -1558,6 +1558,7 @@ MonoBehaviour:
   _onCheck: {fileID: 213752710}
   _autoSaveOff: {fileID: 345535538}
   _offCheck: {fileID: 559108769}
+  _buttonClip: {fileID: 8300000, guid: 206016049f4a9c744a8263173522ef11, type: 3}
 --- !u!114 &1465160926
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1577,6 +1578,7 @@ MonoBehaviour:
   cancelButton: {fileID: 1327729315}
   confirmButton: {fileID: 908130688}
   _startGameAnimator: {fileID: 1091439022}
+  _buttonClip: {fileID: 8300000, guid: 206016049f4a9c744a8263173522ef11, type: 3}
 --- !u!82 &1465160927
 AudioSource:
   m_ObjectHideFlags: 0
@@ -2127,6 +2129,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1845524500974417250, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
+      propertyPath: m_UpdateMode
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4411656964426162765, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2189,6 +2195,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6900192188394663399, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7074719474639467712, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}
+      propertyPath: m_UpdateMode
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8954686157838028072, guid: 3a913f212377cff46b3d83fc2ec95089, type: 3}

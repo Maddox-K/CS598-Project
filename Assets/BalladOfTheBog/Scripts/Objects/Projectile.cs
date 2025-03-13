@@ -16,8 +16,8 @@ public class Projectile : MonoBehaviour
     {
         if (animator != null)
         {
-            animator.SetFloat("horizontal", rb.velocity.x);
-            animator.SetFloat("vertical", rb.velocity.y);
+            animator.SetFloat("horizontal", rb.linearVelocity.x);
+            animator.SetFloat("vertical", rb.linearVelocity.y);
         }
     }
 }

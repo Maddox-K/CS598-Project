@@ -27,6 +27,10 @@ public class SavesMenuController : MonoBehaviour
     // Animation
     [SerializeField] private Animator _startGameAnimator;
 
+    // Audio
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _buttonClip;
+
     private void Awake()
     {
         _pendingOverwrite = null;
@@ -41,6 +45,8 @@ public class SavesMenuController : MonoBehaviour
                 _saveSlotButtons[i] = _saveSlots[i].GetComponent<Button>();
             }
         }
+
+        _audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -53,6 +59,8 @@ public class SavesMenuController : MonoBehaviour
 
     public void OnSaveSlotClicked(SaveSlot saveSlot)
     {
+        PlayButtonAudio();
+
         foreach (SaveSlot save in _saveSlots)
         {
             save.SetInteractable(false);
@@ -93,6 +101,8 @@ public class SavesMenuController : MonoBehaviour
 
     public void ConfirmNewGame()
     {
+        PlayButtonAudio();
+
         GameManager.instance.ChangeSelectedProfileId(_pendingOverwrite.GetProfileId());
         GameManager.instance.NewGame();
         StartCoroutine(LoadGameScene());
@@ -137,12 +147,16 @@ public class SavesMenuController : MonoBehaviour
 
     private void SwitchToMainMenu()
     {
+        PlayButtonAudio();
+
         savesMenu.gameObject.SetActive(false);
         mainMenu.gameObject.SetActive(true);
     }
 
     private void CancelNewGame()
     {
+        PlayButtonAudio();
+
         savesMenu.gameObject.SetActive(true);
         foreach (SaveSlot save in _saveSlots)
         {
@@ -156,5 +170,10 @@ public class SavesMenuController : MonoBehaviour
         }
 
         confirmationMenu.gameObject.SetActive(false);
+    }
+
+    private void PlayButtonAudio()
+    {
+        _audioSource.PlayOneShot(_buttonClip);
     }
 }

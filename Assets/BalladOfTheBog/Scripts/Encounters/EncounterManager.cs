@@ -102,11 +102,6 @@ public class EncounterManager : MonoBehaviour
             _gameOverButtons[0] = _gameOverPrefab.transform.GetChild(1).gameObject.GetComponent<Button>();
             _gameOverButtons[1] = _gameOverPrefab.transform.GetChild(2).gameObject.GetComponent<Button>();
 
-            /* _gameOverButtons[0].onClick.AddListener(() => TryAgain());
-            _gameOverButtons[0].interactable = false;
-            _gameOverButtons[1].onClick.AddListener(() => StartCoroutine(GiveUp()));
-            _gameOverButtons[1].interactable = false; */
-
             StartEncounter();
         }
     }
@@ -123,6 +118,8 @@ public class EncounterManager : MonoBehaviour
 
     private IEnumerator GiveUp()
     {
+
+        Debug.Log("give up called");
         if (_quitTransition != null)
         {
             _quitTransition.gameObject.SetActive(true);
@@ -144,9 +141,10 @@ public class EncounterManager : MonoBehaviour
     {
         _playercontroller.interact.Disable();
 
-        GameManager.instance.gameData.lastEnemyEncountered = enemy.Id;
         _enemyAttacks = enemy.enemyAttacks;
+
         prevScene = enemy.gameObject.scene.name;
+
         if (PlayerPrefs.GetInt("AutoSave") == 1)
         {
             GameManager.instance.SaveGame(false);
@@ -155,6 +153,8 @@ public class EncounterManager : MonoBehaviour
         {
             GameManager.instance.SaveGame();
         }
+
+        GameManager.instance.gameData.lastEnemyEncountered = enemy.Id;
 
         StartCoroutine(EncounterTransition());
     }
@@ -351,7 +351,7 @@ public class EncounterManager : MonoBehaviour
         _gameOverCanvasGroup.alpha = 1;
 
         _gameOverButtons[0].onClick.AddListener(() => TryAgain());
-        _gameOverButtons[1].onClick.AddListener(() => GiveUp());
+        _gameOverButtons[1].onClick.AddListener(() => StartCoroutine(GiveUp()));
         for (int i = 0; i < _gameOverButtons.Length; i++)
         {
             _gameOverButtons[i].interactable = true;
@@ -371,7 +371,7 @@ public class EncounterManager : MonoBehaviour
         {
             for (int i = 0; i < _projectileBodies.Count; i++)
             {
-                _projectileBodies[i].velocity = _velocities[i];
+                _projectileBodies[i].linearVelocity = _velocities[i];
             }
         }
     }

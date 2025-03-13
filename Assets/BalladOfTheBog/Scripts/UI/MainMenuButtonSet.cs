@@ -38,6 +38,7 @@ public class MainMenuButtonSet : MenuButtonSet
     {
         if (GameManager.instance._selectedProfileId == null)
         {
+            _firstSelected.transform.GetChild(0).gameObject.SetActive(false);
             _firstSelected = _overrideFirstSelected;
             _firstSelected.Select();
         }

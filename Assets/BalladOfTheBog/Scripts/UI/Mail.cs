@@ -1,27 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class Mail : MonoBehaviour
 {
-    [SerializeField] private GameObject MailText;
-    [SerializeField] private Button MailButton;
+    [SerializeField] private Button mailButton;
+    [SerializeField] private GameObject mailGameObject;
+    [SerializeField] private GameObject mailText;
+    [SerializeField] private Animator openMailAnimation;
 
     private void Start()
     {
-        MailButton.onClick.AddListener(OnButtonPress);
+
+        //mailButton.onClick.AddListener(OnButtonPress);
     }
 
     private void OnButtonPress()
     {
 
-        StartCoroutine(DisplayText());
     }
 
-    private IEnumerator DisplayText()
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        yield return MailText;
+        mailText.SetActive(true);
     }
-
 }

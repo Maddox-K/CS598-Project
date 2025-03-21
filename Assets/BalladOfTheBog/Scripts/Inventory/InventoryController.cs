@@ -11,6 +11,24 @@ public class InventoryController : MonoBehaviour
 
     private void Update()
     {
-        
+
     }
+
+    public void LoadData(GameData data)
+    {
+        //data.currentInventory.TryGetValue();
+        //if ()
+        //{
+        //    gameObject.SetActive(false);
+        //}
+    }
+
+
+    //public void SaveData(GameData data)
+    //{
+    //    if (data.currentInventory.ContainsKey(slots.ToString()))
+    //    {
+    //        data.currentInventory.Remove(slots.ToString());
+    //    }
+    //}
 }

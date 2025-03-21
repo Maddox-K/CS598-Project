@@ -21,7 +21,7 @@ public class GameData
 
     // Collectibles
     public Dictionary<string, bool> coinsCollected;
-    public Dictionary<string, bool> currentInventory;
+    public List<string> currentInventory;
     
     public GameData()
     {
@@ -46,6 +46,6 @@ public class GameData
 
         // Collectibles
         coinsCollected = new Dictionary<string, bool>();
-        currentInventory = new Dictionary<string, bool>();
+        currentInventory = new List<string>();
     }
 }

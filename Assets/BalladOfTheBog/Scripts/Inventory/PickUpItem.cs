@@ -6,6 +6,7 @@ public class PickUpItem : MonoBehaviour
 {
     private InventoryController inventoryController;
     public GameObject itemButton;
+    public string itemName;
 
     private void Start()
     {
@@ -20,11 +21,8 @@ public class PickUpItem : MonoBehaviour
             {
                 if (inventoryController.isFulll[i] == false)
                 {
-                    //Item can be added to Inventory
                     inventoryController.isFulll[i] = true;
                     Instantiate(itemButton, inventoryController.slots[i].transform);
-                    //Change list to ignore objects
-                    //Destroy(gameObject);
                     gameObject.SetActive(false);
                     break;
                 }

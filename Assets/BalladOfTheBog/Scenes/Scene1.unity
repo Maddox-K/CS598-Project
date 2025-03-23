@@ -383,6 +383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemButton: {fileID: 5064233794177535976, guid: 9e9dec2582862af4b94f1e0c9ab13b6b, type: 3}
+  itemName: 
 --- !u!210 &129881617
 SortingGroup:
   m_ObjectHideFlags: 0
@@ -55019,6 +55020,10 @@ PrefabInstance:
     - target: {fileID: 7270356959750089573, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7984656075563865754, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
+      propertyPath: m_SortingOrder
+      value: 3
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

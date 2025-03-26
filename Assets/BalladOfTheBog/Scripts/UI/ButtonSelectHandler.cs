@@ -31,9 +31,9 @@ public class ButtonSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHandl
     {
         _highlighter.SetActive(false);
 
-        if (EventSystem.current.currentSelectedGameObject != null)
-        {
-            EventSystem.current.SetSelectedGameObject(null);
-        }
+        //if (EventSystem.current.currentSelectedGameObject != null)
+        //{
+        //    EventSystem.current.SetSelectedGameObject(null);
+        //}
     }
 }

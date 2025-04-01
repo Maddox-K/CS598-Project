@@ -9680,7 +9680,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 99, y: 130}
+  m_SizeDelta: {x: 95, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &654657555
 Animator:
@@ -10696,7 +10696,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 99, y: 130}
+  m_SizeDelta: {x: 95, y: 36}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!95 &1791397888
 Animator:
@@ -11142,8 +11142,12 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3237395455277117691, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 3237395455277117691, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -60
+      value: -47
       objectReference: {fileID: 0}
     - target: {fileID: 4445930732419613522, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
       propertyPath: m_Pivot.x
@@ -11226,12 +11230,24 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7745324113552948468, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 22
+      objectReference: {fileID: 0}
+    - target: {fileID: 7745324113552948468, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: -6
+      value: -12
+      objectReference: {fileID: 0}
+    - target: {fileID: 8016863404199411530, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8442414408733973471, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
       propertyPath: 'm_ActiveFontFeatures.Array.data[0]'
       value: 1801810542
+      objectReference: {fileID: 0}
+    - target: {fileID: 8928508938073067132, guid: 0618865fe1ccafc40af427d3d6e8a019, type: 3}
+      propertyPath: m_PreserveAspect
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

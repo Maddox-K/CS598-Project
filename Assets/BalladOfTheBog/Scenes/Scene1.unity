@@ -55017,14 +55017,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PauseMenu
       objectReference: {fileID: 0}
-    - target: {fileID: 7270356959750089573, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7984656075563865754, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -56695,14 +56687,6 @@ PrefabInstance:
     - target: {fileID: 830172652074087050, guid: a42e10c594af0604aa0a1f6e9a444dec, type: 3}
       propertyPath: m_Name
       value: Player
-      objectReference: {fileID: 0}
-    - target: {fileID: 3655223768267851929, guid: a42e10c594af0604aa0a1f6e9a444dec, type: 3}
-      propertyPath: m_SortingLayer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3655223768267851929, guid: a42e10c594af0604aa0a1f6e9a444dec, type: 3}
-      propertyPath: m_SortingLayerID
-      value: -634899179
       objectReference: {fileID: 0}
     - target: {fileID: 5832325253882718667, guid: a42e10c594af0604aa0a1f6e9a444dec, type: 3}
       propertyPath: 'slots.Array.data[0]'

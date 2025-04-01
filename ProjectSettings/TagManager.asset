@@ -24,6 +24,7 @@ TagManager:
   - ResetMenu
   - StaticCamera
   - ShopNPC
+  - ShopMenu
   layers:
   - Default
   - TransparentFX

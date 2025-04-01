@@ -117,6 +117,9 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 case "SNPC":
                     _closestObject.GetComponent<StandardNPC>().Interact();
                     break;
+                case "ShopNPC":
+                    _closestObject.GetComponent<ShopNPC>().Interact();
+                    break;
                 case "Enemy":
                     _closestObject.GetComponent<Enemy>().Interact();
                     break;
@@ -179,7 +182,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         GameObject closestObj = closest.gameObject;
 
-        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy") || closestObj.CompareTag("Door") || closestObj.CompareTag("SceneChange"))
+        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy") || closestObj.CompareTag("Door") || closestObj.CompareTag("SceneChange") || closestObj.CompareTag("ShopNPC"))
         {
             if (closestObj.transform.childCount > 0)
             {

@@ -10223,6 +10223,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 7300474883048282864, guid: 6163f2bef60dfcc499c511088b2af7b5, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 9112533583559864961, guid: 6163f2bef60dfcc499c511088b2af7b5, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 225

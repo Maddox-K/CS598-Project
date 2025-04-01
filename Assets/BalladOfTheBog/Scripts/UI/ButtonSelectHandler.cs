@@ -23,8 +23,11 @@ public class ButtonSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHandl
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        GetComponent<Button>().Select();
-        EventSystem.current.SetSelectedGameObject(gameObject);
+        if (GetComponent<Button>().IsInteractable())
+        {
+            GetComponent<Button>().Select();
+            EventSystem.current.SetSelectedGameObject(gameObject);
+        }
     }
 
     public void OnPointerExit(PointerEventData eventData)

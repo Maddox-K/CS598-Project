@@ -24,7 +24,7 @@ public class MenuButtonSet : MonoBehaviour
 
     void OnInputEvent(InputEventPtr eventPtr, InputDevice device)
     {
-        bool buttonPressed = device.allControls.Any(control => control is ButtonControl button && button.IsPressed());
+        bool buttonPressed = device.allControls.Any(control => control is ButtonControl button && !(button.device is Mouse) && button.IsPressed());
 
         if (buttonPressed && EventSystem.current.currentSelectedGameObject == null)
         {

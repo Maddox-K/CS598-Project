@@ -14,4 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shopSlots:
   - {fileID: 5064233794177535976, guid: 9e9dec2582862af4b94f1e0c9ab13b6b, type: 3}
-  prices: 02000000
+  - {fileID: 8280955368519108865, guid: 7caaae86a9707414fb3bf0f999554051, type: 3}
+  prices: 0200000001000000
+  names:
+  - Tomato
+  - Worm
+  descriptions:
+  - A ripe, juicy tomato. Consuming it will give the player a temproray speed boost.
+  - Yummy! Eating this will restore 1 HP in an enemy encounter.

@@ -52,6 +52,8 @@ public class ShopMenuController : MonoBehaviour
 
     public void Shop(ShopNPC shopNPC)
     {
+        slots[0].GetComponent<Button>().Select();
+
         _lastOpenShop = shopNPC;
 
         _shopCanvas.enabled = true;

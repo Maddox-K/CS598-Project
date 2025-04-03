@@ -1,25 +1,30 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System.Collections;
 
 public class ShopMenuController : MonoBehaviour
 {
+    // General Menu Components
     [SerializeField] private GameObject[] _slots;
+    private Button[] _slotButtons = new Button[6];
+    private Canvas _shopCanvas;
+    [SerializeField] private TextMeshProUGUI _descriptionBox;
+    [SerializeField] private TextMeshProUGUI _priceBox;
+    [SerializeField] private GameObject _brokePopUp;
+    [SerializeField] private Button _brokeConfirm;
+    private Vector2 targetSpriteSize = new Vector2(8, 8);
+    [SerializeField] private Button _returnButton;
+
+    // Current Shop Information
     private GameObject[] _slotContents = new GameObject[6];
     private TextMeshProUGUI[] _slotItemNames = new TextMeshProUGUI[6];
     public string[] currentShopDescriptions = new string[6];
+    public string[] currentShopPrices = new string[6];
     private bool _isStocked = false;
     private ShopNPC _lastOpenShop = null;
-    private Canvas _shopCanvas;
-    [SerializeField] private TextMeshProUGUI _description;
-    private Vector2 targetSize = new Vector2(8, 8);
-
-    // Buttons
-    [SerializeField] private Button _returnButton;
-    [SerializeField] private Button _confirmPurchase;
-    [SerializeField] private Button _cancelPurchase;
-    [SerializeField] private Button _okayButton;
-
+    private int _lastAttemptedPurchase;
+    
     // Player
     private PlayerData _playerData;
 
@@ -32,6 +37,7 @@ public class ShopMenuController : MonoBehaviour
 
         for (int i = 0; i < _slots.Length; i++)
         {
+            _slotButtons[i] = _slots[i].GetComponent<Button>();
             _slotItemNames[i] = _slots[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>();
         }
 
@@ -48,11 +54,24 @@ public class ShopMenuController : MonoBehaviour
     {
         gameObject.SetActive(false);
         _shopCanvas.enabled = true;
+
+        for (int i = 0; i < _slots.Length; i++)
+        {
+            int index = i;
+            _slotButtons[i].onClick.AddListener(() => Buy(index));
+        }
+
+        _brokeConfirm.onClick.AddListener(ClosePopup);
     }
 
-    public TextMeshProUGUI GetDescription()
+    public TextMeshProUGUI GetDescriptionBox()
     {
-        return _description;
+        return _descriptionBox;
+    }
+
+    public TextMeshProUGUI GetPriceBox()
+    {
+        return _priceBox;
     }
 
     public void Shop(ShopNPC shopNPC)
@@ -70,6 +89,7 @@ public class ShopMenuController : MonoBehaviour
                 FormatAndScale(item);
                 _slotContents[i] = inventory.shopSlots[i];
                 currentShopDescriptions[i] = inventory.descriptions[i];
+                currentShopPrices[i] = inventory.prices[i].ToString();
             }
 
             _isStocked = true;
@@ -77,10 +97,54 @@ public class ShopMenuController : MonoBehaviour
         }
 
 
-        _slots[0].GetComponent<Button>().Select();
-        _description.text = currentShopDescriptions[0];
+        _slotButtons[0].GetComponent<Button>().Select();
+        _descriptionBox.text = currentShopDescriptions[0];
+        _priceBox.text = "x" + currentShopPrices[0];
 
         gameObject.SetActive(true);
+    }
+
+    private void Buy(int slotNumber)
+    {
+        if (_slotContents[slotNumber] == null)
+        {
+            return;
+        }
+
+        int price = _lastOpenShop.inventory.prices[slotNumber];
+
+        if (_playerData.currency_count < price)
+        {
+            _lastAttemptedPurchase = slotNumber;
+
+            for (int i = 0; i < _slotButtons.Length; i++)
+            {
+                _slotButtons[i].interactable = false;
+            }
+            _returnButton.interactable = false;
+
+            _brokePopUp.SetActive(true);
+            _brokeConfirm.Select();
+        }
+        else
+        {
+            Debug.Log("Buy");
+        }
+    }
+
+    private void ClosePopup()
+    {
+        for (int i = 0; i < _slotButtons.Length; i++)
+        {
+            _slotButtons[i].interactable = true;
+        }
+        _returnButton.interactable = true;
+
+        _brokePopUp.SetActive(false);
+
+        _slotButtons[_lastAttemptedPurchase].Select();
+
+        _lastAttemptedPurchase = 0;
     }
 
     void FormatAndScale(GameObject item)
@@ -95,8 +159,8 @@ public class ShopMenuController : MonoBehaviour
         Vector2 spriteSize = image.sprite.rect.size;
 
         // Calculate scale factors for width and height
-        float scaleX = targetSize.x / spriteSize.x;
-        float scaleY = targetSize.y / spriteSize.y;
+        float scaleX = targetSpriteSize.x / spriteSize.x;
+        float scaleY = targetSpriteSize.y / spriteSize.y;
 
         // Use the smaller scale factor to maintain aspect ratio
         float uniformScale = Mathf.Min(scaleX, scaleY);

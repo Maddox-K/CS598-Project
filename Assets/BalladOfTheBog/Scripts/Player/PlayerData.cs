@@ -86,6 +86,11 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         _currencyGUIText.text = currency_count.ToString();
     }
 
+    public void DecreaseCurrency(int amount)
+    {
+        
+    }
+
     public void TakeDamage(Projectile projectile)
     {
         if (!canTakeDamage || pcontroller.isDashing)

@@ -6,7 +6,9 @@ using TMPro;
 public class ShopSlotSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHandler, IPointerEnterHandler, IPointerExitHandler
 {
     private ShopMenuController _shopMenu;
-    [SerializeField] private TextMeshProUGUI _description;
+    private TextMeshProUGUI _description;
+    private TextMeshProUGUI _price;
+
     [SerializeField] private int _slotNumber;
 
     void Awake()
@@ -14,15 +16,16 @@ public class ShopSlotSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHan
         _shopMenu = gameObject.transform.parent.gameObject.transform.parent.gameObject.GetComponent<ShopMenuController>();
         if (_shopMenu != null)
         {
-            _description = _shopMenu.GetDescription();
+            _description = _shopMenu.GetDescriptionBox();
+            _price = _shopMenu.GetPriceBox();
         }
     }
 
     public void OnSelect(BaseEventData eventData)
     {
-        if (_shopMenu.GetDescription() != null)
+        if (_shopMenu.GetDescriptionBox() != null)
         {
-            SetDescription();
+            SetDescriptionAndPrice();
         }
     }
 
@@ -33,7 +36,7 @@ public class ShopSlotSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHan
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        SetDescription();
+        SetDescriptionAndPrice();
     }
 
     public void OnPointerExit(PointerEventData eventData)
@@ -41,13 +44,15 @@ public class ShopSlotSelectHandler : MonoBehaviour, ISelectHandler, IDeselectHan
         ClearDescription();
     }
 
-    private void SetDescription()
+    private void SetDescriptionAndPrice()
     {
         _description.text = _shopMenu.currentShopDescriptions[_slotNumber];
+        _price.text = "x" + _shopMenu.currentShopPrices[_slotNumber];
     }
 
     private void ClearDescription()
     {
         _description.text = "";
+        _price.text = "x";
     }
 }

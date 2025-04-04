@@ -49,4 +49,17 @@ public class InventoryController : MonoBehaviour
             }
         }
     }
+
+    public bool CheckIfFull()
+    {
+        foreach (bool full in isFulll)
+        {
+            if (!full)
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
 }

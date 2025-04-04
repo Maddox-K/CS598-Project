@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 public class ShopNPC : NPC
 {
@@ -31,8 +30,31 @@ public class ShopNPC : NPC
     }
 
     // function that takes in a boolean (yes or no bought something) and ends interaction
-    private void EndInteraction()
+    public void EndInteraction(bool purchased)
     {
+        dialogueManager.EndConversation();
 
+        if (_postShopDialogue != null)
+        {
+            //dialogueManager.gameObject.SetActive(true);
+
+            if (!purchased)
+            {
+                dialogueManager.DisplayNext(_postShopDialogue.choices[0].nextDialogue);
+            }
+            else
+            {
+                dialogueManager.DisplayNext(_postShopDialogue.choices[1].nextDialogue);
+            }
+        }
+        /* else
+        {
+            dialogueManager.EndConversation();
+        } */
+    }
+
+    public Dialogue GetPostDialogue()
+    {
+        return _postShopDialogue;
     }
 }

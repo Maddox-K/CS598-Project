@@ -136,7 +136,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    private void EndConversation()
+    public void EndConversation()
     {
         if (_playerController != null && _pauseController != null)
         {

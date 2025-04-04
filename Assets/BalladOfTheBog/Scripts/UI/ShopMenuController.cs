@@ -8,28 +8,38 @@ public class ShopMenuController : MonoBehaviour
     // General Menu Components
     [SerializeField] private GameObject[] _slots;
     private Button[] _slotButtons = new Button[6];
+    private TextMeshProUGUI[] _slotItemNames = new TextMeshProUGUI[6];
     private Canvas _shopCanvas;
     [SerializeField] private TextMeshProUGUI _descriptionBox;
     [SerializeField] private TextMeshProUGUI _priceBox;
-    [SerializeField] private GameObject _brokePopUp;
-    [SerializeField] private Button _brokeConfirm;
     private Vector2 targetSpriteSize = new Vector2(8, 8);
     [SerializeField] private Button _returnButton;
 
     // Current Shop Information
     private GameObject[] _slotContents = new GameObject[6];
-    private TextMeshProUGUI[] _slotItemNames = new TextMeshProUGUI[6];
     public string[] currentShopDescriptions = new string[6];
     public string[] currentShopPrices = new string[6];
     private bool _isStocked = false;
     private ShopNPC _lastOpenShop = null;
     private int _lastAttemptedPurchase;
+    private bool _purchasedSomething = false;
+
+    // popup menu
+    [SerializeField] private GameObject _popUp;
+    [SerializeField] private Button _popupConfirm;
+    [SerializeField] private TextMeshProUGUI _popupConfirmText;
+    private readonly string[] _messages = {"You don't have enough Frog Coins.", "Your inventory is full."};
     
     // Player
+    private GameObject _player;
     private PlayerData _playerData;
 
     // Inventory
     private InventoryController _inventoryController;
+
+    // Audio
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _purchaseClip;
 
     void Awake()
     {
@@ -42,11 +52,13 @@ public class ShopMenuController : MonoBehaviour
         }
 
 
-        GameObject player = GameObject.FindGameObjectWithTag("Player").gameObject;
+        _player = GameObject.FindGameObjectWithTag("Player").gameObject;
 
-        _playerData = player.GetComponent<PlayerData>();
+        _playerData = _player.GetComponent<PlayerData>();
 
-        _inventoryController = player.GetComponent<InventoryController>();
+        _inventoryController = _player.GetComponent<InventoryController>();
+
+        _audioSource = GetComponent<AudioSource>();
     }
 
     // Start is called before the first frame update
@@ -61,7 +73,23 @@ public class ShopMenuController : MonoBehaviour
             _slotButtons[i].onClick.AddListener(() => Buy(index));
         }
 
-        _brokeConfirm.onClick.AddListener(ClosePopup);
+        _popupConfirm.onClick.AddListener(ClosePopup);
+
+        _returnButton.onClick.AddListener(EndShopping);
+    }
+
+    private void EndShopping()
+    {
+        _lastAttemptedPurchase = 0;
+
+        gameObject.SetActive(false);
+
+        _returnButton.transform.GetChild(0).gameObject.SetActive(false);
+
+        bool purchased = _purchasedSomething;
+        _purchasedSomething = false;
+
+        _lastOpenShop.EndInteraction(purchased);
     }
 
     public TextMeshProUGUI GetDescriptionBox()
@@ -81,6 +109,9 @@ public class ShopMenuController : MonoBehaviour
         // if shop menu is not initialized with this npc's shop items
         if (!_isStocked || _lastOpenShop != shopNPC)
         {
+            currentShopDescriptions = new string[6];
+            currentShopPrices = new string[6];
+
             // initialize shop with items that this npc has to offer
             for (int i = 0; i < inventory.shopSlots.Length; i++)
             {
@@ -113,23 +144,63 @@ public class ShopMenuController : MonoBehaviour
 
         int price = _lastOpenShop.inventory.prices[slotNumber];
 
-        if (_playerData.currency_count < price)
+
+        if (_playerData.currency_count < price) // can't affort item
         {
             _lastAttemptedPurchase = slotNumber;
 
-            for (int i = 0; i < _slotButtons.Length; i++)
-            {
-                _slotButtons[i].interactable = false;
-            }
-            _returnButton.interactable = false;
+            ShowPopupMenu(false);
+        }
+        else if (_inventoryController.CheckIfFull()) // inventory is full
+        {
+            _lastAttemptedPurchase = slotNumber;
 
-            _brokePopUp.SetActive(true);
-            _brokeConfirm.Select();
+            ShowPopupMenu(true);
         }
         else
         {
-            Debug.Log("Buy");
+            if (_audioSource != null)
+            {
+                _audioSource.PlayOneShot(_purchaseClip);
+            }
+
+            _playerData.DecreaseCurrency(price);
+
+            _purchasedSomething = true;
+
+            GameObject item = _lastOpenShop.inventory.shopSlots[slotNumber];
+
+            for (int i = 0; i < _inventoryController.slots.Length; i++)
+            {
+                if (!_inventoryController.isFulll[i])
+                {
+                    _inventoryController.isFulll[i] = true;
+                    Instantiate(item, _inventoryController.slots[i].transform);
+                    break;
+                }
+            }
         }
+    }
+
+    private void ShowPopupMenu(bool messageIndex)
+    {
+        for (int i = 0; i < _slotButtons.Length; i++)
+        {
+            _slotButtons[i].interactable = false;
+        }
+        _returnButton.interactable = false;
+
+        if (!messageIndex)
+        {
+            _popupConfirmText.text = _messages[0];
+        }
+        else
+        {
+            _popupConfirmText.text = _messages[1];
+        }
+
+        _popUp.SetActive(true);
+        _popupConfirm.Select();
     }
 
     private void ClosePopup()
@@ -140,7 +211,7 @@ public class ShopMenuController : MonoBehaviour
         }
         _returnButton.interactable = true;
 
-        _brokePopUp.SetActive(false);
+        _popUp.SetActive(false);
 
         _slotButtons[_lastAttemptedPurchase].Select();
 

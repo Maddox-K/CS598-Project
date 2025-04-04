@@ -88,7 +88,8 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
     public void DecreaseCurrency(int amount)
     {
-        
+        currency_count -= amount;
+        _currencyGUIText.text = currency_count.ToString();
     }
 
     public void TakeDamage(Projectile projectile)

@@ -53,18 +53,18 @@ public class Tomato : MonoBehaviour
         isBuffActive = false;
     }
 
-    private int GetSlotIndexOfItemInInventory()
-    {
-        for (int i = 0; i < inventoryController.inventoryItems.Count; i++)
-        {
-            if (inventoryController.inventoryItems[i] == "TomatoButton") // Or any other item name
-            {
-                return i;
-            }
-        }
+    //private int GetSlotIndexOfItemInInventory()
+    //{
+    //    for (int i = 0; i < inventoryController.inventoryItems.Count; i++)
+    //    {
+    //        if (inventoryController.inventoryItems[i] == "TomatoButton") // Or any other item name
+    //        {
+    //            return i;
+    //        }
+    //    }
 
-        return -1; // Return -1 if item is not found
-    }
+    //    return -1; // Return -1 if item is not found
+    //}
 
 }
 

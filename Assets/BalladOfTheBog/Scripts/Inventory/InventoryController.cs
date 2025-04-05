@@ -84,19 +84,18 @@ public class InventoryController : MonoBehaviour, IDataPersistence
         if (slotIndex < 0 || slotIndex >= slots.Length)
             return;
 
-        // Destroy the item in the slot
-        foreach (Transform child in slots[slotIndex].transform)
-        {
-            Destroy(child.gameObject);
-        }
+        Transform slot = slots[slotIndex].transform;
+        var itemUI = slot.GetComponentInChildren<Stackable>();
 
-        // Mark slot as empty
-        isFulll[slotIndex] = false;
-
-        // Optionally remove the item from inventoryItems list
-        if (inventoryItems.Count > slotIndex)
+        if (itemUI != null)
         {
-            inventoryItems.RemoveAt(slotIndex);
+            itemUI.RemoveOne();
+
+            if (itemUI.quantity <= 0)
+            {
+                isFulll[slotIndex] = false;
+                inventoryItems.Remove(itemUI.itemName); // optional
+            }
         }
     }
 
@@ -106,43 +105,21 @@ public class InventoryController : MonoBehaviour, IDataPersistence
     //    if (slotIndex < 0 || slotIndex >= slots.Length)
     //        return;
 
-    //    // Remove item from UI
+    //    // Destroy the item in the slot
     //    foreach (Transform child in slots[slotIndex].transform)
     //    {
-    //        Destroy(child.gameObject); // Clear the visual representation
+    //        Destroy(child.gameObject);
     //    }
 
-    //    // Mark the slot as empty
+    //    // Mark slot as empty
     //    isFulll[slotIndex] = false;
 
-    //    // Remove from inventoryItems list
-    //    if (slotIndex < inventoryItems.Count)
+    //    // Optionally remove the item from inventoryItems list
+    //    if (inventoryItems.Count > slotIndex)
     //    {
     //        inventoryItems.RemoveAt(slotIndex);
     //    }
-
-    //    Debug.Log("Item removed from inventory at slot: " + slotIndex);
     //}
 
-
-    //public void AddItem(string itemName)
-    //{
-    //    // Find the first empty slot (where isFulll is false)
-    //    for (int i = 0; i < slots.Length; i++)
-    //    {
-    //        if (!isFulll[i]) // If slot is empty
-    //        {
-    //            // Instantiate the item in the empty slot
-    //            GameObject itemButton = Resources.Load<GameObject>("InventoryItems/" + itemName);
-    //            if (itemButton != null)
-    //            {
-    //                Instantiate(itemButton, slots[i].transform);
-    //                isFulll[i] = true; // Mark the slot as full
-    //                inventoryItems.Add(itemName); // Add item to internal list
-    //                break;
-    //            }
-    //        }
-    //    }
-    //}
 
 }

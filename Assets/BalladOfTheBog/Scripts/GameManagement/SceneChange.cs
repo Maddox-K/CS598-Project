@@ -13,6 +13,8 @@ public class SceneChange : MonoBehaviour, IInteractable
     {
         GameData data = GameManager.instance.gameData;
 
+        GameManager.instance.SaveGame();
+
         data.changingScenes = true;
         for (int i = 0; i < 2; i++)
         {

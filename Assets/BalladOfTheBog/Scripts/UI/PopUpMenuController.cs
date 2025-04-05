@@ -1,5 +1,4 @@
 using System.Collections;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -131,7 +130,7 @@ public class PopUpMenuController : MonoBehaviour
             {
                 CloseInventory();
             }
-            else
+            else if (!_pauseMenuHolder.activeInHierarchy)
             {
                 OpenInventory();
             }

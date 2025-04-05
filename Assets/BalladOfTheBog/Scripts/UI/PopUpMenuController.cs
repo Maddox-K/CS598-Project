@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PopUpMenuController : MonoBehaviour
 {
+    private string _currentSceneName;
+
     // Menus
     [SerializeField] private GameObject _pauseMenuHolder;
     private GameObject _settingsMenu;
@@ -21,6 +23,7 @@ public class PopUpMenuController : MonoBehaviour
 
     // Player
     private PlayerController _playerController;
+    private Rigidbody2D player;
 
     // Input
     private PopUpMenuControls pauseMenuControls;
@@ -28,7 +31,6 @@ public class PopUpMenuController : MonoBehaviour
     public InputAction navigate;
     public InputAction tab;
     public InputAction rightButtonClick;
-    private string _currentSceneName;
 
     // Animation
     [SerializeField] private Animator _sceneTransitionAnimator;
@@ -36,9 +38,6 @@ public class PopUpMenuController : MonoBehaviour
     // Sound
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _buttonClip;
-
-    private PlayerController playerController;
-    private Rigidbody2D player;
 
     private void Awake()
     {
@@ -69,7 +68,6 @@ public class PopUpMenuController : MonoBehaviour
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
         tab.Disable();
-        //rightButtonClick.Disable();
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -170,6 +168,11 @@ public class PopUpMenuController : MonoBehaviour
     {
         PlayButtonAudio();
 
+        if (!tab.enabled)
+        {
+            tab.Enable();
+        }
+
         _pauseMenuHolder.SetActive(false);
         if (_playerController != null)
         {
@@ -190,6 +193,8 @@ public class PopUpMenuController : MonoBehaviour
     private void OpenSettingsMenu()
     {
         PlayButtonAudio();
+
+        tab.Disable();
 
         for (int i = 0; i < _buttonHighlighters.Length; i++)
         {
@@ -249,14 +254,37 @@ public class PopUpMenuController : MonoBehaviour
     private void OpenInventory()
     {
         Inventory.SetActive(true);
-        _pauseMenuHolder.SetActive(false);
-        _settingsMenu.SetActive(false);
+
+        if (_currentSceneName == "BattleTest")
+        {
+            if (_playerController != null)
+            {
+                _playerController.move.Disable();
+                GameManager.instance.Pause();
+            }
+        }
+        else
+        {
+            if (_playerController != null)
+            {
+                _playerController.interact.Disable();
+            }
+        }
     }
 
     private void CloseInventory()
     {
-        Inventory.SetActive(false);
+        if (_currentSceneName == "BattleTest")
+        {
+            _playerController.move.Enable();
+            GameManager.instance.Unpause();
+        }
+        else
+        {
+            _playerController.interact.Enable();
+        }
 
+        Inventory.SetActive(false);
     }
 
     private IEnumerator EnablePause()

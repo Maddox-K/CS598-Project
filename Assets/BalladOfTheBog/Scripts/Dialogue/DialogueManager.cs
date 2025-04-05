@@ -116,6 +116,7 @@ public class DialogueManager : MonoBehaviour
         {
             _playerController.move.Disable();
             _pauseController.escape.Disable();
+            _pauseController.tab.Disable();
         }
         
         foreach (Button button in choiceButtons)
@@ -142,6 +143,7 @@ public class DialogueManager : MonoBehaviour
         {
             _playerController.move.Enable();
             _pauseController.escape.Enable();
+            _pauseController.tab.Enable();
         }
         
         paragraphs.Clear();

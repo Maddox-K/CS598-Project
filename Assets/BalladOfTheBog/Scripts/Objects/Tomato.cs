@@ -7,6 +7,8 @@ public class Tomato : MonoBehaviour
     [SerializeField] private Button tomatoButton;
     [SerializeField] private GameObject tomatoPrefab;
 
+    InventoryController inventoryController;
+
     private GameObject player;
     private PlayerController playerController;
     private float duration = 10f;
@@ -15,6 +17,7 @@ public class Tomato : MonoBehaviour
     private void Start()
     {
         tomatoButton.onClick.AddListener(ApplySpeedBuff);
+        inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
     }
 
     private void ApplySpeedBuff()
@@ -31,6 +34,9 @@ public class Tomato : MonoBehaviour
         // Start the coroutine from the player instead of the tomato
         player.GetComponent<MonoBehaviour>().StartCoroutine(RemoveEffectAfterDelay());
 
+        int slotIndex = transform.parent.GetSiblingIndex();
+        inventoryController.RemoveItem(slotIndex);
+
         Destroy(gameObject); // Destroy the tomato object
     }
 
@@ -46,5 +52,19 @@ public class Tomato : MonoBehaviour
 
         isBuffActive = false;
     }
+
+    private int GetSlotIndexOfItemInInventory()
+    {
+        for (int i = 0; i < inventoryController.inventoryItems.Count; i++)
+        {
+            if (inventoryController.inventoryItems[i] == "TomatoButton") // Or any other item name
+            {
+                return i;
+            }
+        }
+
+        return -1; // Return -1 if item is not found
+    }
+
 }
 

@@ -21,8 +21,9 @@ public class GameData
 
     // Collectibles
     public Dictionary<string, bool> coinsCollected;
-    public List<string> currentInventory;
-    
+    //public List<string> currentInventory;
+    public Dictionary<int, string> inventorySlotData;
+
     public GameData()
     {
         // Scene Management
@@ -46,6 +47,8 @@ public class GameData
 
         // Collectibles
         coinsCollected = new Dictionary<string, bool>();
-        currentInventory = new List<string>();
+        //currentInventory = new List<string>();
+        inventorySlotData = new Dictionary<int, string>();
+
     }
 }

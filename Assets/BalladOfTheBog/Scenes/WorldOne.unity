@@ -339,6 +339,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5405736800439143578, guid: bea1537ad9645dc41b1325c87271f69e, type: 3}
   m_PrefabInstance: {fileID: 73722240}
   m_PrefabAsset: {fileID: 0}
+--- !u!95 &73722244 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2052829644516534313, guid: bea1537ad9645dc41b1325c87271f69e, type: 3}
+  m_PrefabInstance: {fileID: 73722240}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &93210113
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -704,7 +709,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &444504674
 Transform:
   m_ObjectHideFlags: 0
@@ -3447,6 +3452,10 @@ PrefabInstance:
       propertyPath: Inventory
       value: 
       objectReference: {fileID: 1591181627}
+    - target: {fileID: 4318484733190380567, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
+      propertyPath: _sceneTransitionAnimator
+      value: 
+      objectReference: {fileID: 73722244}
     - target: {fileID: 4603640480093979931, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
       propertyPath: m_Pivot.x
       value: 0

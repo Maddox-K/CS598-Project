@@ -50,7 +50,7 @@ public class PopUpMenuController : MonoBehaviour
     private void OnEnable()
     {
         escape = pauseMenuControls.PopUpMenu.Escape;
-        escape.Enable();
+        StartCoroutine(EnablePause());
         navigate = pauseMenuControls.PopUpMenu.Navigate;
         navigate.Enable();
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -257,5 +257,12 @@ public class PopUpMenuController : MonoBehaviour
     {
         Inventory.SetActive(false);
 
+    }
+
+    private IEnumerator EnablePause()
+    {
+        yield return new WaitForSeconds(1.1f);
+
+        escape.Enable();
     }
 }

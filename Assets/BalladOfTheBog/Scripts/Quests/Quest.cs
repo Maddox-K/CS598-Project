@@ -21,7 +21,10 @@ public class Quest
     {
         foreach (var obj in objectives)
         {
-            obj.Initialize();
+            if (!obj.isComplete)
+            {
+                obj.Initialize();
+            }
         }
 
         Debug.Log($"Started quest: {questName}");

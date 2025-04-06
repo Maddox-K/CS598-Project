@@ -21,13 +21,17 @@ public class GameData
 
     // Collectibles
     public Dictionary<string, bool> coinsCollected;
-    //public List<string> currentInventory;
     public Dictionary<int, string> inventorySlotData;
+
+    // Quests
+    public Dictionary<string, (ObjectiveData[], bool[], bool)> quests;
+    public string currentQuest;
+    public bool startedGameplay;
 
     public GameData()
     {
         // Scene Management
-        lastScene = "Scene1";
+        lastScene = "Home";
         changingScenes = false;
 
         // Player Data
@@ -47,8 +51,11 @@ public class GameData
 
         // Collectibles
         coinsCollected = new Dictionary<string, bool>();
-        //currentInventory = new List<string>();
         inventorySlotData = new Dictionary<int, string>();
 
+        // Quests
+        quests = new Dictionary<string, (ObjectiveData[], bool[], bool)>();
+        currentQuest = null;
+        startedGameplay = false;
     }
 }

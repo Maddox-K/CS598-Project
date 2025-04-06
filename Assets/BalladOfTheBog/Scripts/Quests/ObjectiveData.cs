@@ -8,4 +8,5 @@ public class ObjectiveData
     public byte objectiveType;
     public string objectId;
     public int amountNeeded;
+    public int currentAmount;
 }

@@ -2,30 +2,33 @@ using UnityEngine;
 using System.Collections.Generic;
 using System;
 
-public class QuestManager : MonoBehaviour
+public class QuestManager : MonoBehaviour, IDataPersistence
 {
     private List<Quest> activeQuests = new List<Quest>();
     private Quest _currentActiveQuest;
 
     void OnEnable()
     {
+        QuestEvents.OnQuestCompleted += OnQuestCompleted;
         QuestEvents.ActivateQuest += ActivateQuest;
     }
 
     void OnDisable()
     {
+        QuestEvents.OnQuestCompleted -= OnQuestCompleted;
         QuestEvents.ActivateQuest -= ActivateQuest;
     }
 
     private void Start()
     {
-        Quest quest = new Quest("Pick Up Letter");
 
-        quest.AddObjective(new CollectObjective(quest, "Mail", 1));
+    }
 
-        quest.StartQuest();
-        activeQuests.Add(quest);
-        _currentActiveQuest = quest;
+    private void OnQuestCompleted(string questName)
+    {
+        _currentActiveQuest = null;
+
+        QuestEvents.TryStartSubsequentQuest?.Invoke(questName);
     }
 
     private void ActivateQuest(QuestData questData)
@@ -39,11 +42,12 @@ public class QuestManager : MonoBehaviour
             byte objectiveType = objectives[i].objectiveType;
             string objectId = objectives[i].objectId;
             int amount = objectives[i].amountNeeded;
+            int currentAmount = objectives[i].currentAmount;
 
             switch (objectiveType)
             {
                 case 0:
-                    quest.AddObjective(new CollectObjective(quest, objectId, amount));
+                    quest.AddObjective(new CollectObjective(quest, objectId, amount, currentAmount, false));
                     break;
             }
         }
@@ -51,5 +55,96 @@ public class QuestManager : MonoBehaviour
         quest.StartQuest();
         activeQuests.Add(quest);
         _currentActiveQuest = quest;
+    }
+
+    public void LoadData(GameData data)
+    {
+        if (data.currentQuest != null)
+        {
+            _currentActiveQuest = new Quest(data.currentQuest);
+
+            (ObjectiveData[], bool[], bool) questInfo = data.quests[_currentActiveQuest.questName];
+            ObjectiveData[] objectives = questInfo.Item1;
+
+            for (int i = 0; i < objectives.Length; i++)
+            {
+                byte objectiveType = objectives[i].objectiveType;
+                string objectId = objectives[i].objectId;
+                int amount = objectives[i].amountNeeded;
+                int currentAmount = objectives[i].currentAmount;
+
+                switch (objectiveType)
+                {
+                    case 0:
+                        _currentActiveQuest.AddObjective(new CollectObjective(_currentActiveQuest, objectId, amount, currentAmount, questInfo.Item2[i]));
+                        break;
+                }
+            }
+
+            _currentActiveQuest.StartQuest();
+            activeQuests.Add(_currentActiveQuest);
+        }
+        else if (!data.startedGameplay)
+        {
+            StartFirstQuest();
+        }
+    }
+
+    public void SaveData(GameData data)
+    {
+        data.currentQuest = _currentActiveQuest.questName;
+
+        foreach (Quest quest in activeQuests)
+        {
+            if (!data.quests.ContainsKey(quest.questName))
+            {
+                SaveQuest(data, quest);
+            }
+            else if (!data.quests[quest.questName].Item3)
+            {
+                data.quests.Remove(quest.questName);
+
+                SaveQuest(data, quest);
+            }
+        }
+    }
+
+    private void SaveQuest(GameData data, Quest quest)
+    {
+        ObjectiveData[] objectives = new ObjectiveData[quest.objectives.Count];
+        bool[] completed = new bool[quest.objectives.Count];
+
+        for (int i = 0; i < quest.objectives.Count; i++)
+        {
+            objectives[i] = new ObjectiveData();
+            objectives[i].objectiveType = quest.objectives[i].GetObjectiveType();
+            objectives[i].objectId = quest.objectives[i].targetID;
+            if (quest.objectives[i] is ICollectionObjective x)
+            {
+                objectives[i].amountNeeded = x.requiredAmount;
+                objectives[i].currentAmount = x.currentAmount;
+            }
+            else
+            {
+                objectives[i].amountNeeded = 0;
+                objectives[i].currentAmount = 0;
+            }
+
+            completed[i] = quest.objectives[i].isComplete;
+        }
+        data.quests.Add(quest.questName, (objectives, completed, quest.IsComplete));
+    }
+
+    private void StartFirstQuest()
+    {
+        Quest quest = new Quest("Pick Up Letter");
+
+        quest.AddObjective(new CollectObjective(quest, "Mail", 1, 0, false));
+
+        quest.StartQuest();
+        activeQuests.Add(quest);
+        _currentActiveQuest = quest;
+
+        GameManager.instance.gameData.startedGameplay = true;
     }
 }

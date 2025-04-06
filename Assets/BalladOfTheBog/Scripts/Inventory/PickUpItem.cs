@@ -21,6 +21,8 @@ public class PickUpItem : MonoBehaviour
             {
                 if (inventoryController.isFulll[i] == false)
                 {
+                    QuestEvents.OnItemCollected?.Invoke(itemName);
+
                     inventoryController.isFulll[i] = true;
                     Instantiate(itemButton, inventoryController.slots[i].transform);
                     gameObject.SetActive(false);

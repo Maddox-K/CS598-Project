@@ -206,7 +206,7 @@ MonoBehaviour:
   _onCheck: {fileID: 1936247886}
   _autoSaveOff: {fileID: 1282784338}
   _offCheck: {fileID: 805537045}
-  _buttonClip: {fileID: 0}
+  _buttonClip: {fileID: 8300000, guid: 206016049f4a9c744a8263173522ef11, type: 3}
 --- !u!1 &258654614
 GameObject:
   m_ObjectHideFlags: 0
@@ -3709,6 +3709,50 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1541261859
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1541261861}
+  - component: {fileID: 1541261860}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1541261860
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541261859}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c41502002a0ff7b41915b7e6416b5839, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1541261861
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1541261859}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1626606311
 GameObject:
   m_ObjectHideFlags: 0
@@ -3788,6 +3832,67 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &1632518375
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.30493504
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.34283862
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.5229431
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 323370526966681955, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 392684165743928967, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: savingLoadingEnabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8494873836393623052, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
+      propertyPath: m_Name
+      value: GameManager
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 8ec4c8778c402f942a57853658276ada, type: 3}
 --- !u!1 &1660719429
 GameObject:
   m_ObjectHideFlags: 0
@@ -5094,7 +5199,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.8125
+  orthographic size: 5.625
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -5447,6 +5552,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemButton: {fileID: 8398022490501413007, guid: 644f873c38ff60f4bb43cd90f3eabcc5, type: 3}
+  itemName: Mail
 --- !u!212 &6864631062097332937
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5529,6 +5635,7 @@ GameObject:
   - component: {fileID: 1302618356268498932}
   - component: {fileID: 5399767360943962558}
   - component: {fileID: 8463015574176813101}
+  - component: {fileID: 8463015574176813102}
   m_Layer: 0
   m_Name: Mailbox
   m_TagString: Untagged
@@ -5551,6 +5658,22 @@ MonoBehaviour:
   mailButton: {fileID: 0}
   mailGameObject: {fileID: 8463015574176813100}
   mailText: {fileID: 173122338}
+  openMailAnimation: {fileID: 0}
+--- !u!114 &8463015574176813102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8463015574176813100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 929181f291ef43f469765f22b9e18ef4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _activatorQuestName: Pick Up Letter
+  _thisQuestData: {fileID: 0}
+  _nextQuestData: {fileID: 11400000, guid: 5b3919f7389e81c4785abfdd52e61ce8, type: 2}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -5567,3 +5690,5 @@ SceneRoots:
   - {fileID: 553051387}
   - {fileID: 1728131839}
   - {fileID: 1626606314}
+  - {fileID: 1632518375}
+  - {fileID: 1541261861}

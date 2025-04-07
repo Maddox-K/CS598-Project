@@ -24,11 +24,28 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
     }
 
-    private void OnQuestCompleted(string questName)
+    private void OnQuestCompleted(Quest quest)
     {
         _currentActiveQuest = null;
 
-        QuestEvents.TryStartSubsequentQuest?.Invoke(questName);
+        QuestReward reward = quest.reward;
+        if (reward != null)
+        {
+            if (reward.coins > 0)
+            {
+                QuestEvents.RewardCoins?.Invoke(reward.coins);
+            }
+            if (reward.items != null)
+            {
+                QuestEvents.RewardItems?.Invoke(reward.items);
+            }
+            if (reward.clearsObstacle)
+            {
+                QuestEvents.ClearObstacle?.Invoke(quest.questName);
+            }
+        }
+
+        QuestEvents.TryStartSubsequentQuest?.Invoke(quest.questName);
     }
 
     private void ActivateQuest(QuestData questData)
@@ -52,6 +69,11 @@ public class QuestManager : MonoBehaviour, IDataPersistence
             }
         }
 
+        if (questData.reward != null)
+        {
+            quest.reward = questData.reward;
+        }
+
         quest.StartQuest();
         activeQuests.Add(quest);
         _currentActiveQuest = quest;
@@ -63,7 +85,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         {
             _currentActiveQuest = new Quest(data.currentQuest);
 
-            (ObjectiveData[], bool[], bool) questInfo = data.quests[_currentActiveQuest.questName];
+            (ObjectiveData[], bool[], bool, QuestReward) questInfo = data.quests[_currentActiveQuest.questName];
             ObjectiveData[] objectives = questInfo.Item1;
 
             for (int i = 0; i < objectives.Length; i++)
@@ -79,6 +101,11 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                         _currentActiveQuest.AddObjective(new CollectObjective(_currentActiveQuest, objectId, amount, currentAmount, questInfo.Item2[i]));
                         break;
                 }
+            }
+
+            if (questInfo.Item4 != null)
+            {
+                _currentActiveQuest.reward = questInfo.Item4;
             }
 
             _currentActiveQuest.StartQuest();
@@ -132,7 +159,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
             completed[i] = quest.objectives[i].isComplete;
         }
-        data.quests.Add(quest.questName, (objectives, completed, quest.IsComplete));
+        data.quests.Add(quest.questName, (objectives, completed, quest.IsComplete, quest.reward));
     }
 
     private void StartFirstQuest()

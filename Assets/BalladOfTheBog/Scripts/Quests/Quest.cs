@@ -6,6 +6,7 @@ public class Quest
     public string questName;
     public List<QuestObjective> objectives = new List<QuestObjective>();
     public bool IsComplete;
+    public QuestReward reward;
 
     public Quest(string name)
     {
@@ -47,7 +48,7 @@ public class Quest
         {
             IsComplete = true;
             Debug.Log("Quest complete");
-            QuestEvents.OnQuestCompleted?.Invoke(questName);
+            QuestEvents.OnQuestCompleted?.Invoke(this);
         }
     }
 }

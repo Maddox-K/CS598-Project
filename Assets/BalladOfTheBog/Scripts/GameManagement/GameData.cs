@@ -24,7 +24,7 @@ public class GameData
     public Dictionary<int, string> inventorySlotData;
 
     // Quests
-    public Dictionary<string, (ObjectiveData[], bool[], bool)> quests;
+    public Dictionary<string, (ObjectiveData[], bool[], bool, QuestReward)> quests;
     public string currentQuest;
     public bool startedGameplay;
 
@@ -54,7 +54,7 @@ public class GameData
         inventorySlotData = new Dictionary<int, string>();
 
         // Quests
-        quests = new Dictionary<string, (ObjectiveData[], bool[], bool)>();
+        quests = new Dictionary<string, (ObjectiveData[], bool[], bool, QuestReward)>();
         currentQuest = null;
         startedGameplay = false;
     }

@@ -6,4 +6,6 @@ public class QuestData : ScriptableObject
     public string questName;
 
     public ObjectiveData[] objectives;
+
+    public QuestReward reward;
 }

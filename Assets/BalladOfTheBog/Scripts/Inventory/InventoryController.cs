@@ -8,6 +8,36 @@ public class InventoryController : MonoBehaviour, IDataPersistence
     [SerializeField] private GameObject InventoryUI;
 
     public List<string> inventoryItems = new List<string>();
+
+    void OnEnable()
+    {
+        QuestEvents.RewardItems += RewardItems;
+    }
+
+    void OnDisable()
+    {
+        QuestEvents.RewardItems -= RewardItems;
+    }
+
+    private void RewardItems(string[] items)
+    {
+        for (int i = 0; i < items.Length; i++)
+        {
+            for (int j = 0; j < slots.Length; j++)
+            {
+                if (!isFulll[j])
+                {
+                    isFulll[j] = true;
+                    GameObject itemButton = Resources.Load<GameObject>("InventoryItems/" + items[i]);
+                    Instantiate(itemButton, slots[j].transform);
+                    QuestEvents.OnItemCollected?.Invoke(items[i]);
+                    break;
+                }
+            }
+        }
+        
+    }
+
     public void LoadData(GameData data)
     {
         inventoryItems.Clear(); // clear first
@@ -98,28 +128,4 @@ public class InventoryController : MonoBehaviour, IDataPersistence
             }
         }
     }
-
-
-    //public void RemoveItem(int slotIndex)
-    //{
-    //    if (slotIndex < 0 || slotIndex >= slots.Length)
-    //        return;
-
-    //    // Destroy the item in the slot
-    //    foreach (Transform child in slots[slotIndex].transform)
-    //    {
-    //        Destroy(child.gameObject);
-    //    }
-
-    //    // Mark slot as empty
-    //    isFulll[slotIndex] = false;
-
-    //    // Optionally remove the item from inventoryItems list
-    //    if (inventoryItems.Count > slotIndex)
-    //    {
-    //        inventoryItems.RemoveAt(slotIndex);
-    //    }
-    //}
-
-
 }

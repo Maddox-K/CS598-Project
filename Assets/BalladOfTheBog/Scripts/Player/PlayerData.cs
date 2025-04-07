@@ -65,6 +65,16 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         }
     }
 
+    void OnEnable()
+    {
+        QuestEvents.RewardCoins += RewardCoins;
+    }
+
+    void OnDisable()
+    {
+        QuestEvents.RewardCoins -= RewardCoins;
+    }
+
     void Start()
     {
         pcontroller = GetComponent<PlayerController>();
@@ -80,9 +90,14 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         }
     }
 
-    public void IncrementCurrency()
+    private void RewardCoins(int amount)
     {
-        currency_count++;
+        IncrementCurrency(amount);
+    }
+
+    public void IncrementCurrency(int amount)
+    {
+        currency_count += amount;
         _currencyGUIText.text = currency_count.ToString();
     }
 

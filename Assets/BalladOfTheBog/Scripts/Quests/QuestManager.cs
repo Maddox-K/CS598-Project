@@ -21,7 +21,10 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
     private void Start()
     {
-
+        if (!GameManager.instance.savingLoadingEnabled)
+        {
+            StartFirstQuest();
+        }
     }
 
     private void OnQuestCompleted(Quest quest)
@@ -35,7 +38,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
             {
                 QuestEvents.RewardCoins?.Invoke(reward.coins);
             }
-            if (reward.items != null)
+            if (reward.items != null && reward.items[0] != "")
             {
                 QuestEvents.RewardItems?.Invoke(reward.items);
             }
@@ -171,6 +174,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         quest.StartQuest();
         activeQuests.Add(quest);
         _currentActiveQuest = quest;
+
+        String[] items = {"TomatoButton"};
+        quest.reward = new QuestReward(2, items, false);
 
         GameManager.instance.gameData.startedGameplay = true;
     }

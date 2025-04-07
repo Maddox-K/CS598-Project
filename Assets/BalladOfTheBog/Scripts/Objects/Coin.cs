@@ -42,7 +42,7 @@ public class Coin : MonoBehaviour, IDataPersistence
 
         collected = true;
         
-        _playerData.IncrementCurrency();
+        _playerData.IncrementCurrency(1);
 
         if (_audioSource != null)
         {

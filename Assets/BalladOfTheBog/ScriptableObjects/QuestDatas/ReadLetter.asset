@@ -16,4 +16,10 @@ MonoBehaviour:
   objectives:
   - objectiveType: 0
     objectId: Deez
-    amountNeeded: 1
+    amountNeeded: 3
+    currentAmount: 2
+  reward:
+    coins: 3
+    items:
+    - TomatoButton
+    clearsObstacle: 0

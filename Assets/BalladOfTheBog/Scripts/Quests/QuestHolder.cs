@@ -7,7 +7,7 @@ public class QuestHolder : MonoBehaviour
     [SerializeField] private string _activatorQuestName;
     [SerializeField] private QuestData _thisQuestData;
 
-    [SerializeField] private QuestData _nextQuestData; // 
+    [SerializeField] private QuestData _nextQuestData; // only objects that initiate a next quest in a chain of quests will have one of these
 
     void OnEnable()
     {

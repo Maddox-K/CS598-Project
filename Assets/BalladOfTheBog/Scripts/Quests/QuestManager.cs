@@ -17,6 +17,11 @@ public class QuestManager : MonoBehaviour, IDataPersistence
     {
         QuestEvents.OnQuestCompleted -= OnQuestCompleted;
         QuestEvents.ActivateQuest -= ActivateQuest;
+
+        foreach (QuestObjective obj in _currentActiveQuest.objectives)
+        {
+            obj.Cleanup();
+        }
     }
 
     private void Start()

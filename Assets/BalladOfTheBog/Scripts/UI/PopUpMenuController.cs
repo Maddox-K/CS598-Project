@@ -134,18 +134,10 @@ public class PopUpMenuController : MonoBehaviour
             }
         }
 
-        if (player.linearVelocity.magnitude > 0.1f)
+        /* if (player.linearVelocity.magnitude > 0.1f)
         {
             CloseInventory();
-        }
-
-        //if (rightButtonClick.WasPerformedThisFrame())
-        //{
-        //    if (Inventory.activeInHierarchy)
-        //    {
-        //        CloseInventory();
-        //    }
-        //}
+        } */
     }
 
     //Call this by pressing escape
@@ -163,7 +155,7 @@ public class PopUpMenuController : MonoBehaviour
         GameManager.instance.Pause();
     }
 
-    //We call this by eithe pressinf resume or esc
+    //We call this by eithe pressing resume or esc
     private void ClosePauseMenu()
     {
         PlayButtonAudio();

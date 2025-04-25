@@ -36,8 +36,6 @@ public class ShopNPC : NPC
 
         if (_postShopDialogue != null)
         {
-            //dialogueManager.gameObject.SetActive(true);
-
             if (!purchased)
             {
                 dialogueManager.DisplayNext(_postShopDialogue.choices[0].nextDialogue);
@@ -47,10 +45,6 @@ public class ShopNPC : NPC
                 dialogueManager.DisplayNext(_postShopDialogue.choices[1].nextDialogue);
             }
         }
-        /* else
-        {
-            dialogueManager.EndConversation();
-        } */
     }
 
     public Dialogue GetPostDialogue()

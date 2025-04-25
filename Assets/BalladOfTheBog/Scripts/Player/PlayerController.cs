@@ -52,6 +52,9 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         dash = playerControls.Player.Dash;
 
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        PlayerEvents.ActivateControls += ActivateControls;
+        PlayerEvents.DeactivateControls += DeactivateControls;
     }
 
     private void OnDisable()
@@ -61,6 +64,43 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         dash.Disable();
 
         SceneManager.sceneLoaded -= OnSceneLoaded;
+
+        PlayerEvents.ActivateControls -= ActivateControls;
+        PlayerEvents.DeactivateControls -= DeactivateControls;
+    }
+
+    private void ActivateControls(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                interact?.Enable();
+                break;
+            case 1:
+                move?.Enable();
+                break;
+            case 2:
+                interact?.Enable();
+                move?.Enable();
+                break;
+        }
+    }
+
+    private void DeactivateControls(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                interact?.Disable();
+                break;
+            case 1:
+                move?.Disable();
+                break;
+            case 2:
+                interact?.Disable();
+                move?.Disable();
+                break;
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)

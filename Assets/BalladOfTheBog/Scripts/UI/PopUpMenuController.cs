@@ -50,8 +50,8 @@ public class PopUpMenuController : MonoBehaviour
     {
         escape = pauseMenuControls.PopUpMenu.Escape;
         StartCoroutine(EnablePause());
-        navigate = pauseMenuControls.PopUpMenu.Navigate;
-        navigate.Enable();
+        //navigate = pauseMenuControls.PopUpMenu.Navigate;
+        //navigate.Enable();
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         //May need to move this line back to start. (Weird bug)
@@ -64,7 +64,7 @@ public class PopUpMenuController : MonoBehaviour
     private void OnDisable()
     {
         escape.Disable();
-        navigate.Disable();
+        //navigate.Disable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
         tab.Disable();

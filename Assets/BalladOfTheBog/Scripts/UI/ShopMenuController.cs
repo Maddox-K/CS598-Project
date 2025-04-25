@@ -89,6 +89,8 @@ public class ShopMenuController : MonoBehaviour
         bool purchased = _purchasedSomething;
         _purchasedSomething = false;
 
+        PlayerEvents.InvokeActivate(0);
+
         _lastOpenShop.EndInteraction(purchased);
     }
 
@@ -104,6 +106,8 @@ public class ShopMenuController : MonoBehaviour
 
     public void Shop(ShopNPC shopNPC)
     {
+        PlayerEvents.InvokeDeactivate(0);
+
         ShopInventory inventory = shopNPC.inventory;
 
         // if shop menu is not initialized with this npc's shop items

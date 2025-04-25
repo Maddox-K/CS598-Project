@@ -105,6 +105,8 @@ public class PopUpMenuController : MonoBehaviour
         mainMenuNoSave.onClick.AddListener(ReturnToMainMenu);
 
         //player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
+
+        //Inventory.GetComponent<>
         
     }
 

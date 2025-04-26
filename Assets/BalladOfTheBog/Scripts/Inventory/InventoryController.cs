@@ -41,15 +41,6 @@ public class InventoryController : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         inventoryItems.Clear(); // clear first
-        for (int i = 0; i < slots.Length; i++)
-        {
-            foreach (Transform child in slots[i].transform)
-            {
-                Destroy(child.gameObject); // clean existing UI
-            }
-
-            isFulll[i] = false; // reset slots
-        }
 
         foreach (var kvp in data.inventorySlotData)
         {
@@ -69,20 +60,15 @@ public class InventoryController : MonoBehaviour, IDataPersistence
     public void SaveData(GameData data)
     {
         data.inventorySlotData.Clear();
+
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].transform.childCount > 0)
+            if (slots[i].transform.childCount > 1)
             {
-                string itemName = slots[i].transform.GetChild(0).name.Replace("(Clone)", "");
+                string itemName = slots[i].transform.GetChild(1).name.Replace("(Clone)", "");
                 data.inventorySlotData[i] = itemName;
             }
-            if (slots[i].transform.childCount == 0)
-            {
-                isFulll[i] = false;
-            }
-
         }
-
     }
 
 

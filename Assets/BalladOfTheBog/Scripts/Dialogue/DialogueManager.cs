@@ -19,10 +19,6 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _NPCNameText;
     [SerializeField] private TextMeshProUGUI _NPCDialogueText;
 
-    // external controllers
-    private PlayerController _playerController;
-    private PopUpMenuController _pauseController;
-
     // choice dialogue
     [SerializeField] private Button[] choiceButtons;
     private GameObject[] _choiceIndicators;
@@ -48,13 +44,6 @@ public class DialogueManager : MonoBehaviour
         {
             _choiceIndicators[i] = choiceButtons[i].transform.GetChild(0).gameObject;
         }
-    }
-
-    void Start()
-    {
-        _playerController = GameObject.FindWithTag("Player").gameObject.GetComponent<PlayerController>();
-        
-        _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PopUpMenuController>();
     }
 
     public void DisplayNext(Dialogue dialogue)
@@ -106,18 +95,8 @@ public class DialogueManager : MonoBehaviour
 
     private void StartConversation(Dialogue dialogue)
     {
-        if (_playerController == null)
-        {
-            _playerController = GameObject.FindWithTag("Player").gameObject.GetComponent<PlayerController>();
-            _pauseController = GameObject.FindGameObjectWithTag("PauseMenu").transform.GetChild(1).GetComponent<PopUpMenuController>();
-        }
-        
-        if (_playerController != null && _pauseController != null)
-        {
-            _playerController.move.Disable();
-            _pauseController.escape.Disable();
-            _pauseController.tab.Disable();
-        }
+        PlayerEvents.InvokeDeactivate(1);
+        PauseEvents.InvokeDisablePopup(2);
         
         foreach (Button button in choiceButtons)
         {
@@ -139,12 +118,8 @@ public class DialogueManager : MonoBehaviour
 
     public void EndConversation()
     {
-        if (_playerController != null && _pauseController != null)
-        {
-            _playerController.move.Enable();
-            _pauseController.escape.Enable();
-            _pauseController.tab.Enable();
-        }
+        PlayerEvents.InvokeActivate(1);
+        PauseEvents.InvokeEnablePopup(2);
         
         paragraphs.Clear();
 
@@ -158,10 +133,7 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeDialogueText(string p)
     {
-        if (!_playerController.interact.enabled)
-        {
-            _playerController.interact.Enable();
-        }
+        PlayerEvents.InvokeActivate(0);
 
         _isTyping = true;
 
@@ -207,7 +179,7 @@ public class DialogueManager : MonoBehaviour
 
     private void MakeDialogueChoice(Dialogue dialogue)
     {
-        _playerController.interact.Disable();
+        PlayerEvents.InvokeDeactivate(0);
 
         if (dialogue.choices != null && dialogue.choices.Length > 0)
         {
@@ -243,13 +215,5 @@ public class DialogueManager : MonoBehaviour
         _waitingForInput = false;
 
         DisplayNext(nextDialogue);
-    }
-
-    void Update()
-    {
-        if (_playerController == null)
-        {
-            Debug.Log("null");
-        }
     }
 }

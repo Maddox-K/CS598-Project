@@ -101,7 +101,7 @@ public class PopUpMenuController : MonoBehaviour
                 tab?.Disable();
                 break;
             case 2:
-                escape?.Enable();
+                escape?.Disable();
                 tab?.Disable();
                 break;
         }

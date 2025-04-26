@@ -48,26 +48,63 @@ public class PopUpMenuController : MonoBehaviour
 
     private void OnEnable()
     {
-        escape = pauseMenuControls.PopUpMenu.Escape;
-        StartCoroutine(EnablePause());
-        //navigate = pauseMenuControls.PopUpMenu.Navigate;
-        //navigate.Enable();
         SceneManager.sceneLoaded += OnSceneLoaded;
 
+        escape = pauseMenuControls.PopUpMenu.Escape;
+        StartCoroutine(EnablePause());
+        tab = pauseMenuControls.PopUpMenu.Tab;
+        tab.Enable();
+        
         //May need to move this line back to start. (Weird bug)
         player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
 
-        tab = pauseMenuControls.PopUpMenu.Tab;
-        tab.Enable();
+        PauseEvents.EnablePopupControls += EnableControls;
+        PauseEvents.DisablePopupControls += DisableControls;
     }
 
     private void OnDisable()
     {
-        escape.Disable();
-        //navigate.Disable();
         SceneManager.sceneLoaded -= OnSceneLoaded;
 
+        escape.Disable();
         tab.Disable();
+
+        PauseEvents.EnablePopupControls -= EnableControls;
+        PauseEvents.DisablePopupControls -= DisableControls;
+    }
+
+    private void EnableControls(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                escape?.Enable();
+                break;
+            case 1:
+                tab?.Enable();
+                break;
+            case 2:
+                escape?.Enable();
+                tab?.Enable();
+                break;
+        }
+    }
+
+    private void DisableControls(int type)
+    {
+        switch (type)
+        {
+            case 0:
+                escape?.Disable();
+                break;
+            case 1:
+                tab?.Disable();
+                break;
+            case 2:
+                escape?.Enable();
+                tab?.Disable();
+                break;
+        }
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -142,7 +179,7 @@ public class PopUpMenuController : MonoBehaviour
         } */
     }
 
-    //Call this by pressing escape
+    //Call this by pressing escape/start
     private void OpenPauseMenu()
     {
         PlayButtonAudio();
@@ -189,6 +226,7 @@ public class PopUpMenuController : MonoBehaviour
         PlayButtonAudio();
 
         tab.Disable();
+        escape.Disable();
 
         for (int i = 0; i < _buttonHighlighters.Length; i++)
         {

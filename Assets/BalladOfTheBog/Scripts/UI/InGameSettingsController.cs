@@ -106,6 +106,8 @@ public class InGameSettingsController : MonoBehaviour
 
         _pauseMenuHolder.SetActive(true);
         _settingsMenu.SetActive(false);
+
+        PauseEvents.InvokeEnablePopup(0);
     }
 
     private void ActivateAutoSave()

@@ -189,6 +189,11 @@ public class PopUpMenuController : MonoBehaviour
         }
 
         _pauseMenuHolder.SetActive(false);
+
+        for (int i = 0; i < _buttonHighlighters.Length; i++)
+        {
+            _buttonHighlighters[i].SetActive(false);
+        }
         
         PlayerEvents.InvokeActivate(2);
 

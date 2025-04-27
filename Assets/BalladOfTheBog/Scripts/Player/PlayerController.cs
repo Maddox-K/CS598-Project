@@ -299,6 +299,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (SceneManager.GetActiveScene().name == "BattleTest")
+        {
+            return;
+        }
+
         Vector3 temp = new Vector3();
 
         for (int i = 0; i < 3; i++)
@@ -316,6 +321,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
+        if (SceneManager.GetActiveScene().name == "BattleTest")
+        {
+            return;
+        }
+
         Vector3 currPos = transform.position;
         data.playerPosition[0] = currPos.x;
         data.playerPosition[1] = currPos.y;

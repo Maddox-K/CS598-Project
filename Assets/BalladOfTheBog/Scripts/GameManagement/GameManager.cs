@@ -48,12 +48,6 @@ public class GameManager : MonoBehaviour
 
     public void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Do not perform loading actions when going into an encounter
-        if (scene.name == "BattleTest")
-        {
-            return;
-        }
-
         dataPersistenceObjects = FindAllDataPersistenceObjects();
 
         if (scene.name == "Main Menu")
@@ -65,6 +59,10 @@ public class GameManager : MonoBehaviour
             {
                 LoadGame(false);
             }
+        }
+        else if (scene.name == "BattleTest")
+        {
+            LoadGame();
         }
         else if (gameData.changingScenes || gameData.lastEnemyEncountered != null)
         {
@@ -140,7 +138,11 @@ public class GameManager : MonoBehaviour
         }
 
         Debug.Log("saving data");
-        gameData.lastScene = SceneManager.GetActiveScene().name;
+        string sceneName = SceneManager.GetActiveScene().name;
+        if (sceneName != "BattleTest")
+        {
+            gameData.lastScene = sceneName;
+        }
 
         foreach (IDataPersistence dataPersistenceObj in dataPersistenceObjects)
         {

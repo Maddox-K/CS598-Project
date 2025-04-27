@@ -168,8 +168,11 @@ public class EncounterManager : MonoBehaviour
 
         yield return new WaitForSeconds(1f);
 
-        _leftFrogPanel.transform.position = new Vector3(-225, 540, 0);
-        _rightFrogPanel.transform.position = new Vector3(225, 540, 0);
+        if (_leftFrogPanel != null && _rightFrogPanel != null)
+        {
+            _leftFrogPanel.transform.position = new Vector3(-225, 540, 0);
+            _rightFrogPanel.transform.position = new Vector3(225, 540, 0);
+        }
 
         SceneManager.LoadScene("BattleTest");
     }
@@ -250,6 +253,8 @@ public class EncounterManager : MonoBehaviour
 
         if (reachedEnd)
         {
+            GameManager.instance.SaveGame();
+
             StartCoroutine(TransitionBackToGame());
         }
         else

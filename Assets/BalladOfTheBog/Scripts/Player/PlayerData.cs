@@ -185,6 +185,11 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (SceneManager.GetActiveScene().name == "BattleTest")
+        {
+            return;
+        }
+
         currency_count = data.coinCount;
 
         if (currencyGUI != null)
@@ -196,6 +201,11 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
+        if (SceneManager.GetActiveScene().name == "BattleTest")
+        {
+            return;
+        }
+
         data.coinCount = currency_count;
     }
 }

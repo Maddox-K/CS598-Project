@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 
 public class QuestManager : MonoBehaviour, IDataPersistence
 {
@@ -89,6 +90,11 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
     public void LoadData(GameData data)
     {
+        if (SceneManager.GetActiveScene().name == "BattleTest")
+        {
+            return;
+        }
+
         if (data.currentQuest != null)
         {
             _currentActiveQuest = new Quest(data.currentQuest);
@@ -127,6 +133,11 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
     public void SaveData(GameData data)
     {
+        if (SceneManager.GetActiveScene().name == "BattleTest")
+        {
+            return;
+        }
+
         data.currentQuest = _currentActiveQuest.questName;
 
         foreach (Quest quest in activeQuests)

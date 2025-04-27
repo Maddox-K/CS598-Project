@@ -15,11 +15,30 @@ public class InventoryController : MonoBehaviour, IDataPersistence
     void OnEnable()
     {
         QuestEvents.RewardItems += RewardItems;
+
+        InventoryEvents.OnInventoryClose += DisableIndicators;
     }
 
     void OnDisable()
     {
         QuestEvents.RewardItems -= RewardItems;
+
+        InventoryEvents.OnInventoryClose -= DisableIndicators;
+    }
+
+    private void DisableIndicators()
+    {
+        foreach (GameObject obj in _slotIndicators)
+        {
+            obj.SetActive(false);
+        }
+        foreach (GameObject slot in slots)
+        {
+            if (slot.transform.childCount > 1)
+            {
+                slot.transform.GetChild(1).gameObject.transform.GetChild(0).gameObject.SetActive(false);
+            }
+        }
     }
 
     void Awake()

@@ -21,6 +21,8 @@ public class InventoryButtonSet : MenuButtonSet
     void OnDisable()
     {
         InputSystem.onEvent -= OnInputEvent;
+
+        InventoryEvents.InvokeInventoryClose();
     }
 
     void OnInputEvent(InputEventPtr eventPtr, InputDevice device)
@@ -35,7 +37,7 @@ public class InventoryButtonSet : MenuButtonSet
 
     void Start()
     {
-        _firstSelected.transform.GetChild(0).gameObject.SetActive(true);
+        //_firstSelected.transform.GetChild(0).gameObject.SetActive(true);
     }
 
     private void ActivateIndicator()

@@ -1056,7 +1056,7 @@ GameObject:
   - component: {fileID: 4910940950893721676}
   - component: {fileID: 2619003936129484753}
   - component: {fileID: 6004821978810042872}
-  - component: {fileID: 1864838359740700755}
+  - component: {fileID: 5967150205428554335}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -1149,7 +1149,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &1864838359740700755
+--- !u!114 &5967150205428554335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1158,7 +1158,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 5304353127489809229}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 96a9a1c5eae3f0a4aaf519e3f3c6f72a, type: 3}
+  m_Script: {fileID: 11500000, guid: 4e9bc484bf7148944a177fc05723ed7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _firstSelected: {fileID: 4584762679286735897}

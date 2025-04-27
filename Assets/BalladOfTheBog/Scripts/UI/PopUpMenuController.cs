@@ -21,10 +21,6 @@ public class PopUpMenuController : MonoBehaviour
     [SerializeField] private Button mainMenuNoSave;
     [SerializeField] private GameObject[] _buttonHighlighters;
 
-    // Player
-    private PlayerController _playerController;
-    private Rigidbody2D player;
-
     // Input
     private PopUpMenuControls pauseMenuControls;
     public InputAction escape;
@@ -54,9 +50,6 @@ public class PopUpMenuController : MonoBehaviour
         StartCoroutine(EnablePause());
         tab = pauseMenuControls.PopUpMenu.Tab;
         tab.Enable();
-        
-        //May need to move this line back to start. (Weird bug)
-        player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
 
         PauseEvents.EnablePopupControls += EnableControls;
         PauseEvents.DisablePopupControls += DisableControls;
@@ -123,8 +116,6 @@ public class PopUpMenuController : MonoBehaviour
         _settingsMenu.SetActive(false);
         _settingsMenu.GetComponent<Canvas>().enabled = true;
 
-        _playerController = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerController>();
-
         playButton.onClick.AddListener(ClosePauseMenu);
         settingsButton.onClick.AddListener(OpenSettingsMenu);
 
@@ -140,11 +131,6 @@ public class PopUpMenuController : MonoBehaviour
         }
 
         mainMenuNoSave.onClick.AddListener(ReturnToMainMenu);
-
-        //player = GameObject.Find("Player").GetComponent<Rigidbody2D>();
-
-        //Inventory.GetComponent<>
-        
     }
 
     void Update()
@@ -186,15 +172,13 @@ public class PopUpMenuController : MonoBehaviour
 
         Inventory.SetActive(false);
         _pauseMenuHolder.SetActive(true);
-        if (_playerController != null)
-        {
-            _playerController.interact.Disable();
-            _playerController.move.Disable();
-        }
+        
+        PlayerEvents.InvokeDeactivate(2);
+
         GameManager.instance.Pause();
     }
 
-    //We call this by eithe pressing resume or esc
+    //We call this by either pressing resume or esc
     private void ClosePauseMenu()
     {
         PlayButtonAudio();
@@ -205,11 +189,9 @@ public class PopUpMenuController : MonoBehaviour
         }
 
         _pauseMenuHolder.SetActive(false);
-        if (_playerController != null)
-        {
-            _playerController.interact.Enable();
-            _playerController.move.Enable();
-        }
+        
+        PlayerEvents.InvokeActivate(2);
+
         GameManager.instance.Unpause();
     }
 
@@ -287,33 +269,29 @@ public class PopUpMenuController : MonoBehaviour
     {
         Inventory.SetActive(true);
 
+        PlayerEvents.InvokeDeactivate(1);
+
         if (_currentSceneName == "BattleTest")
         {
-            if (_playerController != null)
-            {
-                _playerController.move.Disable();
-                GameManager.instance.Pause();
-            }
+            GameManager.instance.Pause();
         }
         else
         {
-            if (_playerController != null)
-            {
-                _playerController.interact.Disable();
-            }
+            PlayerEvents.InvokeDeactivate(0);
         }
     }
 
     private void CloseInventory()
     {
+        PlayerEvents.InvokeActivate(1);
+
         if (_currentSceneName == "BattleTest")
         {
-            _playerController.move.Enable();
             GameManager.instance.Unpause();
         }
         else
         {
-            _playerController.interact.Enable();
+            PlayerEvents.InvokeActivate(0);
         }
 
         Inventory.SetActive(false);
@@ -321,7 +299,7 @@ public class PopUpMenuController : MonoBehaviour
 
     private IEnumerator EnablePause()
     {
-        yield return new WaitForSeconds(1.1f);
+        yield return new WaitForSeconds(1.15f);
 
         escape.Enable();
     }

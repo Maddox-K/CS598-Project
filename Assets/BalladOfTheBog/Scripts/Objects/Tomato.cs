@@ -35,6 +35,7 @@ public class Tomato : MonoBehaviour
         player.GetComponent<MonoBehaviour>().StartCoroutine(RemoveEffectAfterDelay());
 
         int slotIndex = transform.parent.GetSiblingIndex();
+        inventoryController.slotButtons[slotIndex].interactable = true;
         inventoryController.RemoveItem(slotIndex);
 
         Destroy(gameObject); // Destroy the tomato object

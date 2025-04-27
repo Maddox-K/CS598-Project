@@ -23,9 +23,11 @@ public class PickUpItem : MonoBehaviour
                 {
                     inventoryController.isFulll[i] = true;
                     Instantiate(itemButton, inventoryController.slots[i].transform);
+
+                    inventoryController.slotButtons[i].interactable = false;
+
                     QuestEvents.OnItemCollected?.Invoke(itemName);
-                    //Change list to ignore objects
-                    //Destroy(gameObject);
+                    
                     gameObject.SetActive(false);
                     break;
                 }

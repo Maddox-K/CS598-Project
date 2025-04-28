@@ -4,14 +4,18 @@ using UnityEngine.UI;
 
 public class Tomato : MonoBehaviour
 {
+    // Button
     [SerializeField] private Button tomatoButton;
-    [SerializeField] private GameObject tomatoPrefab;
 
+    // Inventory
     InventoryController inventoryController;
 
+    // Player
     private GameObject player;
     private PlayerController playerController;
-    private float duration = 10f;
+
+    // Tomato Buff Variables
+    private float duration = 7f;
     private bool isBuffActive = false;
 
     private void Start()
@@ -53,19 +57,4 @@ public class Tomato : MonoBehaviour
 
         isBuffActive = false;
     }
-
-    //private int GetSlotIndexOfItemInInventory()
-    //{
-    //    for (int i = 0; i < inventoryController.inventoryItems.Count; i++)
-    //    {
-    //        if (inventoryController.inventoryItems[i] == "TomatoButton") // Or any other item name
-    //        {
-    //            return i;
-    //        }
-    //    }
-
-    //    return -1; // Return -1 if item is not found
-    //}
-
 }
-

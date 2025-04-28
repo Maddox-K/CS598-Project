@@ -15,9 +15,10 @@ public class Mail : NPC
 
     // Mail Variables
     private AudioSource _audioSource;
-    private AudioClip _explosionClip;
+    [SerializeField] private AudioClip _explosionClip;
     private InputSystemUIInputModule _inputModule;
     private InputAction _navigateAction;
+    private InputAction _pointAction;
     [SerializeField] private Dialogue _letterDialogue;
     private int _shownText = 0;
     [SerializeField] private float _timeToSelfDestruct;
@@ -25,17 +26,18 @@ public class Mail : NPC
     void Awake()
     {
         dialogueManager = GameObject.FindGameObjectWithTag("Canvas").transform.GetChild(0).gameObject.GetComponent<DialogueManager>();
+
+        _audioSource = gameObject.GetComponent<AudioSource>();
     }
 
     private void Start()
     {
-        _audioSource = GetComponent<AudioSource>();
-
         _mailButton.onClick.AddListener(Interact);
         _inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
 
         _inputModule = EventSystem.current.GetComponent<InputSystemUIInputModule>();
         _navigateAction = _inputModule.actionsAsset.FindAction("Navigate");
+        _pointAction = _inputModule.actionsAsset.FindAction("Point");
     }
 
     public override void Interact()
@@ -43,12 +45,24 @@ public class Mail : NPC
         if (_navigateAction.enabled)
         {
             _navigateAction.Disable();
+            _pointAction.Disable();
+            //Cursor.lockState = CursorLockMode.Locked;
+    
+            if (EventSystem.current != null)
+            {
+                EventSystem.current.SetSelectedGameObject(null);
+                EventSystem.current.SetSelectedGameObject(gameObject);
+            }
             _mailButton.Select();
         }
 
         if (_shownText == _letterDialogue.paragraphs.Length - 1)
         {
+            _mailButton.onClick.RemoveListener(Interact);
             _navigateAction.Enable();
+            _pointAction.Enable();
+            //Cursor.lockState = CursorLockMode.None;
+            PauseEvents.InvokeEnablePopup(2);
             dialogueManager.paragraphs.Clear();
             dialogueManager.gameObject.SetActive(false);
 
@@ -69,10 +83,9 @@ public class Mail : NPC
         _inventoryController.slotButtons[slotIndex].interactable = true;
         _inventoryController.RemoveItem(slotIndex);
 
-        if (_audioSource != null)
-        {
-            _audioSource.PlayOneShot(_explosionClip);
-        }
+        _audioSource.PlayOneShot(_explosionClip);
+
+        yield return new WaitForSeconds(1f);
 
         Destroy(gameObject); // Destroy the tomato object
     }

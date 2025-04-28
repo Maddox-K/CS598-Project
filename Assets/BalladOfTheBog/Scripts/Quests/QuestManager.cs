@@ -86,6 +86,8 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         quest.StartQuest();
         activeQuests.Add(quest);
         _currentActiveQuest = quest;
+
+        QuestEvents.InvokeOnNewQuestStarted(_currentActiveQuest);
     }
 
     public void LoadData(GameData data)
@@ -124,6 +126,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
             _currentActiveQuest.StartQuest();
             activeQuests.Add(_currentActiveQuest);
+            QuestEvents.InvokeOnCurrentQuestLoaded(_currentActiveQuest);
         }
         else if (!data.startedGameplay)
         {
@@ -195,5 +198,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         quest.reward = new QuestReward(2, items, false);
 
         GameManager.instance.gameData.startedGameplay = true;
+
+        QuestEvents.InvokeOnNewQuestStarted(_currentActiveQuest);
     }
 }

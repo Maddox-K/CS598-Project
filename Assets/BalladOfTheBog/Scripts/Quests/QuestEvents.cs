@@ -6,6 +6,8 @@ public static class QuestEvents
     public static Action<Quest> OnQuestCompleted;
     public static Action<QuestData> ActivateQuest;
     public static Action<string> TryStartSubsequentQuest;
+    public static event Action<Quest> OnCurrentQuestLoaded;
+    public static event Action<Quest> OnNewQuestStarted;
 
     // actions for each quest type
     public static Action<string> OnItemCollected;
@@ -18,4 +20,15 @@ public static class QuestEvents
     public static Action<int> RewardCoins;
     public static Action<string[]> RewardItems;
     public static Action<string> ClearObstacle;
+
+    // event invocations
+    public static void InvokeOnCurrentQuestLoaded(Quest quest)
+    {
+        OnCurrentQuestLoaded?.Invoke(quest);
+    }
+
+    public static void InvokeOnNewQuestStarted(Quest quest)
+    {
+        OnNewQuestStarted?.Invoke(quest);
+    }
 }

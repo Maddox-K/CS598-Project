@@ -133,8 +133,6 @@ public class DialogueManager : MonoBehaviour
 
     private IEnumerator TypeDialogueText(string p)
     {
-        PlayerEvents.InvokeActivate(0);
-
         _isTyping = true;
 
         int maxVisibleChars = 0;
@@ -214,6 +212,8 @@ public class DialogueManager : MonoBehaviour
         }
 
         _waitingForInput = false;
+
+        PlayerEvents.InvokeActivate(0);
 
         DisplayNext(nextDialogue);
     }

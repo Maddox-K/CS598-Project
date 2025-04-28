@@ -20,7 +20,6 @@ public class Mail : NPC
     private InputAction _navigateAction;
     private InputAction _pointAction;
     [SerializeField] private Dialogue _letterDialogue;
-    private int _shownText = 0;
     [SerializeField] private float _timeToSelfDestruct;
 
     void Awake()
@@ -46,7 +45,6 @@ public class Mail : NPC
         {
             _navigateAction.Disable();
             _pointAction.Disable();
-            //Cursor.lockState = CursorLockMode.Locked;
     
             if (EventSystem.current != null)
             {
@@ -56,21 +54,19 @@ public class Mail : NPC
             _mailButton.Select();
         }
 
-        if (_shownText == _letterDialogue.paragraphs.Length - 1)
+        if (dialogueManager.conversationEnded)
         {
+            dialogueManager.DisplayNext(_letterDialogue);
+            
+            PlayerEvents.InvokeDeactivate(1);
+            PauseEvents.InvokeDisablePopup(2);
+
             _mailButton.onClick.RemoveListener(Interact);
-            _navigateAction.Enable();
-            _pointAction.Enable();
-            //Cursor.lockState = CursorLockMode.None;
-            PauseEvents.InvokeEnablePopup(2);
-            dialogueManager.paragraphs.Clear();
-            dialogueManager.gameObject.SetActive(false);
 
             StartCoroutine(SelfDestruct(_timeToSelfDestruct));
         }
         else
         {
-            _shownText += 1;
             dialogueManager.DisplayNext(_letterDialogue);
         }
     }
@@ -87,6 +83,18 @@ public class Mail : NPC
 
         yield return new WaitForSeconds(1f);
 
-        Destroy(gameObject); // Destroy the tomato object
+        if (dialogueManager.gameObject.activeSelf)
+        {
+            dialogueManager.paragraphs.Clear();
+            dialogueManager.gameObject.SetActive(false);
+            dialogueManager.conversationEnded = false;
+        }
+
+        PauseEvents.InvokeEnablePopup(2);
+
+        _navigateAction.Enable();
+        _pointAction.Enable();
+
+        Destroy(gameObject);
     }
 }

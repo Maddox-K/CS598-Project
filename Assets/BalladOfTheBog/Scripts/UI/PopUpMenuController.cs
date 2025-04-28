@@ -158,11 +158,6 @@ public class PopUpMenuController : MonoBehaviour
                 OpenInventory();
             }
         }
-
-        /* if (player.linearVelocity.magnitude > 0.1f)
-        {
-            CloseInventory();
-        } */
     }
 
     //Call this by pressing escape/start
@@ -274,7 +269,7 @@ public class PopUpMenuController : MonoBehaviour
     {
         Inventory.SetActive(true);
 
-        PlayerEvents.InvokeDeactivate(1);
+        PlayerEvents.InvokeDeactivate(2);
 
         if (_currentSceneName == "BattleTest")
         {
@@ -288,7 +283,7 @@ public class PopUpMenuController : MonoBehaviour
 
     private void CloseInventory()
     {
-        PlayerEvents.InvokeActivate(1);
+        PlayerEvents.InvokeActivate(2);
 
         if (_currentSceneName == "BattleTest")
         {
@@ -304,7 +299,7 @@ public class PopUpMenuController : MonoBehaviour
 
     private IEnumerator EnablePause()
     {
-        yield return new WaitForSeconds(1.15f);
+        yield return new WaitForSeconds(1.2f);
 
         escape.Enable();
     }

@@ -199,6 +199,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
+        choiceButtons[0].Select();
         _choiceIndicators[0].SetActive(true);
     }
 

@@ -56679,8 +56679,8 @@ PrefabInstance:
       value: Dialogue
       objectReference: {fileID: 0}
     - target: {fileID: 6497135364787896103, guid: 4be553dccf8cc694cad561b4ee5135c4, type: 3}
-      propertyPath: m_TagString
-      value: DialogueManager
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

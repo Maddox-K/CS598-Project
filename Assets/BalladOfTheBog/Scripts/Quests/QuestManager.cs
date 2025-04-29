@@ -40,6 +40,8 @@ public class QuestManager : MonoBehaviour, IDataPersistence
     {
         _currentActiveQuest = null;
 
+        QuestEvents.InvokeTextReset();
+
         QuestReward reward = quest.reward;
         if (reward != null)
         {

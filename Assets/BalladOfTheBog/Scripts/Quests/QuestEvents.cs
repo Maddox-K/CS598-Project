@@ -6,8 +6,11 @@ public static class QuestEvents
     public static Action<Quest> OnQuestCompleted;
     public static Action<QuestData> ActivateQuest;
     public static Action<string> TryStartSubsequentQuest;
+
+    // quest UI
     public static event Action<Quest> OnCurrentQuestLoaded;
     public static event Action<Quest> OnNewQuestStarted;
+    public static event Action ResetUIText;
 
     // actions for each quest type
     public static Action<string> OnItemCollected;
@@ -31,5 +34,10 @@ public static class QuestEvents
     public static void InvokeOnNewQuestStarted(Quest quest)
     {
         OnNewQuestStarted?.Invoke(quest);
+    }
+
+    public static void InvokeTextReset()
+    {
+        ResetUIText?.Invoke();
     }
 }

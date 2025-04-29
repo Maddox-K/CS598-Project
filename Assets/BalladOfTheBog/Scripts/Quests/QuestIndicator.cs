@@ -11,12 +11,19 @@ public class QuestIndicator : MonoBehaviour
     {
         QuestEvents.OnCurrentQuestLoaded += LoadData;
         QuestEvents.OnNewQuestStarted += ShowQuestNotification;
+        QuestEvents.ResetUIText += ResetUIText;
     }
 
     void OnDisable()
     {
         QuestEvents.OnCurrentQuestLoaded -= LoadData;
         QuestEvents.OnNewQuestStarted -= ShowQuestNotification;
+        QuestEvents.ResetUIText -= ResetUIText;
+    }
+
+    private void ResetUIText()
+    {
+        _questText.text = "No Current Objective";
     }
 
     private void ShowQuestNotification(Quest quest)

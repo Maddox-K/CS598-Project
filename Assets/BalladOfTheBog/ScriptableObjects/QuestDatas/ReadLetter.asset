@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   questName: Read Grub Letter
   objectives:
-  - objectiveType: 0
-    objectId: Deez
-    amountNeeded: 3
-    currentAmount: 2
+  - objectiveType: 5
+    objectId: GrubIntroLetter
+    amountNeeded: 0
+    currentAmount: 0
   reward:
     coins: 3
     items:

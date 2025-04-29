@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 2670095920965618334}
   - component: {fileID: 5361373414779668876}
   - component: {fileID: 5832325253882718667}
+  - component: {fileID: 8544452692043663160}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -410,4 +411,33 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
+  slotButtons: []
   InventoryUI: {fileID: 0}
+  inventoryItems: []
+--- !u!114 &8544452692043663160
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830172652074087050}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c976c12428ab3448400ccff4cd96ab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentPuzzle: {fileID: 0}
+  currentPuzzleCamera: {fileID: 0}
+  move:
+    m_Name: Move
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 57093250-c0e0-4795-a363-ab1b3865448f
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+  _normalSprite: {fileID: -1328846960, guid: f8f1d280f93b0c54d98d58f585097e1d, type: 3}
+  _move: {fileID: 8300000, guid: 0e34b0dbc52dfea4e94ceb53b8e2ddf0, type: 3}
+  _pushedIntoSolution: {fileID: 0}
+  _cannotMove: {fileID: 8300000, guid: df5eb021569c0b14fb0ea12b013b3054, type: 3}

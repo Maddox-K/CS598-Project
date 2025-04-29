@@ -36505,7 +36505,7 @@ PrefabInstance:
     - target: {fileID: 4318484733190380567, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
       propertyPath: _sceneTransitionAnimator
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 163443766}
     - target: {fileID: 4603640480093979931, guid: d91eedd5a2dc98948b394b981afb8b48, type: 3}
       propertyPath: m_Pivot.x
       value: 0

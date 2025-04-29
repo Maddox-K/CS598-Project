@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Tomato : MonoBehaviour
 {
@@ -20,8 +21,11 @@ public class Tomato : MonoBehaviour
 
     private void Start()
     {
-        tomatoButton.onClick.AddListener(ApplySpeedBuff);
-        inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
+        if (SceneManager.GetActiveScene().name == "BattleTest")
+        {
+            tomatoButton.onClick.AddListener(ApplySpeedBuff);
+            inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
+        }
     }
 
     private void ApplySpeedBuff()

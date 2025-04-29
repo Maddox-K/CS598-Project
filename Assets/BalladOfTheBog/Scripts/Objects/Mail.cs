@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.UI;
 using UnityEngine.EventSystems;
 using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class Mail : NPC
 {
@@ -32,12 +33,16 @@ public class Mail : NPC
 
     private void Start()
     {
-        _mailButton.onClick.AddListener(Interact);
-        _inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
+        if (SceneManager.GetActiveScene().name != "BattleTest")
+        {
+            _mailButton.onClick.AddListener(Interact);
 
-        _inputModule = EventSystem.current.GetComponent<InputSystemUIInputModule>();
-        _navigateAction = _inputModule.actionsAsset.FindAction("Navigate");
-        _pointAction = _inputModule.actionsAsset.FindAction("Point");
+            _inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
+
+            _inputModule = EventSystem.current.GetComponent<InputSystemUIInputModule>();
+            _navigateAction = _inputModule.actionsAsset.FindAction("Navigate");
+            _pointAction = _inputModule.actionsAsset.FindAction("Point");
+        }
     }
 
     public override void Interact()
@@ -76,10 +81,6 @@ public class Mail : NPC
     {
         yield return new WaitForSeconds(time);
 
-        int slotIndex = transform.parent.GetSiblingIndex();
-        _inventoryController.slotButtons[slotIndex].interactable = true;
-        _inventoryController.RemoveItem(slotIndex);
-
         _audioSource.PlayOneShot(_explosionClip);
 
         yield return new WaitForSeconds(1f);
@@ -90,6 +91,10 @@ public class Mail : NPC
             dialogueManager.gameObject.SetActive(false);
             dialogueManager.conversationEnded = false;
         }
+
+        int slotIndex = transform.parent.GetSiblingIndex();
+        _inventoryController.slotButtons[slotIndex].interactable = true;
+        _inventoryController.RemoveItem(slotIndex);
 
         PauseEvents.InvokeEnablePopup(2);
 

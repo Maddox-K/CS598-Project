@@ -11,6 +11,7 @@ public static class QuestEvents
 
     // actions for each quest type
     public static Action<string> OnItemCollected;
+    public static Action<string> OnItemUsed;
     public static Action<string> OnLocationVisited;
     public static Action<string> OnNPCTalkedTo;
     public static Action<string> OnPuzzleCompleted;

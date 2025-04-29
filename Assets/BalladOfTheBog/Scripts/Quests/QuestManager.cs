@@ -19,9 +19,12 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         QuestEvents.OnQuestCompleted -= OnQuestCompleted;
         QuestEvents.ActivateQuest -= ActivateQuest;
 
-        foreach (QuestObjective obj in _currentActiveQuest.objectives)
+        if (_currentActiveQuest != null)
         {
-            obj.Cleanup();
+            foreach (QuestObjective obj in _currentActiveQuest.objectives)
+            {
+                obj.Cleanup();
+            }
         }
     }
 
@@ -75,6 +78,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                 case 0:
                     quest.AddObjective(new CollectObjective(quest, objectId, amount, currentAmount, false));
                     break;
+                case 5:
+                    quest.AddObjective(new UseItemObjective(quest, objectId, false));
+                    break;
             }
         }
 
@@ -116,6 +122,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                     case 0:
                         _currentActiveQuest.AddObjective(new CollectObjective(_currentActiveQuest, objectId, amount, currentAmount, questInfo.Item2[i]));
                         break;
+                    case 5:
+                        _currentActiveQuest.AddObjective(new UseItemObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));
+                        break;
                 }
             }
 
@@ -141,7 +150,14 @@ public class QuestManager : MonoBehaviour, IDataPersistence
             return;
         }
 
-        data.currentQuest = _currentActiveQuest.questName;
+        if (_currentActiveQuest != null)
+        {
+            data.currentQuest = _currentActiveQuest.questName;
+        }
+        else
+        {
+            data.currentQuest = null;
+        }
 
         foreach (Quest quest in activeQuests)
         {

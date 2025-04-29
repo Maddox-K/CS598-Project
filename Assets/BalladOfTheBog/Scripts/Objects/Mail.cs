@@ -14,6 +14,7 @@ public class Mail : NPC
     private InventoryController _inventoryController;
 
     // Mail Variables
+    [SerializeField] private string _mailName;
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _explosionClip;
     private InputSystemUIInputModule _inputModule;
@@ -94,6 +95,8 @@ public class Mail : NPC
 
         _navigateAction.Enable();
         _pointAction.Enable();
+
+        QuestEvents.OnItemUsed?.Invoke(_mailName);
 
         Destroy(gameObject);
     }

@@ -56911,6 +56911,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: TransitionHolder
       objectReference: {fileID: 0}
+    - target: {fileID: 4175577485423936092, guid: 2f40fe7dc1a0850499107c66083b29da, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7917935737404601607, guid: 2f40fe7dc1a0850499107c66083b29da, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

@@ -1,4 +1,4 @@
-# The Ballad of the Bog
+# The Ballad of The Bog
 The Ballad of the Bog is a top-down RPG being developed for Windows. Follow the player on their journey as a frog as they adventure through the ruthless and industrial bog world that they find themselves living in.
 
 The game is being developed in the Unity Engine using C# scripting for the code implementation. This project has exposed the team to the workflow of the .NET ecosystem, making use of features such as runtime memory management, object-oriented programming, observer pattern software development, and extensive version control (Git). Most importantly, the project has forced the group to learn how to effectively work in a team and develop the skills that are essential in group software devleopment. This includes project branch merges, development sprints, progress reports, and implementation documentation.

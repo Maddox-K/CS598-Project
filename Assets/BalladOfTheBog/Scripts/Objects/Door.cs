@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Events;
 
 public class Door : MonoBehaviour, IInteractable
 {
@@ -9,6 +10,8 @@ public class Door : MonoBehaviour, IInteractable
     // audio
     private AudioSource _audioSource;
     [SerializeField] private AudioClip _doorOpenSound;
+
+    [SerializeField] private UnityEvent musicChange;
 
     void Awake()
     {
@@ -25,6 +28,7 @@ public class Door : MonoBehaviour, IInteractable
         if (_transitionAnimator != null)
         {
             _transitionAnimator.SetTrigger("Start");
+            musicChange.Invoke();
         }
     }
 

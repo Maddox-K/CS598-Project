@@ -49,7 +49,7 @@ MonoBehaviour:
   _teleportLocation: {x: 0, y: 0}
   _lookDirectionOnTeleport: {x: 0, y: 1}
   _transitionAnimator: {fileID: 0}
-  _doorOpenSound: {fileID: 8300000, guid: d2c6d56931c13b74991d31a904b0b9ad, type: 3}
+  _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
   musicChange:
     m_PersistentCalls:
       m_Calls: []

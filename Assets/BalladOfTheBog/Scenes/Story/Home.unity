@@ -631,7 +631,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4175577485423936092, guid: 2f40fe7dc1a0850499107c66083b29da, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7917935737404601607, guid: 2f40fe7dc1a0850499107c66083b29da, type: 3}
       propertyPath: m_LocalPosition.x
@@ -927,7 +927,7 @@ MonoBehaviour:
   _teleportLocation: {x: 209, y: -20}
   _lookDirectionOnTeleport: {x: 0, y: 1}
   _transitionAnimator: {fileID: 163443767}
-  _doorOpenSound: {fileID: 8300000, guid: d2c6d56931c13b74991d31a904b0b9ad, type: 3}
+  _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
   musicChange:
     m_PersistentCalls:
       m_Calls:
@@ -80210,7 +80210,7 @@ GameObject:
   - component: {fileID: 1055741042}
   - component: {fileID: 1055741041}
   m_Layer: 0
-  m_Name: DoorShopExit (1)
+  m_Name: DoorShopExit
   m_TagString: Door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -80293,7 +80293,7 @@ MonoBehaviour:
   _teleportLocation: {x: -54, y: -5}
   _lookDirectionOnTeleport: {x: 0, y: -1}
   _transitionAnimator: {fileID: 163443767}
-  _doorOpenSound: {fileID: 8300000, guid: d2c6d56931c13b74991d31a904b0b9ad, type: 3}
+  _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
   musicChange:
     m_PersistentCalls:
       m_Calls:
@@ -81208,6 +81208,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GrubPubExit
       objectReference: {fileID: 0}
+    - target: {fileID: 1056693298781570129, guid: 22b630d7575df374ba30dd940fd94654, type: 3}
+      propertyPath: _doorOpenSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
     - target: {fileID: 1056693298781570129, guid: 22b630d7575df374ba30dd940fd94654, type: 3}
       propertyPath: _teleportLocation.x
       value: -32
@@ -82126,7 +82130,7 @@ MonoBehaviour:
   _teleportLocation: {x: 0, y: 0}
   _lookDirectionOnTeleport: {x: 0, y: 1}
   _transitionAnimator: {fileID: 163443767}
-  _doorOpenSound: {fileID: 8300000, guid: d2c6d56931c13b74991d31a904b0b9ad, type: 3}
+  _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
   musicChange:
     m_PersistentCalls:
       m_Calls:
@@ -82327,7 +82331,7 @@ MonoBehaviour:
   _teleportLocation: {x: 250, y: -23}
   _lookDirectionOnTeleport: {x: 0, y: 1}
   _transitionAnimator: {fileID: 163443767}
-  _doorOpenSound: {fileID: 8300000, guid: d2c6d56931c13b74991d31a904b0b9ad, type: 3}
+  _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
   musicChange:
     m_PersistentCalls:
       m_Calls:

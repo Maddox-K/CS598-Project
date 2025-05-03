@@ -28,6 +28,9 @@ public class GameData
     public string currentQuest;
     public bool startedGameplay;
 
+    // Cutscenes
+    public Dictionary<string, bool> cutScenes;
+
     public GameData()
     {
         // Scene Management
@@ -57,5 +60,8 @@ public class GameData
         quests = new Dictionary<string, (ObjectiveData[], bool[], bool, QuestReward)>();
         currentQuest = null;
         startedGameplay = false;
+
+        // Cutscenes
+        cutScenes = new Dictionary<string, bool>();
     }
 }

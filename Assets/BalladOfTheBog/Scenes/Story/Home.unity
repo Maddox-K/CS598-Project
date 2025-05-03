@@ -79927,6 +79927,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2071453903}
     m_Modifications:
+    - target: {fileID: 705475024901109535, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
+      propertyPath: m_Radius
+      value: 2.8
+      objectReference: {fileID: 0}
     - target: {fileID: 1678364772433365368, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
       propertyPath: _dialogue
       value: 
@@ -79945,11 +79949,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3930129948774564747, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.46
+      value: -7.67
       objectReference: {fileID: 0}
     - target: {fileID: 3930129948774564747, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -53.31
+      value: -53.44
       objectReference: {fileID: 0}
     - target: {fileID: 3930129948774564747, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
       propertyPath: m_LocalPosition.z

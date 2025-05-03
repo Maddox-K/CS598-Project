@@ -3,15 +3,15 @@ using UnityEngine.Events;
 
 public class Door : MonoBehaviour, IInteractable
 {
-    [SerializeField] private Vector2 _teleportLocation;
-    [SerializeField] private Vector2 _lookDirectionOnTeleport;
-    [SerializeField] private Animator _transitionAnimator;
+    // Door Transport
+    [SerializeField] protected Vector2 _teleportLocation;
+    [SerializeField] protected Vector2 _lookDirectionOnTeleport;
+    [SerializeField] protected Animator _transitionAnimator;
 
     // audio
-    private AudioSource _audioSource;
-    [SerializeField] private AudioClip _doorOpenSound;
-
-    [SerializeField] private UnityEvent musicChange;
+    protected AudioSource _audioSource;
+    [SerializeField] protected AudioClip _doorOpenSound;
+    [SerializeField] protected UnityEvent musicChange;
 
     void Awake()
     {
@@ -22,7 +22,7 @@ public class Door : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact()
+    public virtual void Interact()
     {
         if (_audioSource != null && _doorOpenSound != null)
         {
@@ -32,8 +32,9 @@ public class Door : MonoBehaviour, IInteractable
         if (_transitionAnimator != null)
         {
             _transitionAnimator.SetTrigger("Start");
-            musicChange.Invoke();
         }
+
+        musicChange.Invoke();
     }
 
     public Vector2 GetTeleport()

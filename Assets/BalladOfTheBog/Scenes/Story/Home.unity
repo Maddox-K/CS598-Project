@@ -82128,7 +82128,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _teleportLocation: {x: 0, y: 0}
-  _lookDirectionOnTeleport: {x: 0, y: 1}
+  _lookDirectionOnTeleport: {x: 0, y: -1}
   _transitionAnimator: {fileID: 163443767}
   _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
   musicChange:

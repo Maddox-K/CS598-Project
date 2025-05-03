@@ -31,6 +31,9 @@ public class GameData
     // Cutscenes
     public Dictionary<string, bool> cutScenes;
 
+    // Doors
+    public Dictionary<string, bool> doorsUnlocked;
+
     public GameData()
     {
         // Scene Management
@@ -38,10 +41,8 @@ public class GameData
         changingScenes = false;
 
         // Player Data
-        for (int i = 0; i < 3; i++)
-        {
-            playerPosition[i] = 0.0f;
-        }
+        playerPosition[0] = 205.0f;
+        playerPosition[1] = -19.0f;
         for (int i = 0; i < 2; i++)
         {
             playerRotation[i] = 0.0f;
@@ -63,5 +64,8 @@ public class GameData
 
         // Cutscenes
         cutScenes = new Dictionary<string, bool>();
+
+        // Doors
+        doorsUnlocked = new Dictionary<string, bool>();
     }
 }

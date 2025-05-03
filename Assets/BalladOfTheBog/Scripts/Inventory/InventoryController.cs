@@ -159,4 +159,21 @@ public class InventoryController : MonoBehaviour, IDataPersistence
             }
         }
     }
+
+    public bool CheckItemInInventory(string itemName)
+    {
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (isFulll[i])
+            {
+                if (slots[i].transform.GetChild(1).name.Replace("(Clone)", "") == itemName)
+                {
+                    RemoveItem(i);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
 }

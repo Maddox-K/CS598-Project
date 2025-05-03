@@ -23,7 +23,10 @@ public class QuestHolder : MonoBehaviour
     {
         if (_activatorQuestName != null && questName == _activatorQuestName) // only start subsequent quest if corresponding prerequisite quest was just completed
         {
-            QuestEvents.ActivateQuest?.Invoke(_nextQuestData); // send quest data to quest manager for activation
+            if (_nextQuestData != null)
+            {
+                QuestEvents.ActivateQuest?.Invoke(_nextQuestData); // send quest data to quest manager for activation
+            }
         }
     }
 }

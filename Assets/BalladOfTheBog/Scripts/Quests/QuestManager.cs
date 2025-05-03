@@ -49,7 +49,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
             {
                 QuestEvents.RewardCoins?.Invoke(reward.coins);
             }
-            if (reward.items != null && reward.items[0] != "")
+            if (reward.items != null && reward.items.Length > 0 && reward.items[0] != "")
             {
                 QuestEvents.RewardItems?.Invoke(reward.items);
             }
@@ -79,6 +79,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
             {
                 case 0:
                     quest.AddObjective(new CollectObjective(quest, objectId, amount, currentAmount, false));
+                    break;
+                case 2:
+                    quest.AddObjective(new EnterLocationObjective(quest, objectId, false));
                     break;
                 case 5:
                     quest.AddObjective(new UseItemObjective(quest, objectId, false));
@@ -123,6 +126,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                 {
                     case 0:
                         _currentActiveQuest.AddObjective(new CollectObjective(_currentActiveQuest, objectId, amount, currentAmount, questInfo.Item2[i]));
+                        break;
+                    case 2:
+                        _currentActiveQuest.AddObjective(new EnterLocationObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));
                         break;
                     case 5:
                         _currentActiveQuest.AddObjective(new UseItemObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));

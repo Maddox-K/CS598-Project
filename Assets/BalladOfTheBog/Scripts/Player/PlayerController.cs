@@ -55,6 +55,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         PlayerEvents.ActivateControls += ActivateControls;
         PlayerEvents.DeactivateControls += DeactivateControls;
+        PlayerEvents.OnDoorOpened += OnDoorOpened;
     }
 
     private void OnDisable()
@@ -67,6 +68,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
 
         PlayerEvents.ActivateControls -= ActivateControls;
         PlayerEvents.DeactivateControls -= DeactivateControls;
+        PlayerEvents.OnDoorOpened -= OnDoorOpened;
     }
 
     private void ActivateControls(int type)
@@ -101,6 +103,11 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                 move?.Disable();
                 break;
         }
+    }
+
+    private void OnDoorOpened(Door door)
+    {
+        StartCoroutine(DoorTransition(door));
     }
 
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
@@ -164,9 +171,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
                     _closestObject.GetComponent<Enemy>().Interact();
                     break;
                 case "Door":
-                    Door interactDoor = _closestObject.GetComponent<Door>();
-                    interactDoor.Interact();
-                    StartCoroutine(DoorTransition(interactDoor));
+                    _closestObject.GetComponent<Door>().Interact();
                     break;
                 case "SceneChange":
                     _closestObject.GetComponent<SceneChange>().Interact();

@@ -60,6 +60,8 @@ public class UnlockableDoor : Door, IDataPersistence
             }
 
             musicChange.Invoke();
+
+            PlayerEvents.InvokeDoorOpen(this);
         }
         else if (_inventoryController.CheckItemInInventory(_itemNeededToUnlock))
         {

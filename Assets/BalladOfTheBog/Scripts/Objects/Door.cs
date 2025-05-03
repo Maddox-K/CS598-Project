@@ -35,6 +35,8 @@ public class Door : MonoBehaviour, IInteractable
         }
 
         musicChange.Invoke();
+
+        PlayerEvents.InvokeDoorOpen(this);
     }
 
     public Vector2 GetTeleport()

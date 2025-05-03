@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
+  m_Name: BartenderDialogue1
+  m_EditorClassIdentifier: 
+  speaker_name: Grunkus
+  paragraphs:
+  - Hello Bungus
+  - Oh, are you looking for Grub?
+  - He's in the back room on the door to your right.
+  - I ususally don't let customers go back there, but he just rushed in there without
+    saying anything and locked the door behind him.
+  - Anyway, I'll let you go back there if you can find the key.
+  - I lost the key somewhere in the storage room while I was moving some boxes around.
+    If you manage to find it for me, I'll let you use it enter the back room.
+  - The storage room is beyond the door on the far wall to your left. Good luck!
+  choices: []

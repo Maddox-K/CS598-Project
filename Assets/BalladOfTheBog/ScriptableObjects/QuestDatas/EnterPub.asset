@@ -19,6 +19,6 @@ MonoBehaviour:
     amountNeeded: 0
     currentAmount: 0
   reward:
-    coins: 0
+    coins: 1
     items: []
     clearsObstacle: 0

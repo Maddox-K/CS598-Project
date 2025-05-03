@@ -12,14 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf6a84537de5c84d9f4b516e080c640, type: 3}
   m_Name: ReadLetter
   m_EditorClassIdentifier: 
-  questName: Read Grub Letter
+  questName: Read The Letter From Grub
   objectives:
   - objectiveType: 5
     objectId: GrubIntroLetter
     amountNeeded: 0
     currentAmount: 0
   reward:
-    coins: 3
-    items:
-    - TomatoButton
+    coins: 1
+    items: []
     clearsObstacle: 0

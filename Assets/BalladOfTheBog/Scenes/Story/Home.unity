@@ -614,7 +614,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 929181f291ef43f469765f22b9e18ef4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _activatorQuestName: Read Grub Letter
+  _activatorQuestName: Read The Letter From Grub
   _thisQuestData: {fileID: 0}
   _nextQuestData: {fileID: 11400000, guid: 4fc45728100f36948b96eacce9f26be0, type: 2}
 --- !u!1001 &163443765
@@ -83665,6 +83665,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2071453903}
     m_Modifications:
+    - target: {fileID: 1678364772433365368, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
+      propertyPath: _dialogue
+      value: 
+      objectReference: {fileID: 11400000, guid: c16dc9957726d1e4585ffe9cf1776869, type: 2}
     - target: {fileID: 1678364772433365368, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
       propertyPath: dialogueManager
       value: 

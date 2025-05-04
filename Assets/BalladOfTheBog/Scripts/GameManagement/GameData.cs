@@ -15,9 +15,10 @@ public class GameData
     public float[] playerRotation = new float[2];
     public int coinCount;
 
-    // Enemies and Encounters
+    // Enemies, Encounters and NPCs
     public Dictionary<string, bool> enemiesEncountered;
     public string lastEnemyEncountered; // id of last enemy encountered
+    public Dictionary<string, float[]> npcPositions;
 
     // Collectibles
     public Dictionary<string, bool> coinsCollected;
@@ -49,9 +50,10 @@ public class GameData
         }
         coinCount = 0;
 
-        // Enemies and Encounters
+        // Enemies, Encounters and NPCs
         enemiesEncountered = new Dictionary<string, bool>();
         lastEnemyEncountered = null;
+        npcPositions = new Dictionary<string, float[]>();
 
         // Collectibles
         coinsCollected = new Dictionary<string, bool>();

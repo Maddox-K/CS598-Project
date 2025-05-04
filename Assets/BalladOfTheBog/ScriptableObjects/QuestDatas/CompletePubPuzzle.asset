@@ -20,5 +20,6 @@ MonoBehaviour:
     currentAmount: 0
   reward:
     coins: 0
-    items: []
+    items:
+    - KeyButton
     clearsObstacle: 0

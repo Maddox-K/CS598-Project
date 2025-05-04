@@ -473,7 +473,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -4293500717733753349, guid: e558be6cd4e571c4f905e881a03f2f21, type: 3}
       propertyPath: _itemNeededToUnlock
-      value: PubKeyButton
+      value: KeyButton
       objectReference: {fileID: 0}
     - target: {fileID: -4293500717733753349, guid: e558be6cd4e571c4f905e881a03f2f21, type: 3}
       propertyPath: _teleportLocation.x
@@ -955,7 +955,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4175577485423936092, guid: 2f40fe7dc1a0850499107c66083b29da, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7917935737404601607, guid: 2f40fe7dc1a0850499107c66083b29da, type: 3}
       propertyPath: m_LocalPosition.x

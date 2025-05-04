@@ -64,7 +64,7 @@ public class DialogueManager : MonoBehaviour
             else if (conversationEnded && !_isTyping)
             {
                 // end conversation
-                EndConversation();
+                EndConversation(dialogue);
                 return;
             }
         }
@@ -116,7 +116,7 @@ public class DialogueManager : MonoBehaviour
         }
     }
 
-    public void EndConversation()
+    public void EndConversation(Dialogue dialogue)
     {
         PlayerEvents.InvokeActivate(1);
         PauseEvents.InvokeEnablePopup(2);
@@ -129,6 +129,8 @@ public class DialogueManager : MonoBehaviour
         {
             gameObject.SetActive(false);
         }
+
+        QuestEvents.OnNPCTalkedTo?.Invoke(dialogue.speaker_name);
     }
 
     private IEnumerator TypeDialogueText(string p)

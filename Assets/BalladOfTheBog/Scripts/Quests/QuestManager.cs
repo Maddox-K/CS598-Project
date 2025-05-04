@@ -80,6 +80,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                 case 0:
                     quest.AddObjective(new CollectObjective(quest, objectId, amount, currentAmount, false));
                     break;
+                case 1:
+                    quest.AddObjective(new TalkObjective(quest, objectId, false));
+                    break;
                 case 2:
                     quest.AddObjective(new EnterLocationObjective(quest, objectId, false));
                     break;
@@ -129,6 +132,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                 {
                     case 0:
                         _currentActiveQuest.AddObjective(new CollectObjective(_currentActiveQuest, objectId, amount, currentAmount, questInfo.Item2[i]));
+                        break;
+                    case 1:
+                        _currentActiveQuest.AddObjective(new TalkObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));
                         break;
                     case 2:
                         _currentActiveQuest.AddObjective(new EnterLocationObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));

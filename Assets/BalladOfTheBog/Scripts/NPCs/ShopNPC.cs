@@ -32,7 +32,7 @@ public class ShopNPC : NPC
     // function that takes in a boolean (yes or no bought something) and ends interaction
     public void EndInteraction(bool purchased)
     {
-        dialogueManager.EndConversation();
+        dialogueManager.EndConversation(_preShopDialogue);
 
         if (_postShopDialogue != null)
         {

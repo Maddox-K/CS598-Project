@@ -134,6 +134,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
                 if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
                 {
+                    QuestEvents.OnPuzzleCompleted?.Invoke(currentPuzzle.GetPuzzleID());
                     Debug.Log("Puzzle Solved!");
                 }
             }
@@ -159,6 +160,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
                 if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
                 {
+                    QuestEvents.OnPuzzleCompleted?.Invoke(currentPuzzle.GetPuzzleID());
                     Debug.Log("Puzzle Solved!");
                 }
             }
@@ -184,6 +186,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
                 if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
                 {
+                    QuestEvents.OnPuzzleCompleted?.Invoke(currentPuzzle.GetPuzzleID());
                     Debug.Log("Puzzle Solved!");
                 }
             }
@@ -209,6 +212,7 @@ public class PlayerPuzzleController : MonoBehaviour
 
                 if (CheckCompletion(currentPuzzle.numSolved, currentPuzzle.GetNumRequired()))
                 {
+                    QuestEvents.OnPuzzleCompleted?.Invoke(currentPuzzle.GetPuzzleID());
                     Debug.Log("Puzzle Solved!");
                 }
             }

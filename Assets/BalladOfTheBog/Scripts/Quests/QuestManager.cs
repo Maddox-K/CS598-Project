@@ -83,6 +83,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                 case 2:
                     quest.AddObjective(new EnterLocationObjective(quest, objectId, false));
                     break;
+                case 3:
+                    quest.AddObjective(new CompletePuzzleObjective(quest, objectId, false));
+                    break;
                 case 5:
                     quest.AddObjective(new UseItemObjective(quest, objectId, false));
                     break;
@@ -129,6 +132,9 @@ public class QuestManager : MonoBehaviour, IDataPersistence
                         break;
                     case 2:
                         _currentActiveQuest.AddObjective(new EnterLocationObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));
+                        break;
+                    case 3:
+                        _currentActiveQuest.AddObjective(new CompletePuzzleObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));
                         break;
                     case 5:
                         _currentActiveQuest.AddObjective(new UseItemObjective(_currentActiveQuest, objectId, questInfo.Item2[i]));

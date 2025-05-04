@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PuzzleZone : MonoBehaviour
 {
+    [SerializeField] private string _puzzleID;
+
     // world
     private Grid _grid;
     public Dictionary<Vector2Int, (Transform, bool)> puzzleContents = new Dictionary<Vector2Int, (Transform, bool)>();
@@ -26,6 +28,12 @@ public class PuzzleZone : MonoBehaviour
     // UI
     private Button _resetMenuButton;
     
+    [ContextMenu("Generate guid for id")]
+    private void GenerateGuid()
+    {
+        _puzzleID = System.Guid.NewGuid().ToString();
+    }
+
     void Awake()
     {
         _grid = GameObject.FindGameObjectWithTag("Grid").GetComponent<Grid>();
@@ -107,5 +115,10 @@ public class PuzzleZone : MonoBehaviour
     public int GetNumRequired()
     {
         return _numRequiredToSolve;
+    }
+
+    public string GetPuzzleID()
+    {
+        return _puzzleID;
     }
 }

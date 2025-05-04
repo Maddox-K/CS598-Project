@@ -12,8 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bcf6a84537de5c84d9f4b516e080c640, type: 3}
   m_Name: CompletePubPuzzle
   m_EditorClassIdentifier: 
-  questName: 
-  objectives: []
+  questName: Find the Key in the Storage Room
+  objectives:
+  - objectiveType: 3
+    objectId: e8cf7fe3-5a1c-4691-ab21-74c06f7c1556
+    amountNeeded: 0
+    currentAmount: 0
   reward:
     coins: 0
     items: []

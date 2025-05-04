@@ -79342,6 +79342,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 310512117}
     m_Modifications:
     - target: {fileID: 67439125620889237, guid: 23d1d91b9691dd24caffd53baf59bbdc, type: 3}
+      propertyPath: _puzzleID
+      value: e8cf7fe3-5a1c-4691-ab21-74c06f7c1556
+      objectReference: {fileID: 0}
+    - target: {fileID: 67439125620889237, guid: 23d1d91b9691dd24caffd53baf59bbdc, type: 3}
       propertyPath: _numRequiredToSolve
       value: 7
       objectReference: {fileID: 0}

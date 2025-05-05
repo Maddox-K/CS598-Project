@@ -26,6 +26,7 @@ public class PuzzleZone : MonoBehaviour
     private Vector3Int _initialPlayerCellPosition;
 
     // UI
+    private GameObject _resetMenu;
     private Button _resetMenuButton;
     
     [ContextMenu("Generate guid for id")]
@@ -48,10 +49,11 @@ public class PuzzleZone : MonoBehaviour
             _playerCamera = _player.transform.GetChild(0).GetComponent<Camera>();
         }
 
-        GameObject resetMenu = GameObject.FindGameObjectWithTag("ResetMenu");
-        if (resetMenu != null)
+        _resetMenu = GameObject.FindGameObjectWithTag("ResetMenu");
+        if (_resetMenu != null)
         {
-            _resetMenuButton = resetMenu.transform.GetChild(0).gameObject.GetComponent<Button>();
+            Debug.Log("reset menu found");
+            _resetMenuButton = _resetMenu.transform.GetChild(0).gameObject.GetComponent<Button>();
         }
 
         _initialPlayerCellPosition = _grid.WorldToCell(_initialPlayerPosition);
@@ -65,6 +67,8 @@ public class PuzzleZone : MonoBehaviour
         {
             _resetMenuButton.onClick.AddListener(ResetPuzzle);
         }
+
+        _resetMenu.SetActive(false);
     }
 
     public void SwitchToPuzzle()
@@ -88,7 +92,7 @@ public class PuzzleZone : MonoBehaviour
 
         if (_resetMenuButton != null)
         {
-            _resetMenuButton.gameObject.SetActive(true);
+            _resetMenu.SetActive(true);
             _resetMenuButton.Select();
         }
     }

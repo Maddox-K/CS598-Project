@@ -45,6 +45,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
         QuestReward reward = quest.reward;
         if (reward != null)
         {
+            Debug.Log("Reward found");
             if (reward.coins > 0)
             {
                 QuestEvents.RewardCoins?.Invoke(reward.coins);

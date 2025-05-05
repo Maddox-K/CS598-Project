@@ -28,7 +28,7 @@ public class PlayerPuzzleController : MonoBehaviour
     private Transform _objectToPush = null;
 
     // UI
-    private Button _resetMenuButton;
+    private GameObject _resetMenu;
 
     // Audio
     private AudioSource _audioSource;
@@ -42,11 +42,7 @@ public class PlayerPuzzleController : MonoBehaviour
         
         _playerTransform = GetComponent<Transform>();
 
-        GameObject resetMenu = GameObject.FindGameObjectWithTag("ResetMenu");
-        if (resetMenu != null)
-        {
-            _resetMenuButton = resetMenu.transform.GetChild(0).gameObject.GetComponent<Button>();
-        }
+        _resetMenu = GameObject.FindGameObjectWithTag("ResetMenu");
 
         _audioSource = GetComponent<AudioSource>();
 
@@ -112,9 +108,9 @@ public class PlayerPuzzleController : MonoBehaviour
             GetComponent<Animator>().enabled = true;
             GetComponent<PlayerController>().enabled = true;
 
-            if (_resetMenuButton != null)
+            if (_resetMenu != null)
             {
-                _resetMenuButton.gameObject.SetActive(false);
+                _resetMenu.SetActive(false);
             }
 
             this.enabled = false;

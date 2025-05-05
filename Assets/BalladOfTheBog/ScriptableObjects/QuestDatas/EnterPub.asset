@@ -20,5 +20,6 @@ MonoBehaviour:
     currentAmount: 0
   reward:
     coins: 1
-    items: []
+    items:
+    - TomatoButton
     clearsObstacle: 0

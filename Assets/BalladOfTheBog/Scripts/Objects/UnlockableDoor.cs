@@ -46,6 +46,11 @@ public class UnlockableDoor : Door, IDataPersistence
 
     public override void Interact()
     {
+        if (!_canOpen)
+        {
+            return;
+        }
+
         if (_isUnlocked)
         {
             if (_audioSource != null && _doorOpenSound != null)
@@ -60,6 +65,8 @@ public class UnlockableDoor : Door, IDataPersistence
             }
 
             musicChange.Invoke();
+
+            StartCoroutine(SetCanOpen());
 
             PlayerEvents.InvokeDoorOpen(this);
         }

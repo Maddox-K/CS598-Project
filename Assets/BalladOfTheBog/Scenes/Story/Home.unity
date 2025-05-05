@@ -87151,6 +87151,8 @@ MonoBehaviour:
   _activationConditionId: Intersection1
   _initiatesInteration: 1
   _interactionSubject: {fileID: 670250651}
+  _matchPlayerX: 0
+  _matchPlayerY: 1
 --- !u!1 &1594752979
 GameObject:
   m_ObjectHideFlags: 0

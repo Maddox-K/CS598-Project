@@ -180,6 +180,8 @@ public class ShopMenuController : MonoBehaviour
                 {
                     _inventoryController.isFulll[i] = true;
                     Instantiate(item, _inventoryController.slots[i].transform);
+                    _inventoryController.slotButtons[i].interactable = false;
+
                     break;
                 }
             }

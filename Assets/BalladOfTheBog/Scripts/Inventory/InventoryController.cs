@@ -145,7 +145,11 @@ public class InventoryController : MonoBehaviour, IDataPersistence
         }
         isFulll[slotIndex] = false;
 
-        Transform slot = slots[slotIndex].transform;
+        slotButtons[slotIndex].interactable = true;
+
+        Destroy(slots[slotIndex].transform.GetChild(1).gameObject);
+
+        /* Transform slot = slots[slotIndex].transform;
         var itemUI = slot.GetComponentInChildren<Stackable>();
 
         if (itemUI != null)
@@ -157,7 +161,7 @@ public class InventoryController : MonoBehaviour, IDataPersistence
                 isFulll[slotIndex] = false;
                 inventoryItems.Remove(itemUI.itemName); // optional
             }
-        }
+        } */
     }
 
     public bool CheckItemInInventory(string itemName)

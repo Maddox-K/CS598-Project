@@ -10,6 +10,9 @@ public class UnlockableDoor : Door, IDataPersistence
     private bool _isUnlocked;
     [SerializeField] private string _itemNeededToUnlock;
 
+    //Sound
+    [SerializeField] private AudioClip _lockedClip;
+
     [ContextMenu("Generate guid for id")]
     private void GenerateGuid()
     {
@@ -19,10 +22,6 @@ public class UnlockableDoor : Door, IDataPersistence
     void Awake()
     {
         _audioSource = gameObject.AddComponent<AudioSource>();
-        if (_audioSource != null)
-        {
-            _audioSource.volume = 0.09f;
-        }
 
         _inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
     }
@@ -51,6 +50,7 @@ public class UnlockableDoor : Door, IDataPersistence
         {
             if (_audioSource != null && _doorOpenSound != null)
             {
+                _audioSource.volume = 0.09f;
                 _audioSource.PlayOneShot(_doorOpenSound);
             }
 
@@ -70,6 +70,11 @@ public class UnlockableDoor : Door, IDataPersistence
         }
         else
         {
+            if (_audioSource != null && _lockedClip != null)
+            {
+                _audioSource.volume = 1.0f;
+                _audioSource.PlayOneShot(_lockedClip);
+            }
             Debug.Log("Door is Locked");
         }
     }

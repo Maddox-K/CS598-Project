@@ -16,16 +16,13 @@ public class Door : MonoBehaviour, IInteractable
     void Awake()
     {
         _audioSource = gameObject.AddComponent<AudioSource>();
-        if (_audioSource != null)
-        {
-            _audioSource.volume = 0.09f;
-        }
     }
 
     public virtual void Interact()
     {
         if (_audioSource != null && _doorOpenSound != null)
         {
+            _audioSource.volume = 0.09f;
             _audioSource.PlayOneShot(_doorOpenSound);
         }
 

@@ -113,6 +113,8 @@ public class PlayerPuzzleController : MonoBehaviour
                 _resetMenu.SetActive(false);
             }
 
+            PauseEvents.InvokeEnablePopup(2);
+
             this.enabled = false;
         }
     }

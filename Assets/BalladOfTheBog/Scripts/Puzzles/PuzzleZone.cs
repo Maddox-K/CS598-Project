@@ -95,6 +95,8 @@ public class PuzzleZone : MonoBehaviour
             _resetMenu.SetActive(true);
             _resetMenuButton.Select();
         }
+
+        PauseEvents.InvokeDisablePopup(2);
     }
 
     private void ResetPuzzle()

@@ -69,6 +69,9 @@ TagManager:
   - name: NPC
     uniqueID: 2576477581
     locked: 0
+  - name: Blockables
+    uniqueID: 1642674539
+    locked: 0
   - name: Player
     uniqueID: 3660068117
     locked: 0

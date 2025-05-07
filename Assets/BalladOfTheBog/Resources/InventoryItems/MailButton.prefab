@@ -237,7 +237,7 @@ MonoBehaviour:
   dialogueManager: {fileID: 0}
   _mailButton: {fileID: 8059966106149055710}
   _mailName: GrubIntroLetter
-  _explosionClip: {fileID: 8300000, guid: 514fbac942b33994ab7611f8bd1d689f, type: 3}
+  _explosionClip: {fileID: 8300000, guid: 3cddb6bb45b52644ba4afeaf2c1c6841, type: 3}
   _letterDialogue: {fileID: 11400000, guid: 7775d11eb05bf334880c113996288d86, type: 2}
   _timeToSelfDestruct: 1
 --- !u!114 &4215126299833632322

@@ -7,6 +7,13 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 {
     private List<Quest> activeQuests = new List<Quest>();
     private Quest _currentActiveQuest;
+    private AudioSource _audioSource;
+    [SerializeField] private AudioClip _questCompleteSound;
+
+    void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     void OnEnable()
     {
@@ -38,6 +45,11 @@ public class QuestManager : MonoBehaviour, IDataPersistence
 
     private void OnQuestCompleted(Quest quest)
     {
+        if (_audioSource != null && _questCompleteSound != null)
+        {
+            _audioSource.PlayOneShot(_questCompleteSound);
+        }
+
         _currentActiveQuest = null;
 
         QuestEvents.InvokeTextReset();

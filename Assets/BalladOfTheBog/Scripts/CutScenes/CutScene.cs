@@ -82,6 +82,7 @@ public class CutScene : MonoBehaviour
         if (_initiatesInteration)
         {
             PlayerEvents.InvokeActivate(0);
+            Debug.Log("Reactivated interation");
             _interactionSubject.GetComponent<IInteractable>().Interact();
         }
         else

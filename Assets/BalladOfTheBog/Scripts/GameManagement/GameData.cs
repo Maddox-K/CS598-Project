@@ -42,8 +42,8 @@ public class GameData
         changingScenes = false;
 
         // Player Data
-        playerPosition[0] = 205.0f;
-        playerPosition[1] = -19.0f;
+        playerPosition[0] = 209.5f;
+        playerPosition[1] = -20.0f;
         for (int i = 0; i < 2; i++)
         {
             playerRotation[i] = 0.0f;

@@ -1984,7 +1984,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa19197cb04d484b9cf3d5c35954c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _teleportLocation: {x: 209, y: -20}
+  _teleportLocation: {x: 209, y: -22.5}
   _lookDirectionOnTeleport: {x: 0, y: 1}
   _transitionAnimator: {fileID: 163443767}
   _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
@@ -80325,7 +80325,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1056693298781570129, guid: 22b630d7575df374ba30dd940fd94654, type: 3}
       propertyPath: _teleportLocation.x
-      value: -25
+      value: -26.6
       objectReference: {fileID: 0}
     - target: {fileID: 1056693298781570129, guid: 22b630d7575df374ba30dd940fd94654, type: 3}
       propertyPath: _teleportLocation.y
@@ -87038,11 +87038,11 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}
     - target: {fileID: 1056693298781570129, guid: 22b630d7575df374ba30dd940fd94654, type: 3}
       propertyPath: _teleportLocation.x
-      value: -32
+      value: -26.5
       objectReference: {fileID: 0}
     - target: {fileID: 1056693298781570129, guid: 22b630d7575df374ba30dd940fd94654, type: 3}
       propertyPath: _teleportLocation.y
-      value: -4.32
+      value: -5.2
       objectReference: {fileID: 0}
     - target: {fileID: 1056693298781570129, guid: 22b630d7575df374ba30dd940fd94654, type: 3}
       propertyPath: _transitionAnimator
@@ -116384,7 +116384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4fa19197cb04d484b9cf3d5c35954c0a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _teleportLocation: {x: 0, y: 0}
+  _teleportLocation: {x: -1, y: 2}
   _lookDirectionOnTeleport: {x: 0, y: -1}
   _transitionAnimator: {fileID: 163443767}
   _doorOpenSound: {fileID: 8300000, guid: 33128cbafe9101c45a646b87f3114357, type: 3}

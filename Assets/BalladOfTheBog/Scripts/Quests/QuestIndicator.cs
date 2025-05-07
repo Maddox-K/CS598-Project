@@ -6,12 +6,14 @@ using UnityEngine.UI;
 public class QuestIndicator : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _questText;
+    [SerializeField] private TextMeshProUGUI _miscText;
 
     void OnEnable()
     {
         QuestEvents.OnCurrentQuestLoaded += LoadData;
         QuestEvents.OnNewQuestStarted += ShowQuestNotification;
         QuestEvents.ResetUIText += ResetUIText;
+        QuestEvents.OnQuestCompleted += OnQuestCompleted;
     }
 
     void OnDisable()
@@ -19,6 +21,12 @@ public class QuestIndicator : MonoBehaviour
         QuestEvents.OnCurrentQuestLoaded -= LoadData;
         QuestEvents.OnNewQuestStarted -= ShowQuestNotification;
         QuestEvents.ResetUIText -= ResetUIText;
+        QuestEvents.OnQuestCompleted -= OnQuestCompleted;
+    }
+
+    private void OnQuestCompleted(Quest quest)
+    {
+        StartCoroutine(ShowCongratsText());
     }
 
     private void ResetUIText()
@@ -46,6 +54,15 @@ public class QuestIndicator : MonoBehaviour
 
         _questText.color = Color.white;
         LoadData(quest);
+    }
+
+    private IEnumerator ShowCongratsText()
+    {
+        _miscText.text = "Objective Complete!";
+
+        yield return new WaitForSeconds(2.0f);
+
+        _miscText.text = "";
     }
 
     public void LoadData(Quest quest)

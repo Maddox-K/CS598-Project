@@ -26,7 +26,10 @@ public class QuestIndicator : MonoBehaviour
 
     private void OnQuestCompleted(Quest quest)
     {
-        StartCoroutine(ShowCongratsText());
+        if (_miscText != null)
+        {
+            StartCoroutine(ShowCongratsText());
+        }
     }
 
     private void ResetUIText()

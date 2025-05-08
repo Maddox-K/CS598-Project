@@ -68,11 +68,47 @@ public class PlayerData : MonoBehaviour, IDataPersistence
     void OnEnable()
     {
         QuestEvents.RewardCoins += RewardCoins;
+
+        PlayerEvents.OnHealActivated += HealPlayer;
     }
 
     void OnDisable()
     {
         QuestEvents.RewardCoins -= RewardCoins;
+
+        PlayerEvents.OnHealActivated -= HealPlayer;
+    }
+
+    private void HealPlayer(int amount)
+    {
+        if (_currentHealth >= _maxHealth)
+        {
+            return;
+        }
+
+        int amountHealed = 0;
+
+        for (int i = _currentHealth; i < _maxHealth; i++)
+        {
+            if (amountHealed < amount)
+            {
+                _hearts[i].SetActive(true);
+                amountHealed++;
+            }
+            else
+            {
+                break;
+            }
+        }
+
+        if (_currentHealth + amount > _maxHealth)
+        {
+            _currentHealth = _maxHealth;
+        }
+        else
+        {
+            _currentHealth += amount;
+        }
     }
 
     void Start()

@@ -124987,41 +124987,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 558010661574095686, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_text
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 558010661574095686, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_fontSize
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 558010661574095686, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_fontSizeBase
-      value: 19
-      objectReference: {fileID: 0}
-    - target: {fileID: 1954468187992844345, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -3
-      objectReference: {fileID: 0}
     - target: {fileID: 2030739332947182905, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
       propertyPath: m_Name
       value: QuestingInfo
-      objectReference: {fileID: 0}
-    - target: {fileID: 3819704096483170420, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 450
-      objectReference: {fileID: 0}
-    - target: {fileID: 3819704096483170420, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 3819704096483170420, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6113990806984265702, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 480
       objectReference: {fileID: 0}
     - target: {fileID: 8918001796256419686, guid: de4a8026a6baeac4c851b54d9d610ba2, type: 3}
       propertyPath: m_LocalPosition.x

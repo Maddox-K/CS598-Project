@@ -79,11 +79,11 @@ MonoBehaviour:
   m_Tracks:
   - {fileID: 247238954705138013}
   - {fileID: -4434612360084192488}
-  m_FixedDuration: 0
+  m_FixedDuration: 2.066666666666667
   m_EditorSettings:
     m_Framerate: 60
     m_ScenePreview: 1
-  m_DurationMode: 0
+  m_DurationMode: 1
   m_MarkerTrack: {fileID: 0}
 --- !u!114 &247238954705138013
 MonoBehaviour:
@@ -170,7 +170,7 @@ MonoBehaviour:
     m_ExposedParameterNames: []
     m_AnimationCurves: {fileID: 0}
     m_Recordable: 0
-    m_PostExtrapolationMode: 2
+    m_PostExtrapolationMode: 4
     m_PreExtrapolationMode: 1
     m_PostExtrapolationTime: Infinity
     m_PreExtrapolationTime: 0

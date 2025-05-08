@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
   m_Name: BartenderDialogue1
   m_EditorClassIdentifier: 
-  speaker_name: Grunkus
+  speaker_name: Plorbo
   paragraphs:
   - Hello Bungus
   - Oh, are you looking for Grub?

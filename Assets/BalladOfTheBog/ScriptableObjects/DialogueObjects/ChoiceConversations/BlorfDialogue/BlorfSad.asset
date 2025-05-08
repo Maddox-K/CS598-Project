@@ -10,13 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
-  m_Name: test2
+  m_Name: BlorfSad
   m_EditorClassIdentifier: 
-  speaker_name: Bob & Alice
+  speaker_name: Blorf
   paragraphs:
-  - BUNGUS!!!!!!!!!!!
-  - 
-  - You smell bad
-  - Get away from us!!!
-  choices:
-  - {fileID: 0}
+  - :(
+  choices: []

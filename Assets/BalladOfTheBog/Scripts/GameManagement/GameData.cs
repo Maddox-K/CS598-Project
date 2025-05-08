@@ -38,7 +38,7 @@ public class GameData
     public GameData()
     {
         // Scene Management
-        lastScene = "Home";
+        lastScene = "CutSceneOne";
         changingScenes = false;
 
         // Player Data

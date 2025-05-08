@@ -224,6 +224,9 @@ public class PopUpMenuController : MonoBehaviour
     {
         PlayButtonAudio();
 
+        escape.Disable();
+        tab.Disable();
+
         Time.timeScale = 1;
         
         GameManager.instance.SaveGame(false);
@@ -234,6 +237,9 @@ public class PopUpMenuController : MonoBehaviour
     private void ReturnToMainMenu()
     {
         PlayButtonAudio();
+
+        escape.Disable();
+        tab.Disable();
 
         Time.timeScale = 1;
         if (_currentSceneName == "BattleTest")

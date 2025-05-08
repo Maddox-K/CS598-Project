@@ -113,6 +113,8 @@ public class EncounterManager : MonoBehaviour
             button.interactable = false;
         }
 
+        PauseEvents.InvokeEnablePopup(2);
+
         StartEncounter();
     }
 
@@ -310,6 +312,8 @@ public class EncounterManager : MonoBehaviour
 
     public void GameOver()
     {
+        PauseEvents.InvokeDisablePopup(2);
+
         if (_audioSource != null && _audioSource.isPlaying)
         {
             _audioSource.Stop();

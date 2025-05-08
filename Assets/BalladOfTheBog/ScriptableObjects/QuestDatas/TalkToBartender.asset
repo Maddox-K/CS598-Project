@@ -15,7 +15,7 @@ MonoBehaviour:
   questName: Talk to the Bartender
   objectives:
   - objectiveType: 1
-    objectId: Grunkus
+    objectId: Plorbo
     amountNeeded: 0
     currentAmount: 0
   reward:

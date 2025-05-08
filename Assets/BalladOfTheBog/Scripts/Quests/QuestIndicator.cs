@@ -14,6 +14,8 @@ public class QuestIndicator : MonoBehaviour
         QuestEvents.OnNewQuestStarted += ShowQuestNotification;
         QuestEvents.ResetUIText += ResetUIText;
         QuestEvents.OnQuestCompleted += OnQuestCompleted;
+
+        PlayerEvents.OnLockedDoorFailed += NotifyDoorLocked;
     }
 
     void OnDisable()
@@ -22,13 +24,23 @@ public class QuestIndicator : MonoBehaviour
         QuestEvents.OnNewQuestStarted -= ShowQuestNotification;
         QuestEvents.ResetUIText -= ResetUIText;
         QuestEvents.OnQuestCompleted -= OnQuestCompleted;
+
+        PlayerEvents.OnLockedDoorFailed -= NotifyDoorLocked;
+    }
+
+    private void NotifyDoorLocked()
+    {
+        if (_miscText != null)
+        {
+            StartCoroutine(ShowMiscText("The Door is Locked."));
+        }
     }
 
     private void OnQuestCompleted(Quest quest)
     {
         if (_miscText != null)
         {
-            StartCoroutine(ShowCongratsText());
+            StartCoroutine(ShowMiscText("Objective Complete!"));
         }
     }
 
@@ -59,9 +71,10 @@ public class QuestIndicator : MonoBehaviour
         LoadData(quest);
     }
 
-    private IEnumerator ShowCongratsText()
+    private IEnumerator ShowMiscText(string text)
     {
-        _miscText.text = "Objective Complete!";
+        //_miscText.text = "Objective Complete!";
+        _miscText.text = text;
 
         yield return new WaitForSeconds(2.0f);
 

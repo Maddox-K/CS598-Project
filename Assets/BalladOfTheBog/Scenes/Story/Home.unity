@@ -697,6 +697,10 @@ PrefabInstance:
       value: 062cd8aa-d1ff-4a40-9e17-1a8e2a519619
       objectReference: {fileID: 0}
     - target: {fileID: -4293500717733753349, guid: e558be6cd4e571c4f905e881a03f2f21, type: 3}
+      propertyPath: _lockedClip
+      value: 
+      objectReference: {fileID: 8300000, guid: df5eb021569c0b14fb0ea12b013b3054, type: 3}
+    - target: {fileID: -4293500717733753349, guid: e558be6cd4e571c4f905e881a03f2f21, type: 3}
       propertyPath: _itemNeededToUnlock
       value: KeyButton
       objectReference: {fileID: 0}

@@ -82,7 +82,7 @@ public class UnlockableDoor : Door, IDataPersistence
                 _audioSource.volume = 1.0f;
                 _audioSource.PlayOneShot(_lockedClip);
             }
-            Debug.Log("Door is Locked");
+            PlayerEvents.InvokeFailedLockedDoor();
         }
     }
 

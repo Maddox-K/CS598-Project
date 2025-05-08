@@ -2,10 +2,15 @@ using System;
 
 public static class PlayerEvents
 {
-    // actions
+    // control actions
     public static event Action<int> ActivateControls;
     public static event Action<int> DeactivateControls;
+
+    // door actions
     public static event Action<Door> OnDoorOpened;
+    public static event Action OnLockedDoorFailed;
+
+    // encounter actions
     public static event Action<int> OnHealActivated;
 
     // action invocations
@@ -25,5 +30,10 @@ public static class PlayerEvents
     public static void InvokeHealActivated(int amount)
     {
         OnHealActivated?.Invoke(amount);
+    }
+
+    public static void InvokeFailedLockedDoor()
+    {
+        OnLockedDoorFailed?.Invoke();
     }
 }

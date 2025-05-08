@@ -21,4 +21,4 @@ MonoBehaviour:
   reward:
     coins: 0
     items: []
-    clearsObstacle: 0
+    clearsObstacle: 1

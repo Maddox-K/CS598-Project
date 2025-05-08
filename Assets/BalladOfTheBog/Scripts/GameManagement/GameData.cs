@@ -28,6 +28,7 @@ public class GameData
     public Dictionary<string, (ObjectiveData[], bool[], bool, QuestReward)> quests;
     public string currentQuest;
     public bool startedGameplay;
+    public Dictionary<string, bool> clearedObstacles;
 
     // Cutscenes
     public Dictionary<string, bool> cutScenes;
@@ -63,6 +64,7 @@ public class GameData
         quests = new Dictionary<string, (ObjectiveData[], bool[], bool, QuestReward)>();
         currentQuest = null;
         startedGameplay = false;
+        clearedObstacles = new Dictionary<string, bool>();
 
         // Cutscenes
         cutScenes = new Dictionary<string, bool>();

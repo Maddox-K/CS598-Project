@@ -68,6 +68,7 @@ public class QuestManager : MonoBehaviour, IDataPersistence
             }
             if (reward.clearsObstacle)
             {
+                Debug.Log("Attmepting to Clear Obstacle");
                 QuestEvents.ClearObstacle?.Invoke(quest.questName);
             }
         }

@@ -26,5 +26,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/BalladOfTheBog/Scenes/Story/Factory.unity
     guid: e0d7766a98a343e4192e7cd8f3390d5c
+  - enabled: 1
+    path: Assets/BalladOfTheBog/Scenes/Story/CutSceneOne.unity
+    guid: ab25ee14573106749803ce8548d94d42
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

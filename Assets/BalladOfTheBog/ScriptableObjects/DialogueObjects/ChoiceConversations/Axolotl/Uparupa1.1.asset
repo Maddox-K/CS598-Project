@@ -12,6 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
   m_Name: Uparupa1.1
   m_EditorClassIdentifier: 
-  speaker_name: 
-  paragraphs: []
+  speaker_name: Uparupa
+  paragraphs:
+  - "\xA1Excelente! Entonces, soy solo uno de algunos de los axolotls que sobrevivio
+    El Colapso."
+  - "Pero, de hecho, esta es una historia muy larga y yo no tengo el tiempo o la
+    energ\xEDa para la contar. Regresa cuando el videojuego est\xE1 terminado para
+    lo o\xEDr."
   choices: []

@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96f6c9640c422aa4ea490160dd5a52b5, type: 3}
   m_Name: UparupaChoice1
   m_EditorClassIdentifier: 
-  choiceText: 
-  nextDialogue: {fileID: 0}
+  choiceText: "S\xED"
+  nextDialogue: {fileID: 11400000, guid: 959c8a1da2b816b43a64ef8d1773619f, type: 2}

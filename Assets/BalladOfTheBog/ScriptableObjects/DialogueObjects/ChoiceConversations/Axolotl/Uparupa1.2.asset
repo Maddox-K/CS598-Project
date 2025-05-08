@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
   m_Name: Uparupa1.2
   m_EditorClassIdentifier: 
-  speaker_name: 
-  paragraphs: []
+  speaker_name: Uparupa
+  paragraphs:
+  - Ay, que grosero.
   choices: []

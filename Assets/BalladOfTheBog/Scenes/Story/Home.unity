@@ -81679,7 +81679,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 1079665290}
-  _dialogue: {fileID: 11400000, guid: aa6ba1673247253459fc234c333e458d, type: 2}
+  _dialogue: {fileID: 11400000, guid: 9ae9bf0bf17311445a6a7562a9f450bc, type: 2}
 --- !u!114 &390189306
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86438,7 +86438,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7823546926451192624, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
       propertyPath: m_SortingOrder
-      value: 1
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8392191262271634181, guid: a20fb7f17e346f64cb3887f5d18f5f3a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

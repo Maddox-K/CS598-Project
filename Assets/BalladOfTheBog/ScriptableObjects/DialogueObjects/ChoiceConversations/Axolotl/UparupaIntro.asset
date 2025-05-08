@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
   m_Name: UparupaIntro
   m_EditorClassIdentifier: 
-  speaker_name: 
-  paragraphs: []
-  choices: []
+  speaker_name: Uparupa
+  paragraphs:
+  - "\xA1Oye! \xBFQuieres aprender sobre mi gente? "
+  - '[choose]'
+  choices:
+  - {fileID: 11400000, guid: 9c159c002ac76b84f9588d3edcacbe10, type: 2}
+  - {fileID: 11400000, guid: 1b4503d4695d4fa439f634d63d8fb42a, type: 2}

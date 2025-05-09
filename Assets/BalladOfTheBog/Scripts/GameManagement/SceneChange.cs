@@ -8,9 +8,17 @@ public class SceneChange : MonoBehaviour, IInteractable
     [SerializeField] private Animator _sceneTransitionAnimator;
     [SerializeField] private float[] _sceneCoordinates = new float[2];
     [SerializeField] private float[] _sceneDirection = new float[2];
+    private bool _canInteract = true;
 
     public void Interact()
     {
+        if (!_canInteract)
+        {
+            return;
+        }
+
+        _canInteract = false;
+
         GameData data = GameManager.instance.gameData;
 
         GameManager.instance.SaveGame();

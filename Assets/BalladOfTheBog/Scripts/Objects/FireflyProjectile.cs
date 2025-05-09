@@ -5,7 +5,7 @@ public class FireflyProjectile : Projectile
 {
     private GameObject _player;
     private Transform _target;
-    private const float speed = 2.0f;
+    private const float speed = 2.5f;
     private const float playerBias = 0.6f;
     private Vector2 _move;
 

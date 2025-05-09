@@ -33,6 +33,11 @@ public class WorldObstacle : MonoBehaviour, IDataPersistence
     public void LoadData(GameData data)
     {
         data.clearedObstacles.TryGetValue(_id, out _isCleared);
+
+        if (_isCleared)
+        {
+            gameObject.SetActive(false);
+        }
     }
 
     public void SaveData(GameData data)

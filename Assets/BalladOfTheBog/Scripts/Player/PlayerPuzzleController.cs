@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class PlayerPuzzleController : MonoBehaviour
 {
+    private float _moveCooldown = 0.15f; // Time between allowed moves
+    private float _lastMoveTime = 0f;
     private Transform _playerTransform;
     public PuzzleZone currentPuzzle;
     public Dictionary<Vector2Int, (Transform, bool)> currentContents = new Dictionary<Vector2Int, (Transform, bool)>();
@@ -64,6 +66,11 @@ public class PlayerPuzzleController : MonoBehaviour
 
     private void MovePlayer(InputAction.CallbackContext context)
     {
+        if (Time.time - _lastMoveTime < _moveCooldown)
+        {
+            return;
+        }
+
         _rawMove = context.ReadValue<Vector2>().normalized;
 
         _absX = Mathf.Abs(_rawMove.x);
@@ -91,6 +98,8 @@ public class PlayerPuzzleController : MonoBehaviour
                 MoveUp();
             }
         }
+
+        _lastMoveTime = Time.time;
     }
 
     private void OnTriggerExit2D(Collider2D collider)

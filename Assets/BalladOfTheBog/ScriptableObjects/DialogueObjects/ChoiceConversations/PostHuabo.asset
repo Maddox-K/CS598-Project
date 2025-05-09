@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5c892df4c86e2d45adccfaf9ad828ef, type: 3}
   m_Name: PostHuabo
   m_EditorClassIdentifier: 
-  speaker_name: Dr. Huabo Lu
+  speaker_name: 
   paragraphs: []
   choices:
   - {fileID: 11400000, guid: 8b7dba881dcb5db438ae97d26f0355b2, type: 2}

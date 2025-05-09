@@ -21,6 +21,11 @@ public class PickUpItem : MonoBehaviour
             {
                 if (inventoryController.isFulll[i] == false)
                 {
+                    if (itemName == "Mail")
+                    {
+                        GameManager.instance.gameData._pickedUpLetter = true;
+                    }
+
                     inventoryController.isFulll[i] = true;
                     Instantiate(itemButton, inventoryController.slots[i].transform);
 

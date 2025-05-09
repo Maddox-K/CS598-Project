@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 27f20bf4f6f3cf449828703db83c975a, type: 3}
   m_Name: TestAttacks2
   m_EditorClassIdentifier: 
-  encounterScenery: 1
+  encounterScenery: 0
   projectiles:
   - {fileID: 3335102146370857929, guid: 66dd8af781675504e9cccdce4c24d0ac, type: 3}
   - {fileID: 6819068496578054052, guid: b288f1350add65643ac93770f176d794, type: 3}
-  projectileSelector: 0000000000000000010000000000000000000000000000000000000001000000000000000000000000000000000000000100000000000000000000000000000000000000010000000000000000000000
+  projectileSelector: 010000000100000001000000000000000000000001000000000000000100000000000000000000000100000000000000010000000000000000000000000000000000000000000000000000000000000000000000
   spawnPositions:
   - {x: 0, y: 8}
   - {x: 4, y: 8}
@@ -38,7 +38,9 @@ MonoBehaviour:
   - {x: 0, y: -12}
   - {x: -2, y: 8}
   - {x: 4, y: 8}
+  - {x: -7, y: 8}
   launchDirections:
+  - {x: 0, y: 0}
   - {x: 0, y: 0}
   - {x: 0, y: 0}
   - {x: 0, y: 0}
@@ -80,6 +82,7 @@ MonoBehaviour:
   - 0.25
   - 0.25
   - 0.25
+  - 0.25
   projectileSpeeds:
   - 0
   - 0
@@ -101,4 +104,5 @@ MonoBehaviour:
   - 0
   - 0
   - 0
-  endTime: 9
+  - 0
+  endTime: 10

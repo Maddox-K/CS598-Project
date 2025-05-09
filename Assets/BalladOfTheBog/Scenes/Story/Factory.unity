@@ -388,7 +388,7 @@ PrefabInstance:
     - target: {fileID: 6188825650814359284, guid: 02e6a29fb7ecb3f4d84c40526844b152, type: 3}
       propertyPath: enemyAttacks
       value: 
-      objectReference: {fileID: 11400000, guid: 875a9f3986beed04d8225e827b7f4c93, type: 2}
+      objectReference: {fileID: 11400000, guid: 05dc8e7043341b8449d50a99df89e12b, type: 2}
     - target: {fileID: 6188825650814359284, guid: 02e6a29fb7ecb3f4d84c40526844b152, type: 3}
       propertyPath: dialogueManager
       value: 

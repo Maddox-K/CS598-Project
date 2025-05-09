@@ -4,6 +4,7 @@ using UnityEngine.SceneManagement;
 
 public class Worm : MonoBehaviour
 {
+    // Worm Stuff
     [SerializeField] private Button _wormButton;
     [SerializeField] private int _healAmount;
 
@@ -21,6 +22,8 @@ public class Worm : MonoBehaviour
 
     private void HealPlayer(int amount)
     {
+        PlayerEvents.InvokeObjectEaten();
+
         PlayerEvents.InvokeHealActivated(amount);
 
         int slotIndex = transform.parent.GetSiblingIndex();

@@ -1,7 +1,6 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class Tomato : MonoBehaviour
 {
@@ -21,16 +20,15 @@ public class Tomato : MonoBehaviour
 
     private void Start()
     {
-        if (SceneManager.GetActiveScene().name == "BattleTest")
-        {
-            tomatoButton.onClick.AddListener(ApplySpeedBuff);
-            inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
-        }
+        tomatoButton.onClick.AddListener(ApplySpeedBuff);
+        inventoryController = GameObject.FindGameObjectWithTag("Player").GetComponent<InventoryController>();
     }
 
     private void ApplySpeedBuff()
     {
         if (isBuffActive) return;
+
+        PlayerEvents.InvokeObjectEaten();
 
         player = GameObject.Find("Player");
         playerController = player.GetComponent<PlayerController>();
@@ -39,14 +37,11 @@ public class Tomato : MonoBehaviour
         playerController.speed = 10.0f;
         isBuffActive = true;
 
-        // Start the coroutine from the player instead of the tomato
         player.GetComponent<MonoBehaviour>().StartCoroutine(RemoveEffectAfterDelay());
 
         int slotIndex = transform.parent.GetSiblingIndex();
-        //inventoryController.slotButtons[slotIndex].interactable = true;
+        
         inventoryController.RemoveItem(slotIndex);
-
-        //Destroy(gameObject); // Destroy the tomato object
     }
 
     private IEnumerator RemoveEffectAfterDelay()

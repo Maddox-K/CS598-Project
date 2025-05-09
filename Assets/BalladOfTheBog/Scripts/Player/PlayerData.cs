@@ -12,6 +12,7 @@ public class PlayerData : MonoBehaviour, IDataPersistence
     private AudioSource _audioSource;
     public AudioClip DamageSound;
     public AudioClip DeathSound;
+    [SerializeField] private AudioClip _eatingSound;
 
     // animation
     public Animator animator;
@@ -70,6 +71,7 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         QuestEvents.RewardCoins += RewardCoins;
 
         PlayerEvents.OnHealActivated += HealPlayer;
+        PlayerEvents.OnObjectEaten += ActivateEatSound;
     }
 
     void OnDisable()
@@ -77,6 +79,15 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         QuestEvents.RewardCoins -= RewardCoins;
 
         PlayerEvents.OnHealActivated -= HealPlayer;
+        PlayerEvents.OnObjectEaten -= ActivateEatSound;
+    }
+
+    private void ActivateEatSound()
+    {
+        if (_audioSource != null && _eatingSound != null)
+        {
+            _audioSource.PlayOneShot(_eatingSound);
+        }
     }
 
     private void HealPlayer(int amount)

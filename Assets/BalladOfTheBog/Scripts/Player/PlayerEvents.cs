@@ -2,6 +2,9 @@ using System;
 
 public static class PlayerEvents
 {
+    // sound actions
+    public static event Action OnObjectEaten;
+
     // control actions
     public static event Action<int> ActivateControls;
     public static event Action<int> DeactivateControls;
@@ -35,5 +38,10 @@ public static class PlayerEvents
     public static void InvokeFailedLockedDoor()
     {
         OnLockedDoorFailed?.Invoke();
+    }
+
+    public static void InvokeObjectEaten()
+    {
+        OnObjectEaten?.Invoke();
     }
 }

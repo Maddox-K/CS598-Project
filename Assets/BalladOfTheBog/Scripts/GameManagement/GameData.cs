@@ -5,6 +5,7 @@ public class GameData
 {
     // General Game Data
     public long lastUpdated;
+    public bool _pickedUpLetter;
 
     // Scene Management
     public string lastScene;
@@ -38,6 +39,9 @@ public class GameData
 
     public GameData()
     {
+        // General Game Data
+        _pickedUpLetter = false;
+
         // Scene Management
         lastScene = "CutSceneOne";
         changingScenes = false;

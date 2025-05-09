@@ -94,7 +94,7 @@ public class Mail : NPC
 
         int slotIndex = transform.parent.GetSiblingIndex();
         //_inventoryController.slotButtons[slotIndex].interactable = true;
-        _inventoryController.RemoveItem(slotIndex);
+        //_inventoryController.RemoveItem(slotIndex);
 
         PauseEvents.InvokeEnablePopup(2);
 
@@ -102,6 +102,8 @@ public class Mail : NPC
         _pointAction.Enable();
 
         QuestEvents.OnItemUsed?.Invoke(_mailName);
+
+        _inventoryController.RemoveItem(slotIndex);
 
         //Destroy(gameObject);
     }

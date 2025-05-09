@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    [SerializeField] private AudioClip _vineBoom;
+
     // General dialogue variables
     public Queue<string> paragraphs = new Queue<string>();
     public bool conversationEnded;
@@ -153,6 +155,14 @@ public class DialogueManager : MonoBehaviour
         }
 
         _isTyping = false;
+
+        if (p == "The animatronics here do get a bit quirky at night.")
+        {
+            if (_audioSource != null && _vineBoom != null)
+            {
+                _audioSource.PlayOneShot(_vineBoom);
+            }
+        }
     }
 
     private void PlayDialogueSound(int currentDisplayedCharCount)

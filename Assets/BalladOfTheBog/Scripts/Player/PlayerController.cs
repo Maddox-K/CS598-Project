@@ -1,273 +1,160 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections.Generic;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerData))]
+[RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Animator))]
+[RequireComponent(typeof(PlayerInputInitializer))]
 public class PlayerController : MonoBehaviour, IDataPersistence
 {
     private PlayerData _playerData;
-    private string _currentScene;
 
-    //physics
+    // Physics
     private Rigidbody2D _playerRigidBody;
-    public float speed = 5f;
-    private Vector2 moveDirection = Vector2.zero;
-    public Vector2 lookDirection = Vector2.zero;
-    public bool isDashing;
+    private float _speed = 5f;
+    private Vector2 _moveDirection = Vector2.zero;
+    private Vector2 _lookDirection = Vector2.zero;
+
+    // Dash
+    private bool _isDashing;
     private bool _canDash = true;
-    private const float dashDuration = .4f;
-    private const float dashSpeed = 10f;
-    private const float dashCoolDown = 3f;
+    private const float DashDuration = .4f;
+    private const float DashSpeed = 10f;
+    private const float DashCoolDown = 3f;
 
-    //animation
+    // Animation
     private Animator _animator;
+    private static readonly int LookXHash = Animator.StringToHash("look_x");
+    private static readonly int LookYHash = Animator.StringToHash("look_y");
+    private static readonly int SpeedHash = Animator.StringToHash("Speed");
+    private static readonly int DashTriggerHash = Animator.StringToHash("DashTrigger");
 
-    //input
-    public PlayerInputActions playerControls;
-    public InputAction move;
-    public InputAction interact;
-    public InputAction dash;
-    
-    //interaction
-    private GameObject _interactSprite;
-    private List<Collider2D> _thingsInRange = new List<Collider2D>();
-    private GameObject _closestObject;
+    // Input
+    private PlayerInputInitializer _inputInitializer;
+    private InputAction _move;
+    private InputAction _dash;
 
+    // Properties
+    public float Speed
+    {
+        get => _speed;
+        set => _speed = value;
+    }
+    public Vector2 LookDirection
+    {
+        get => _lookDirection;
+        set => _lookDirection = value;
+    }
+    public bool IsDashing
+    {
+        get => _isDashing;
+        set => _isDashing = value;
+    }
 
+    // Lifecycle Methods
     private void Awake()
     {
-        playerControls = new PlayerInputActions();
         _playerData = GetComponent<PlayerData>();
         _playerRigidBody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _inputInitializer = GetComponent<PlayerInputInitializer>();
     }
 
     private void OnEnable()
     {
-        move = playerControls.Player.Move;
-        move.Enable();
-        interact = playerControls.Player.Interact;
-        interact.Enable();
-        dash = playerControls.Player.Dash;
-
-        SceneManager.sceneLoaded += OnSceneLoaded;
-
-        PlayerEvents.ActivateControls += ActivateControls;
-        PlayerEvents.DeactivateControls += DeactivateControls;
         PlayerEvents.OnDoorOpened += OnDoorOpened;
+        PlayerEvents.OnEncounterStarted += OnEncounterStarted;
     }
 
-    private void OnDisable()
+    private void Start()
     {
-        move.Disable();
-        interact.Disable();
-        dash.Disable();
-
-        SceneManager.sceneLoaded -= OnSceneLoaded;
-
-        PlayerEvents.ActivateControls -= ActivateControls;
-        PlayerEvents.DeactivateControls -= DeactivateControls;
-        PlayerEvents.OnDoorOpened -= OnDoorOpened;
+        _move = _inputInitializer.Move;
+        _dash = _inputInitializer.Dash;
     }
 
-    private void ActivateControls(int type)
-    {
-        switch (type)
-        {
-            case 0:
-                interact?.Enable();
-                break;
-            case 1:
-                move?.Enable();
-                break;
-            case 2:
-                interact?.Enable();
-                move?.Enable();
-                break;
-        }
-    }
-
-    private void DeactivateControls(int type)
-    {
-        switch (type)
-        {
-            case 0:
-                interact?.Disable();
-                break;
-            case 1:
-                move?.Disable();
-                break;
-            case 2:
-                interact?.Disable();
-                move?.Disable();
-                break;
-        }
-    }
-
-    private void OnDoorOpened(Door door)
-    {
-        StartCoroutine(DoorTransition(door));
-    }
-
-    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        _currentScene = scene.name;
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        if (isDashing)
+        if (_isDashing)
         {
             return;
         }
 
         //movement
-        moveDirection = move.ReadValue<Vector2>();
+        _moveDirection = _move.ReadValue<Vector2>();
 
-        if (dash.WasPressedThisFrame() && _canDash)
+        if (_dash.WasPressedThisFrame() && _canDash)
         {
             StartCoroutine(Dash());
         }
 
         //animation
-        if(!Mathf.Approximately(moveDirection.x, 0.0f) || !Mathf.Approximately(moveDirection.y, 0.0f))
+        if(!Mathf.Approximately(_moveDirection.x, 0.0f) || !Mathf.Approximately(_moveDirection.y, 0.0f))
         {
-            lookDirection.Set(moveDirection.x, moveDirection.y);
-            lookDirection.Normalize();
+            _lookDirection.Set(_moveDirection.x, _moveDirection.y);
+            _lookDirection.Normalize();
         }
 
-        _animator.SetFloat("look_x", lookDirection.x);
-        _animator.SetFloat("look_y", lookDirection.y);
-        _animator.SetFloat("Speed", moveDirection.magnitude);
+        _animator.SetFloat(LookXHash, _lookDirection.x);
+        _animator.SetFloat(LookYHash, _lookDirection.y);
+        _animator.SetFloat(SpeedHash, _moveDirection.magnitude);
+    }
 
-        // interaction
-        if (_thingsInRange.Count > 0)
+    private void FixedUpdate() {
+        // rigidbody movement
+        if (_isDashing)
         {
-            _closestObject = GetClosestObject();
-        }
-        else
-        {
-            _closestObject = null;
-            if (_interactSprite != null)
-            {
-                _interactSprite.SetActive(false);
-                _interactSprite = null;
-            }
+            return;
         }
 
-        if (_closestObject != null && interact.WasPressedThisFrame())
-        {
-            switch (_closestObject.tag)
-            {
-                case "SNPC":
-                    _closestObject.GetComponent<StandardNPC>().Interact();
-                    break;
-                case "ShopNPC":
-                    _closestObject.GetComponent<ShopNPC>().Interact();
-                    break;
-                case "Enemy":
-                    _closestObject.GetComponent<Enemy>().Interact();
-                    break;
-                case "Door":
-                    _closestObject.GetComponent<Door>().Interact();
-                    break;
-                case "SceneChange":
-                    _closestObject.GetComponent<SceneChange>().Interact();
-                    break;
-            }
-        }
+        _playerRigidBody.linearVelocity = new Vector2(_moveDirection.x * _speed, _moveDirection.y * _speed);
+    }
+
+    private void OnDisable()
+    {
+        PlayerEvents.OnDoorOpened -= OnDoorOpened;
+        PlayerEvents.OnEncounterStarted -= OnEncounterStarted;
+    }
+
+    // Methods
+    private void OnDoorOpened(Door door)
+    {
+        StartCoroutine(DoorTransition(door));
     }
 
     private IEnumerator DoorTransition(Door door)
     {
         yield return new WaitForSeconds(0.42f);
 
-        GetComponent<Transform>().position = door.GetTeleport();
-        lookDirection = door.GetDirection();
+        transform.position = door.GetTeleport();
+        _lookDirection = door.GetDirection();
+    }
+
+    private void OnEncounterStarted()
+    {
+        transform.position = new Vector3(0, 0, 0);
+        _lookDirection = new Vector2(0, -1);
     }
 
     private IEnumerator Dash()
     {
-        _animator.SetTrigger("DashTrigger");
+        _animator.SetTrigger(DashTriggerHash);
 
         _canDash = false;
-        isDashing = true;
-        _playerRigidBody.linearVelocity = new Vector2(moveDirection.x * dashSpeed, moveDirection.y * dashSpeed);
-        yield return new WaitForSeconds(dashDuration);
+        _isDashing = true;
+        _playerRigidBody.linearVelocity = new Vector2(_moveDirection.x * DashSpeed, _moveDirection.y * DashSpeed);
+        yield return new WaitForSeconds(DashDuration);
 
-        isDashing = false;
+        _isDashing = false;
 
-        yield return new WaitForSeconds(dashCoolDown);
+        yield return new WaitForSeconds(DashCoolDown);
 
         _canDash = true;
     }
 
-    GameObject GetClosestObject()
-    {
-        if (_currentScene == "BattleTest")
-        {
-            return null;
-        }
-
-        Collider2D closest = null;
-        float closestDistanceSqr = float.MaxValue;
-        Vector3 playerPosition = transform.position;
-
-        foreach (Collider2D obj in _thingsInRange)
-        {
-            float sqrDistance = (obj.transform.position - playerPosition).sqrMagnitude;
-            if (sqrDistance < closestDistanceSqr)
-            {
-                closestDistanceSqr = sqrDistance;
-                closest = obj;
-            }
-        }
-
-        GameObject closestObj = closest.gameObject;
-
-        if (closestObj.CompareTag("SNPC") || closestObj.CompareTag("Enemy") || closestObj.CompareTag("Door") || closestObj.CompareTag("SceneChange") || closestObj.CompareTag("ShopNPC"))
-        {
-            if (closestObj.transform.childCount > 0)
-            {
-                GameObject thisInteract = closestObj.transform.GetChild(0).gameObject;
-                if (_interactSprite == null)
-                {
-                    _interactSprite = thisInteract;
-                    _interactSprite.SetActive(true);
-                }
-                else if (_interactSprite != thisInteract)
-                {
-                    _interactSprite.SetActive(false);
-                    _interactSprite = thisInteract;
-                    _interactSprite.SetActive(true);
-                }
-            }
-        }
-        else if (_interactSprite != null)
-        {
-            _interactSprite.SetActive(false);
-            _interactSprite = null;
-        }
-
-        return closestObj;
-    }
-
-    private void FixedUpdate() {
-        // rigidbody movement
-        if (isDashing)
-        {
-            return;
-        }
-
-        _playerRigidBody.linearVelocity = new Vector2(moveDirection.x * speed, moveDirection.y * speed);
-    }
-
     private void OnTriggerEnter2D(Collider2D collider)
     {
-        _thingsInRange.Add(collider);
-
         GameObject thisCollided = collider.gameObject;
 
         if (thisCollided.CompareTag("Projectile"))
@@ -281,16 +168,6 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         else if (thisCollided.CompareTag("PuzzleZone"))
         {
             thisCollided.GetComponent<PuzzleZone>().SwitchToPuzzle();
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collider)
-    {
-        _thingsInRange.Remove(collider);
-
-        if (_thingsInRange.Count == 0)
-        {
-            _closestObject = null;
         }
     }
 
@@ -321,7 +198,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         {
             temp[i] = data.playerRotation[i];
         }
-        lookDirection = temp;
+        _lookDirection = temp;
     }
 
     public void SaveData(GameData data)
@@ -336,7 +213,7 @@ public class PlayerController : MonoBehaviour, IDataPersistence
         data.playerPosition[1] = currPos.y;
         data.playerPosition[2] = currPos.z;
 
-        data.playerRotation[0] = lookDirection.x;
-        data.playerRotation[1] = lookDirection.y;
+        data.playerRotation[0] = _lookDirection.x;
+        data.playerRotation[1] = _lookDirection.y;
     }
 }

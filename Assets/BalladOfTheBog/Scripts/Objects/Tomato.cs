@@ -34,7 +34,7 @@ public class Tomato : MonoBehaviour
         playerController = player.GetComponent<PlayerController>();
 
         Debug.Log("Speed buff applied!");
-        playerController.speed = 10.0f;
+        playerController.Speed = 10.0f;
         isBuffActive = true;
 
         player.GetComponent<MonoBehaviour>().StartCoroutine(RemoveEffectAfterDelay());
@@ -51,7 +51,7 @@ public class Tomato : MonoBehaviour
         if (playerController != null)
         {
             Debug.Log("Speed buff expired. Resetting speed.");
-            playerController.speed = 5.0f;
+            playerController.Speed = 5.0f;
         }
 
         isBuffActive = false;

@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 5361373414779668876}
   - component: {fileID: 5832325253882718667}
   - component: {fileID: 8544452692043663160}
+  - component: {fileID: 301221526244511815}
+  - component: {fileID: 6817275727919119680}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -44,6 +46,7 @@ Transform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &3655223768267851929
 SpriteRenderer:
+  serializedVersion: 2
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -62,6 +65,8 @@ SpriteRenderer:
   m_RayTracingAccelStructBuildFlagsOverride: 0
   m_RayTracingAccelStructBuildFlags: 1
   m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -83,9 +88,11 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
   m_SortingLayerID: -634899179
   m_SortingLayer: 4
   m_SortingOrder: 1
+  m_MaskInteraction: 0
   m_Sprite: {fileID: -1328846960, guid: f8f1d280f93b0c54d98d58f585097e1d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -95,7 +102,6 @@ SpriteRenderer:
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
-  m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!50 &4214028212895202246
 Rigidbody2D:
@@ -136,36 +142,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 275ed93b4a40c754aa09a6b999b8d4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5
-  lookDirection: {x: 0, y: 0}
-  isDashing: 0
-  move:
-    m_Name: Move
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: ea44fabd-08ee-4534-b75e-217b0f8499af
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  interact:
-    m_Name: Interact
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: 099f446f-a250-47d3-9a40-b142a026f7fd
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
-  dash:
-    m_Name: Dash
-    m_Type: 0
-    m_ExpectedControlType: 
-    m_Id: e7acdbf2-6f85-49a3-a931-a3ab59e60957
-    m_Processors: 
-    m_Interactions: 
-    m_SingletonActionBindings: []
-    m_Flags: 0
 --- !u!114 &5153605131201020466
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -295,6 +271,7 @@ SortingGroup:
   m_SortingLayer: 4
   m_SortingOrder: 0
   m_SortAtRoot: 0
+  m_Sort3DAs2D: 0
 --- !u!82 &5361373414779668876
 AudioSource:
   m_ObjectHideFlags: 0
@@ -442,3 +419,27 @@ MonoBehaviour:
   _move: {fileID: 8300000, guid: 0e34b0dbc52dfea4e94ceb53b8e2ddf0, type: 3}
   _pushedIntoSolution: {fileID: 0}
   _cannotMove: {fileID: 8300000, guid: df5eb021569c0b14fb0ea12b013b3054, type: 3}
+--- !u!114 &301221526244511815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830172652074087050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 33e69585b49acc64f9f5a6d70fc7dfe6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInputInitializer
+--- !u!114 &6817275727919119680
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 830172652074087050}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7fc75eeff816b14aa4275d236e415b3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerInteractor

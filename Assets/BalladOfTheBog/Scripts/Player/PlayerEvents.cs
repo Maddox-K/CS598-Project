@@ -15,8 +15,13 @@ public static class PlayerEvents
 
     // encounter actions
     public static event Action<int> OnHealActivated;
+    public static event Action OnEncounterStarted;
 
     // action invocations
+    public static void InvokeObjectEaten()
+    {
+        OnObjectEaten?.Invoke();
+    }
     public static void InvokeActivate(int type)
     {
         ActivateControls?.Invoke(type);
@@ -29,19 +34,16 @@ public static class PlayerEvents
     {
         OnDoorOpened?.Invoke(door);
     }
-
-    public static void InvokeHealActivated(int amount)
-    {
-        OnHealActivated?.Invoke(amount);
-    }
-
     public static void InvokeFailedLockedDoor()
     {
         OnLockedDoorFailed?.Invoke();
     }
-
-    public static void InvokeObjectEaten()
+    public static void InvokeHealActivated(int amount)
     {
-        OnObjectEaten?.Invoke();
+        OnHealActivated?.Invoke(amount);
+    }
+    public static void InvokeEncounterStarted()
+    {
+        OnEncounterStarted?.Invoke();
     }
 }

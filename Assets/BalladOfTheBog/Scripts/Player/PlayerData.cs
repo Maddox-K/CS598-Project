@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerData : MonoBehaviour, IDataPersistence
 {
-    private PlayerController pcontroller;
+    private PlayerController _playerController;
 
     // audio
     private AudioSource _audioSource;
@@ -124,7 +124,7 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
     void Start()
     {
-        pcontroller = GetComponent<PlayerController>();
+        _playerController = GetComponent<PlayerController>();
         
         _audioSource = GetComponent<AudioSource>();
     }
@@ -156,7 +156,7 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
     public void TakeDamage(Projectile projectile)
     {
-        if (!canTakeDamage || pcontroller.isDashing)
+        if (!canTakeDamage || _playerController.IsDashing)
         {
             return;
         }
@@ -188,8 +188,8 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         {
             canTakeDamage = false;
             _currentHealth = _maxHealth;
-            pcontroller.move.Disable();
-            pcontroller.dash.Disable();
+            PlayerEvents.InvokeDeactivate(1);
+            PlayerEvents.InvokeDeactivate(3);
             animator.SetTrigger("DeathTrigger");
             EncounterManager.instance.GameOver();
         }

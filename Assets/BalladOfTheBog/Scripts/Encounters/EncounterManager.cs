@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class EncounterManager : MonoBehaviour
 {
     public static EncounterManager instance { get; private set; }
-    private const int spawnDelay = 1;
+    private const int SpawnDelay = 1;
 
     // Audio
     private AudioSource _audioSource;
@@ -16,11 +16,10 @@ public class EncounterManager : MonoBehaviour
     private GameObject _gameOverPrefab;
     private CanvasGroup _gameOverCanvasGroup;
     private Button[] _gameOverButtons = new Button[2];
-    private const float fadeDuration = 0.6f;
+    private const float FadeDuration = 0.6f;
 
     // Player Stuff
     private GameObject _player;
-    private PlayerController _playercontroller;
     private PlayerData _playerData;
 
     // Scene Management
@@ -69,7 +68,6 @@ public class EncounterManager : MonoBehaviour
         _player = GameObject.FindGameObjectWithTag("Player");
         if (_player != null)
         {
-            _playercontroller = _player.GetComponent<PlayerController>();
             _playerData = _player.GetComponent<PlayerData>();
         }
 
@@ -141,7 +139,7 @@ public class EncounterManager : MonoBehaviour
 
     public void EncounterInit(Enemy enemy)
     {
-        _playercontroller.interact.Disable();
+        PlayerEvents.InvokeDeactivate(0);
 
         _enemyAttacks = enemy.enemyAttacks;
 
@@ -205,19 +203,14 @@ public class EncounterManager : MonoBehaviour
             }
         }
         _playerData.SetHealth();
-        _playercontroller.gameObject.transform.position = new Vector3(0, 0, 0);
-        _playercontroller.lookDirection = new Vector2(0, -1);
-        _playercontroller.dash.Enable();
+        PlayerEvents.InvokeActivate(3);
 
         _encounterInProgress = true;
         if (_gameOverPrefab.activeSelf == true)
         {
             _gameOverPrefab.SetActive(false);
         }
-        if (_playercontroller.move.enabled == false)
-        {
-            _playercontroller.move.Enable();
-        }
+        PlayerEvents.InvokeActivate(1);
 
         StartCoroutine(DelaySpawns());
         StartCoroutine(EndBattle(_enemyAttacks));
@@ -251,7 +244,7 @@ public class EncounterManager : MonoBehaviour
         _specialProjectiles.Clear();
         _velocities.Clear();
         
-        _playercontroller.dash.Disable();
+        PlayerEvents.InvokeDeactivate(3);
 
         if (reachedEnd)
         {
@@ -278,7 +271,7 @@ public class EncounterManager : MonoBehaviour
 
     IEnumerator DelaySpawns()
     {
-        yield return new WaitForSeconds(spawnDelay);
+        yield return new WaitForSeconds(SpawnDelay);
 
         StartCoroutine(SpawnProjectiles(_enemyAttacks));
     }
@@ -350,10 +343,10 @@ public class EncounterManager : MonoBehaviour
 
         float elapsedTime = 0f;
 
-        while (elapsedTime < fadeDuration)
+        while (elapsedTime < FadeDuration)
         {
             elapsedTime += Time.deltaTime;
-            _gameOverCanvasGroup.alpha = Mathf.Clamp01(elapsedTime / fadeDuration);
+            _gameOverCanvasGroup.alpha = Mathf.Clamp01(elapsedTime / FadeDuration);
             yield return null;
         }
 

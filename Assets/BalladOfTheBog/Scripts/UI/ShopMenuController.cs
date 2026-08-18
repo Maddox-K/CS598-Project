@@ -149,7 +149,7 @@ public class ShopMenuController : MonoBehaviour
         int price = _lastOpenShop.inventory.prices[slotNumber];
 
 
-        if (_playerData.currency_count < price) // can't affort item
+        if (_playerData.CurrencyCount < price) // Can't afford item
         {
             _lastAttemptedPurchase = slotNumber;
 

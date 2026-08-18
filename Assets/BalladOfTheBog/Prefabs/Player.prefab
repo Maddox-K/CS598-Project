@@ -252,13 +252,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaac2c29df4545e43aa7d5ac46051a7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  DamageSound: {fileID: 8300000, guid: 0987ced241da7e14bbf316d0df89b14a, type: 3}
-  DeathSound: {fileID: 8300000, guid: bf8315d918691004b984af2fe0506381, type: 3}
+  _damageSound: {fileID: 8300000, guid: 0987ced241da7e14bbf316d0df89b14a, type: 3}
+  _deathSound: {fileID: 8300000, guid: bf8315d918691004b984af2fe0506381, type: 3}
   _eatingSound: {fileID: 8300000, guid: 6d7c1514ec7cad343b37a7c0836823a9, type: 3}
-  animator: {fileID: 3362139211031825187}
   _hurtFrogFace: {fileID: 21300000, guid: a169b09d56ac94a43b9b81b34ac3adc5, type: 3}
-  currency_count: 0
-  canTakeDamage: 1
 --- !u!210 &2670095920965618334
 SortingGroup:
   m_ObjectHideFlags: 0

@@ -4,40 +4,63 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+[RequireComponent(typeof(PlayerController))]
+[RequireComponent(typeof(AudioSource))]
+[RequireComponent(typeof(SpriteRenderer))]
+[RequireComponent(typeof(Animator))]
 public class PlayerData : MonoBehaviour, IDataPersistence
 {
     private PlayerController _playerController;
 
-    // audio
+    // Audio
     private AudioSource _audioSource;
-    public AudioClip DamageSound;
-    public AudioClip DeathSound;
+    [SerializeField] private AudioClip _damageSound;
+    [SerializeField] private AudioClip _deathSound;
     [SerializeField] private AudioClip _eatingSound;
 
-    // animation
-    public Animator animator;
+    // Animation
+    private Animator _animator;
 
-    // rendering
+    // Rendering
     private SpriteRenderer _playerRenderer;
     private Color _playerColor;
     [SerializeField] private Sprite _hurtFrogFace;
 
-    // currency
-    public int currency_count;
-    private GameObject currencyGUI;
+    // Currency
+    private int _currencyCount;
+    private GameObject _currencyGUI;
     private TextMeshProUGUI _currencyGUIText;
-    private const float cooldownTime = 1.25f;
+    private const float CooldownTime = 1.25f;
 
-    // health and taking damage
-    public bool canTakeDamage = true;
+    // Health & taking damage
+    private bool _canTakeDamage = true;
     private int _maxHealth = 3;
     private int _currentHealth;
     private GameObject _healthBar;
     private GameObject[] _hearts = new GameObject[4];
     private Image[] _heartRenderers = new Image[4];
 
+    // Properties
+    public int CurrencyCount
+    {
+        get => _currencyCount;
+        private set => _currencyCount = value;
+    }
+    public bool CanTakeDamage
+    {
+        get => _canTakeDamage;
+        set => _canTakeDamage = value;
+    }
+
+    // Lifecycle Methods
     private void Awake()
     {
+        _playerController = GetComponent<PlayerController>();
+        
+        _audioSource = GetComponent<AudioSource>();
+
+        _animator = GetComponent<Animator>();
+
         _playerRenderer = GetComponent<SpriteRenderer>();
         _playerColor = _playerRenderer.color;
 
@@ -45,11 +68,11 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
         if (SceneManager.GetActiveScene().name != "BattleTest")
         {
-            currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI");
-            if (currencyGUI != null)
+            _currencyGUI = GameObject.FindGameObjectWithTag("CurrencyGUI");
+            if (_currencyGUI != null)
             {
-                _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-                _currencyGUIText.text = currency_count.ToString();
+                _currencyGUIText = _currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+                _currencyGUIText.text = _currencyCount.ToString();
             }
         }
         else
@@ -82,6 +105,7 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         PlayerEvents.OnObjectEaten -= ActivateEatSound;
     }
 
+    // Methods
     private void ActivateEatSound()
     {
         if (_audioSource != null && _eatingSound != null)
@@ -122,13 +146,6 @@ public class PlayerData : MonoBehaviour, IDataPersistence
         }
     }
 
-    void Start()
-    {
-        _playerController = GetComponent<PlayerController>();
-        
-        _audioSource = GetComponent<AudioSource>();
-    }
-
     public void SetHealth()
     {
         for (int i = 0; i < _maxHealth; i++)
@@ -144,35 +161,35 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
     public void IncrementCurrency(int amount)
     {
-        currency_count += amount;
-        _currencyGUIText.text = currency_count.ToString();
+        _currencyCount += amount;
+        _currencyGUIText.text = _currencyCount.ToString();
     }
 
     public void DecreaseCurrency(int amount)
     {
-        currency_count -= amount;
-        _currencyGUIText.text = currency_count.ToString();
+        _currencyCount -= amount;
+        _currencyGUIText.text = _currencyCount.ToString();
     }
 
     public void TakeDamage(Projectile projectile)
     {
-        if (!canTakeDamage || _playerController.IsDashing)
+        if (!_canTakeDamage || _playerController.IsDashing)
         {
             return;
         }
 
         int healthBeforeDamage = _currentHealth;
-        canTakeDamage = false;
+        _canTakeDamage = false;
 
         if (_currentHealth <= projectile.damage)
         {
             _currentHealth = 0;
-            _audioSource.PlayOneShot(DeathSound);
+            _audioSource.PlayOneShot(_deathSound);
         }
         else
         {
             _currentHealth -= projectile.damage;
-            _audioSource.PlayOneShot(DamageSound);
+            _audioSource.PlayOneShot(_damageSound);
         }
         Debug.Log(_currentHealth);
 
@@ -182,15 +199,15 @@ public class PlayerData : MonoBehaviour, IDataPersistence
             healthBeforeDamage--;
         }
 
-        StartCoroutine(FlashEffect(cooldownTime, 7));
+        StartCoroutine(FlashEffect(CooldownTime, 7));
 
         if (_currentHealth == 0)
         {
-            canTakeDamage = false;
+            _canTakeDamage = false;
             _currentHealth = _maxHealth;
             PlayerEvents.InvokeDeactivate(1);
             PlayerEvents.InvokeDeactivate(3);
-            animator.SetTrigger("DeathTrigger");
+            _animator.SetTrigger("DeathTrigger");
             EncounterManager.instance.GameOver();
         }
         else
@@ -201,8 +218,8 @@ public class PlayerData : MonoBehaviour, IDataPersistence
 
     IEnumerator DamageCoolDown()
     {
-        yield return new WaitForSeconds(cooldownTime);
-        canTakeDamage = true;
+        yield return new WaitForSeconds(CooldownTime);
+        _canTakeDamage = true;
     }
 
     private IEnumerator FlashEffect(float duration, int flashCount)
@@ -237,12 +254,12 @@ public class PlayerData : MonoBehaviour, IDataPersistence
             return;
         }
 
-        currency_count = data.coinCount;
+        _currencyCount = data.coinCount;
 
-        if (currencyGUI != null)
+        if (_currencyGUI != null)
         {
-            _currencyGUIText = currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
-            _currencyGUIText.text = currency_count.ToString();
+            _currencyGUIText = _currencyGUI.transform.GetChild(0).gameObject.GetComponent<TextMeshProUGUI>();
+            _currencyGUIText.text = _currencyCount.ToString();
         }
     }
 
@@ -253,6 +270,6 @@ public class PlayerData : MonoBehaviour, IDataPersistence
             return;
         }
 
-        data.coinCount = currency_count;
+        data.coinCount = _currencyCount;
     }
 }

@@ -203,6 +203,7 @@ public class EncounterManager : MonoBehaviour
             }
         }
         _playerData.SetHealth();
+        PlayerEvents.InvokeEncounterStarted();
         PlayerEvents.InvokeActivate(3);
 
         _encounterInProgress = true;
@@ -254,7 +255,7 @@ public class EncounterManager : MonoBehaviour
         }
         else
         {
-            _playerData.canTakeDamage = false;
+            _playerData.CanTakeDamage = false;
         }
     }
 
@@ -360,7 +361,7 @@ public class EncounterManager : MonoBehaviour
         }
         _gameOverButtons[0].Select();
         
-        _playerData.canTakeDamage = true;
+        _playerData.CanTakeDamage = true;
     }
 
     private void FixedUpdate()
